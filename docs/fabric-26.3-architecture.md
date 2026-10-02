@@ -265,7 +265,7 @@ Dependencias **descartadas** explícitamente:
 |---|---|---|
 | `thaumcraft:aspects` (`AspectList`) | Phials, jars de essentia como ítem, crystals, items con aspectos fijos | NBT `Aspects` |
 | `thaumcraft:vis_charge` | Casters y amuletos de vis | NBT de carga |
-| `thaumcraft:focus` | Foco insertado (grafo serializado, §6.13) | NBT `focus` |
+| `thaumcraft:focus` | Foco insertado (grafo serializado, §6.12) | NBT `focus` |
 | `thaumcraft:focus_pouch` | Contenido de la Focus Pouch (o vanilla `CONTAINER`, a verificar) | Inventario NBT |
 | `thaumcraft:golem_properties` | Golem placer (material, cabeza, brazos, patas, addon) | `GolemProperties` en long/NBT |
 | `thaumcraft:seal` | Sellos | NBT |
