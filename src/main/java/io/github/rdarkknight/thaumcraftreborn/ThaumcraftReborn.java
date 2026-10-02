@@ -14,7 +14,7 @@ public final class ThaumcraftReborn implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	public static Identifier id(String path) {
-		return Identifier.fromNamespaceAndPath(MOD_ID, path);
+		return ThaumcraftRebornApi.id(path);
 	}
 
 	@Override

@@ -12,7 +12,7 @@ Esta fase prepara la infraestructura para una reconstrucción limpia de Thaumcra
 - `client`: networking, datagen y renderer; no se importa desde código común.
 - `gametest`: pruebas separadas, no incluidas en el JAR principal.
 
-`api` no depende de otras capas propias; `core` depende de `api`; `content` usa `core`; `compat` implementa las fachadas y no filtra tipos externos a ellas. El código común no depende de `client`.
+`api` no depende de otras capas propias y expone `MOD_ID` e `id(String)`; `core` depende de `api` para construir identificadores, sin depender del punto de entrada. `content` usa `core`; `compat` implementa las fachadas y no filtra tipos externos a ellas. El código común no depende de `client`.
 
 ## Versiones
 
