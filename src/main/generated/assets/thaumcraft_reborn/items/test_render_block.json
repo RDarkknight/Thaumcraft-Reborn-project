@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "thaumcraft_reborn:block/test_render_block"
+  }
+}
