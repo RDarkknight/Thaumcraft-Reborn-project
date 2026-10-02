@@ -1,8 +1,8 @@
 # Arquitectura objetivo: Thaumcraft sobre Minecraft 26.3 + Fabric
 
-> Estado: propuesta de arquitectura previa a la implementación. Este documento no contiene código funcional.
+> Estado: arquitectura objetivo previa a la implementación. Las decisiones de la sección «Confirmed architectural decisions» son **requisitos obligatorios**; el resto del documento sigue siendo propuesta y se puede revisar. Este documento no contiene código funcional.
 > Referencia de comportamiento: `Thaumcraft-1.12.2-6.1.BETA26` (auditoría en `docs/architecture.md`, `docs/systems.md`, `docs/dependencies.md`, `docs/assets.md`, `docs/porting-risks.md`, PR #1).
-> Fecha de verificación de versiones: 2026-10-02.
+> Fecha de verificación de versiones: 2026-10-02. Revisión con decisiones confirmadas del proyecto: 2026-10-02.
 
 ## 0. Convenciones del documento
 
@@ -12,6 +12,7 @@ Cada afirmación se clasifica así:
 |---|---|
 | **[JAR]** | Hecho observado en el JAR 1.12.2 descompilado. |
 | **[Confirmado]** | API o versión moderna comprobada en una fuente oficial (blog de Fabric, Fabric Docs, Javadoc de Fabric API para `+26.3`, Modrinth/Maven). |
+| **[Decisión confirmada]** | Decisión tomada por el proyecto. Es un requisito obligatorio y no se reconsidera salvo petición explícita (ver «Confirmed architectural decisions»). |
 | **[Recomendación]** | Decisión de arquitectura propuesta por este documento. |
 | **[Hipótesis]** | Suposición razonable que todavía no se ha comprobado. |
 | **requiere verificación** | No hay documentación clara para 26.3; hay que comprobarlo contra el código de Minecraft 26.3 / Fabric API antes de diseñar sobre ello. |
@@ -32,17 +33,30 @@ Los nombres de clases de Minecraft son los nombres oficiales de Mojang. Desde 26
 | Trinkets Updated | `4.2.1+26.3` (26-09-2026), licencia MIT | Modrinth API | Jar universal Fabric/NeoForge; sólo depende de Fabric API. |
 | Accessories (Wisp Forest) | **sin build para 26.3** (último soporte publicado: 1.21.10) | Modrinth API | Se descarta por ahora. |
 | Cloth Config | `26.3.159+fabric` | Modrinth API | Opcional; ver §6.19. |
-| Baubles (Azanor) | Sólo 1.12.2 y anteriores; licencia CC BY-NC-SA 3.0 | GitHub Azanor/Baubles | Ver §5. |
+| Baubles (Azanor) | Sólo 1.12.2 y anteriores; licencia CC BY-NC-SA 3.0 | GitHub Azanor/Baubles | Ver §5. **No se porta** [Decisión confirmada]. |
+| TerraBlender (Glitchfiend) | `26.3.0.0.9` (beta, 02-10-2026), licencia LGPL-3.0 | Modrinth API; inspección del jar (`fabric.mod.json`, `terrablender.api.*`) | Depende de Fabric API; `minecraft: 26.3`, `java: >=25`. Candidata para insertar Magical Forest (§6.16). |
+| Biolith (TerraformersMC) | `3.8.0-beta.1` (23-09-2026), licencia LGPL-3.0 | Modrinth API; inspección del jar (`com.terraformersmc.biolith.api.*`) | Requiere Fabric Loader `>=0.19.5`, `minecraft >=26.3 <26.4` y MixinExtras. Alternativa (§6.16). |
+
+## Confirmed architectural decisions
+
+Estas decisiones son requisitos obligatorios. **No se reconsideran en las siguientes etapas salvo que el proyecto lo pida explícitamente.** Donde el resto del documento las menciona, aparecen marcadas como **[Decisión confirmada]**.
+
+1. **Plataforma:** Minecraft 26.3, Java 25 y Fabric (Fabric Loader 0.19.x + Fabric API `+26.3`). No se usan NeoForge ni configuraciones multiloader.
+2. **Reconstrucción, no migración:** Thaumcraft 6.1.BETA26 para 1.12.2 es la referencia de **comportamiento y contenido**. No se traslada su arquitectura ni sus clases. Cada sistema se implementa sobre las abstracciones modernas de Minecraft/Fabric 26.3.
+3. **Iris y Sodium:** son **objetivos de compatibilidad**, no dependencias. El mod no compila contra ellos (ni siquiera como `compileOnly`), no los necesita en runtime y no aplica Mixins sobre sus clases (§7.3).
+4. **Baubles no se porta:** ni como mod separado ni como reimplementación de su API (§5.3).
+5. **Accesorios con Trinkets Updated:** es la solución de accesorios para esta etapa y una dependencia obligatoria. Todo acceso pasa por la fachada interna `AccessoryAccess`. Sólo el adaptador `compat/accessories-trinkets` importa tipos de Trinkets, de modo que el proveedor se puede reemplazar en el futuro sin tocar `api`, `systems` ni `content` (§5.4).
+6. **Magical Forest es un bioma real e independiente del Overworld**, con clave, definición, clima y superficie propios. **No negociable.** Queda **descartado** representarlo como región, capa, *feature* o modificación visual de un bioma vanilla. El mecanismo de inserción se oculta tras la fachada `BiomePlacementAccess`. Lo que sigue abierto es **qué mecanismo** se usa (D6), no si el bioma existe (§6.16).
 
 ## 1. Principios de arquitectura
 
-1. **Reconstrucción, no migración.** El JAR describe el comportamiento: fórmulas, contenido, valores, flujo de juego. No se trasladan clases. Cada sistema se reescribe sobre las abstracciones de 26.3 (Data Components, codecs, render states, registros dinámicos) **[Recomendación]**.
+1. **Reconstrucción, no migración.** El JAR describe el comportamiento: fórmulas, contenido, valores, flujo de juego. No se trasladan clases. Cada sistema se reescribe sobre las abstracciones de 26.3 (Data Components, codecs, render states, registros dinámicos) **[Decisión confirmada]**.
 2. **Datos antes que código.** Todo lo que vanilla 26.3 ya trata como datos (recetas, worldgen, loot, tags, transformadores de bloques, combustibles y compostables) se define como datos. Lo propio de Thaumcraft (aspectos de objetos, investigación, escaneos, recetas de infusión y crisol) también se modela como datos cargados por reload listeners o registros recargables **[Recomendación]**.
 3. **Servidor autoritativo, cliente presentacional.** El estado de aura, conocimiento, warp, essentia y golems vive en el servidor. El cliente recibe sólo lo que necesita para la HUD, el Thaumonomicon y los efectos visuales **[Recomendación]**.
 4. **Fabric API primero, Mixin como último recurso.** Cada Mixin necesita una justificación escrita (§8) y debe ser pequeño, en un único paquete `mixin` y opcional cuando sea posible **[Recomendación]**.
 5. **Rendering sin OpenGL directo.** Desde 26.2 existe un backend Vulkan experimental y está previsto retirar OpenGL; no se admite GL crudo, sólo Blaze3D **[Confirmado: blog Fabric 26.2, Fabric Docs "Basic Rendering Concepts"]**. Todo efecto debe expresarse con `RenderType`/`RenderPipeline`, render states y submits.
-6. **Compatibilidad con shaders por diseño.** No se usan programas de shader propios en la ruta principal. Si un efecto los necesita, debe existir una ruta alternativa sin shader propio, que es lo que recomienda Iris (§7).
-7. **Fachadas internas para integraciones.** Accesorios, visores de recetas, configuración y detección de shaders se acceden a través de interfaces internas. Así, cambiar de librería no obliga a tocar el contenido **[Recomendación]**.
+6. **Compatibilidad con shaders por diseño.** Iris y Sodium son objetivos de compatibilidad, no dependencias **[Decisión confirmada]**. No se usan programas de shader propios en la ruta principal. Si un efecto los necesita, debe existir una ruta alternativa sin shader propio, que es lo que recomienda Iris (§7).
+7. **Fachadas internas para integraciones.** Accesorios (`AccessoryAccess`, **[Decisión confirmada]**), colocación de biomas (`BiomePlacementAccess`, **[Decisión confirmada]**), visores de recetas, configuración y detección de shaders se acceden a través de interfaces internas. Así, cambiar de librería no obliga a tocar el contenido **[Recomendación]** para el resto.
 8. **API pública propia y estable.** Se define una API (`api`) nueva, pequeña y basada en tipos de 26.3. No se replica la `thaumcraft.api` 1.12.2 (dependía de `EnumFacing`, `NBTTagCompound`, `World`, etc.) **[Recomendación]**.
 
 ## 2. Arquitectura objetivo general
@@ -61,8 +75,9 @@ La modularidad se consigue con paquetes y límites de dependencia, no con varios
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ compat/ (opcional, carga condicional por mod id)                       │
-│   accessories-trinkets · recipe-viewer (EMI/REI/JEI) · iris-detect     │
+│ compat/ (adaptadores; Trinkets y biomas obligatorios, resto opcional)  │
+│   accessories-trinkets · biome-placement (TerraBlender/Biolith)        │
+│   recipe-viewer (EMI/REI/JEI) · iris-detect (sólo reflexión)           │
 ├────────────────────────────────────────────────────────────────────────┤
 │ client/  (sólo source set client)                                      │
 │   screens · thaumonomicon · hud · renderers (BER/entity) · particles   │
@@ -92,7 +107,7 @@ Reglas de dependencia **[Recomendación]**:
 - `systems` depende de `core` y `api`.
 - `content` depende de `systems`.
 - `client` puede depender de todo, pero nada común depende de `client`.
-- `compat` sólo depende de `api` y de fachadas de `core`.
+- `compat` sólo depende de `api` y de fachadas de `core`. `AccessoryAccess` y `BiomePlacementAccess` son fachadas de `core`; **sólo** `compat` importa tipos de Trinkets Updated o de la librería de biomas **[Decisión confirmada]**.
 
 Estas reglas se pueden hacer cumplir más adelante con un test de arquitectura (por ejemplo ArchUnit; añadirlo es una decisión pendiente, no una dependencia de runtime).
 
@@ -138,7 +153,7 @@ Leyenda de la columna "Fabric API":
 | Entidades | 43 entidades; IA con `EntityAITasks` | `EntityType` vía `FabricEntityType.Builder`; `FabricDefaultAttributeRegistry`; `Goal`/`GoalSelector` o `Brain` | D | Atributos obligatorios; data trackers (`EntityDataAccessor`) en lugar de `DataManager`; `FabricEntityDataRegistry` para serializadores | Reescribir la IA con goals; bosses con `ServerBossEvent`. |
 | Golems | `EntityThaumcraftGolem`, partes (material/cabeza/brazos/patas/addon), seals, tasks | Entidad propia + Data Components/attachment para la configuración de partes + sistema propio de seals/tasks | P | — | El sistema más propio después de la investigación (§6.13). |
 | Worldgen | `IWorldGenerator` imperativo; 2448 `setBlockState` en `WorldGenMound` | Features data-driven (`worldgen/feature` en 26.3, sin objeto `config`), placed features, `BiomeModifications`; estructuras con `Structure` + plantillas NBT/jigsaw | D/P | La generación imperativa por chunk desaparece; el formato de feature cambió en 26.3 | Features propias registradas en `BuiltInRegistries.FEATURE_TYPE`; estructuras como plantillas (§6.15). |
-| Biomas | 3 biomas (Magical Forest, Eerie, Eldritch); `setBiomeArray` para taint/magic | Biomas data-driven (`worldgen/biome`); `BiomeModifications` para modificar biomas existentes; `NetherBiomes`/`TheEndBiomes` para Nether/End | P/M | Biomas en celdas de 4×4×4; añadir biomas al Overworld **no** tiene API en Fabric API (requiere verificación) | §6.16. |
+| Biomas | 3 biomas (Magical Forest, Eerie, Eldritch); `setBiomeArray` para taint/magic | Biomas data-driven propios (`worldgen/biome`); inserción en el Overworld con una librería mantenida tras `BiomePlacementAccess` (TerraBlender recomendada, Biolith como alternativa); `NetherBiomes`/`TheEndBiomes` para Nether/End | D (vía librería)/M (plan C) | Fabric API **no** tiene API para añadir biomas al Overworld **[Confirmado: `biome.v1`]**; biomas en celdas de 4×4×4 | **Magical Forest es un bioma real [Decisión confirmada]**; §6.16. |
 | Recetas | 73 arcanas, 56 infusión, 42 crisol, 6 multibloque, smelting bonus | `Recipe`/`RecipeType` + `RecipeSerializer(MapCodec, StreamCodec)` (26.1); recetas dentro de registros recargables (26.3); `FabricRecipeManager`/`recipe.v1.sync` | D/P | Serializers simplificados; recetas sincronizadas selectivamente al cliente | Tipos de receta propios como datos (§6.17). |
 | Research | 7 categorías, ~136 entradas JSON, 12 scans; `IPlayerKnowledge` | Reload listener o registro recargable (`DynamicRegistries.registerReloadable`, nuevo en 26.3: requiere verificación de detalles); conocimiento en attachment de jugador | P | — | Formato JSON nuevo con codec, convertido desde los JSON 1.12.2 (§6.18). |
 | Aspectos | 37 aspectos (6 primales); 508 registros por código; Ore Dictionary | Registro propio estático de aspectos + mapeo objeto→aspectos por datos (JSON + tags `c:`) | P | No hay Ore Dictionary (son tags) | §6.1. |
@@ -147,7 +162,7 @@ Leyenda de la columna "Fabric API":
 | Taint | `TaintHelper`, bloques de taint, semillas, propagación | Random ticks / scheduled ticks + tags + attachment de chunk | P | Cambio de bioma en runtime distinto | §6.14. |
 | "Nodos de aura" | **No existen en 6.1.BETA26** (son de TC4); el aura es por chunk **[JAR]** | — | — | — | No se implementan; ver §6.3. Cualquier mecánica de nodos sería contenido nuevo y queda fuera del alcance de referencia. |
 | Wand/Staff | **No existen en TC6**. TC6 usa *casters* (guanteletes, `ItemCaster`) + *foci* con grafo de nodos (`FocusMedium`/`FocusEffect`/`FocusMod`, `FocusElementNode`) **[JAR]** | Ítems + Data Components (foco, grafo serializado) + entidades proyectil + payloads | P | — | §6.12. |
-| Accesorios | Baubles 1.5.2 (16 archivos, 34 imports) | Trinkets Updated 4.2.1+26.3 tras la fachada `AccessoryAccess` | D (vía librería) | — | §5. |
+| Accesorios | Baubles 1.5.2 (16 archivos, 34 imports) | Trinkets Updated 4.2.1+26.3 tras la fachada `AccessoryAccess` **[Decisión confirmada]** | D (vía librería) | Baubles no se porta **[Decisión confirmada]** | §5. |
 | Configuración | Forge `@Config` (`ModConfig`, 455 líneas) | Fabric API no tiene API de config: config propia basada en codecs | P | — | §6.19. |
 | Datagen | No existe (JSON a mano) | Fabric Data Generation (`DataGeneratorEntrypoint`, `FabricDataGenerator`, providers para recetas, loot, tags, modelos y avances) | D | — | §6.20. |
 | Assets | 767 PNG, 511 JSON, 111 OGG, 9 `.lang` | Paquetes de recursos 26.3 (formato 97.1 en RC); lang JSON | D | `.lang` → `.json`; blockstates Forge → vanilla | §6.21. |
@@ -164,16 +179,16 @@ Leyenda de la columna "Fabric API":
 |---|---|---|---|
 | Fabric Loader 0.19.x | Obligatoria | Requisito del stack. | Bajo. |
 | Fabric API `0.161.0+26.3` o posterior | Obligatoria | Registros, networking, attachments, menús, renderers, partículas, datagen, worldgen, lookup, eventos. | Bajo; seguir los parches `+26.3`. |
-| Trinkets Updated `4.2.x+26.3` | **Obligatoria (recomendado)** o fuertemente recomendada | Slots de accesorios (§5). MIT. Sólo depende de Fabric API. | Medio: proyecto pequeño (fork mantenido por Patbox); tiene que seguir el ritmo de cada versión de Minecraft. Se mitiga con la fachada interna. |
-| Iris / Sodium | **No** son dependencias; sólo prueba de compatibilidad | El mod no debe compilar contra ellos. Si hace falta detectar shaders, se hace por reflexión ligera o con la API pública de Iris en un módulo `compat` opcional (API de Iris para 26.3: requiere verificación). | Medio (§7). |
+| Trinkets Updated `4.2.x+26.3` | **Obligatoria [Decisión confirmada]** | Solución de accesorios de esta etapa (§5). MIT. Sólo depende de Fabric API. Sólo la importa `compat/accessories-trinkets`. | Medio: proyecto pequeño (fork mantenido por Patbox) que tiene que seguir el ritmo de cada versión de Minecraft. Se mitiga con la fachada `AccessoryAccess`. |
+| Iris / Sodium | **No** son dependencias de compilación ni de runtime; son objetivos de compatibilidad **[Decisión confirmada]** | El mod no compila contra ellos, tampoco como `compileOnly`. La detección de un shader pack activo usa `FabricLoader#isModLoaded` y reflexión aislada en `compat/iris-detect` (§7.3). Para probar en desarrollo se pueden cargar como mods de runtime local, sin exponerlos al classpath de compilación (configuración de Loom 1.17 para esto: requiere verificación). | Medio (§7). |
 | Visor de recetas (EMI, REI o JEI) | Opcional, `compileOnly` + módulo `compat` | Mostrar recetas arcanas, de infusión y de crisol. Decisión D9. | Bajo; se pospone. |
 | Mod Menu + Cloth Config | Opcional, sólo cliente | Pantalla de configuración. Cloth tiene build 26.3; Mod Menu también (según terceros: requiere verificación en Modrinth). | Bajo; no son necesarios para la v1. |
-| Librería de inyección de biomas en el Overworld (TerraBlender, Biolith u otra) | **Pendiente** | Sólo si se decide añadir biomas al Overworld (D6). Disponibilidad para 26.3: requiere verificación. | Medio. |
+| Librería de inserción de biomas en el Overworld | **Obligatoria** (la exige la decisión confirmada sobre Magical Forest) | Recomendada: TerraBlender `26.3.0.0.x` (LGPL-3.0). Alternativa: Biolith `3.8.x` (LGPL-3.0). Sólo la importa `compat/biome-placement`, tras `BiomePlacementAccess` (§6.16). Elección final: D6. | Medio: las builds 26.3 de ambas están en **beta**. LGPL: se usa como dependencia externa sin modificarla; incrustarla con jar-in-jar requiere verificación de obligaciones de licencia. |
 | Librería OBJ | **No** inicialmente | Se prefiere convertir los OBJ (§6.11). | — |
 
 Dependencias **descartadas** explícitamente:
 
-- Baubles (licencia NC-SA, sólo Forge 1.12.2).
+- Baubles: ni port ni reimplementación de su API (licencia NC-SA, sólo Forge 1.12.2) **[Decisión confirmada]**.
 - CodeChickenLib (las utilidades de render embebidas en el JAR no se trasladan).
 - GLE/LWJGL directo (OpenGL crudo no está permitido).
 - Botania API embebida.
@@ -208,22 +223,22 @@ Dependencias **descartadas** explícitamente:
 
 ### 5.3 Valoración de "portar Baubles como mod separado"
 
-**[Recomendación] No hacerlo.** Motivos:
+**[Decisión confirmada] No se porta Baubles**, ni como mod separado ni como reimplementación de su API. Los motivos quedan aquí como contexto; la decisión no se reabre:
 
 1. **Licencia.** La CC BY-NC-SA 3.0 impide el uso comercial, obliga a que los derivados mantengan la misma licencia y no está pensada para código. Una reimplementación limpia (no un port) sería posible, pero entonces deja de ser "Baubles": es, de hecho, la opción "slots propios" con otro nombre.
 2. **Valor nulo para compatibilidad.** Ningún mod moderno usa la API de Baubles. Portarla crearía una API que sólo usaría Thaumcraft.
 3. **El trabajo técnico es el mismo** que en "slots propios" (UI del inventario, Mixins, sync, render), más el mantenimiento de un segundo mod.
 4. Usar "los mismos mecanismos" que con Thaumcraft (auditar y reconstruir) es viable técnicamente, pero no aporta nada que Trinkets Updated no ofrezca ya en 26.3.
 
-### 5.4 Decisión recomendada
+### 5.4 Decisión confirmada
 
-- **[Recomendación] Trinkets Updated como dependencia** (obligatoria en la v1 para simplificar), **siempre detrás de una fachada interna** `AccessoryAccess`:
+- **[Decisión confirmada] Trinkets Updated es la solución de accesorios de esta etapa** (dependencia obligatoria), **siempre detrás de la fachada interna** `AccessoryAccess`, que vive en `core`. Ninguna clase de `api`, `systems` ni `content` importa tipos de Trinkets:
   - `getEquipped(player, predicate)`, `isEquipped(player, item)` y `forEachEquipped(player, consumer)`.
   - Registro de comportamiento por ítem: tick, equipar/desequipar, puede equipar.
   - Registro de render por ítem (lado cliente).
 - Mapeo de slots propuesto: `AMULET` → `chest/necklace`, `RING` → `hand/ring` (×2), `BELT` → `legs/belt`, `HEAD` → `head/face`, `CHARM` → grupo y slot propios de Thaumcraft si Trinkets no tiene uno equivalente, `BODY` → `chest/back` o el que más se acerque. Los nombres concretos de grupo y slot en Trinkets Updated 4.2: requiere verificación.
 - Las Goggles of Revealing pueden equiparse **también** en el slot de casco vanilla (`EquipmentSlot.HEAD`). La lógica "¿lleva goggles?" consulta ambas vías mediante la fachada.
-- Si Trinkets Updated deja de mantenerse, la fachada permite implementar **slots propios** (attachment de jugador + pestaña de UI) sin tocar el contenido. Ese es el plan B, no el plan A.
+- **Requisito de reemplazabilidad [Decisión confirmada]:** la fachada sólo expone tipos de Minecraft o de Thaumcraft (`Player`, `ItemStack` y un enum propio de tipo de accesorio), nunca tipos de Trinkets. Si Trinkets Updated deja de mantenerse, otro proveedor (por ejemplo **slots propios**: attachment de jugador + pestaña de UI) implementa la misma fachada sin tocar el contenido. Ese es el plan B, no el plan A. La persistencia de lo equipado la gestiona el proveedor, así que un cambio de proveedor exigiría migrar los accesorios guardados en mundos existentes (estrategia: requiere verificación).
 - Por ahora no se hace una implementación dual Trinkets + Accessories; se reevaluará si Accessories publica build 26.x.
 
 ## 6. Diseño por sistema
@@ -356,27 +371,50 @@ Ver §7 para el análisis completo y la compatibilidad con Iris.
 - **[Recomendación]**:
   - La propagación usa random ticks de los bloques de taint y scheduled ticks para los frentes, con un límite por chunk y una opción de configuración para desactivarla (crítico para servidores).
   - Los "anclajes" de taint (semillas) son entidades. La influencia de taint por chunk se guarda en un attachment de chunk, si hace falta para gameplay (reducción de aura, spawns).
-  - **El cambio de bioma en runtime no se usa como mecanismo principal**: vanilla almacena biomas en celdas 4×4×4 y la API pública para mutarlos en runtime requiere verificación (`/fillbiome` demuestra que es posible internamente). El efecto visual (color de hierba y follaje) se intenta con bloques propios y, opcionalmente, con mutación de bioma si se verifica una vía segura (posible Mixin/accessor, §8).
+  - **El cambio de bioma en runtime no se usa como mecanismo principal**: vanilla almacena biomas en celdas 4×4×4 y la API pública para mutarlos en runtime requiere verificación (`/fillbiome` demuestra que es posible internamente). El efecto visual (color de hierba y follaje) se intenta con bloques propios y, opcionalmente, con mutación de bioma si se verifica una vía segura (posible Mixin/accessor, §8). Como Magical Forest es un bioma real (§6.16), la conversión tiene un destino válido (`magical_forest` o Eerie) si se verifica M2. Hasta entonces no se diseña gameplay que dependa de mutar biomas.
 
 ### 6.15 World generation
 
 - **[JAR]** `ThaumcraftWorldGenerator implements IWorldGenerator`: menas (amber, cinnabar, quartz…), cristales de vis, árboles (greatwood, silverwood), plantas (shimmerleaf, cinderpearl, vishroom), mounds (2448 `setBlockState`), obeliscos o estructuras eldritch, tótems y biomas mágicos.
 - **[Recomendación]**:
   - Menas, cristales, plantas y árboles: features data-driven en el **nuevo formato 26.3** (`worldgen/feature`, sin `config`, con placement modifiers renombrados) **[Confirmado: blog 26.3]**. Se insertan en biomas con `BiomeModifications.addFeature` (paquete `biome.v1` disponible).
+  - Las features propias de Magical Forest (greatwood, silverwood, vishroom, flores…) se declaran **en el JSON del propio bioma**, no con `BiomeModifications` sobre bosques vanilla **[Decisión confirmada: §6.16]**. `BiomeModifications` se reserva para añadir contenido de Thaumcraft (menas, cristales, plantas sueltas) a biomas vanilla.
   - Los tipos de feature propios (cristales con orientación, silverwood, greatwood, nidos de taint) son `Feature`s registrados en `BuiltInRegistries.FEATURE_TYPE` **[Confirmado: blog 26.3]**, con trunk/foliage placers propios si los vanilla no bastan (registro de placers: requiere verificación).
   - **Mounds y estructuras grandes** se convierten a **plantillas de estructura** (`.nbt` vía `StructureTemplate`) mediante una herramienta de un solo uso: generarlas en 1.12.2 y exportarlas, o transcribir las llamadas `setBlockState` a un formato intermedio. Después se colocan con `Structure` + `StructureSet` + template pools en datos. Hay que confirmar la licencia y procedencia de las plantillas resultantes.
   - Se usa datagen para los JSON de worldgen siempre que sea posible (Fabric Docs anuncia ejemplos para 26.3).
 
 ### 6.16 Biomas
 
-- **[JAR]** Magical Forest, Eerie (taint) y Eldritch (dimensión Outer Lands, no usada en BETA26 según la auditoría; a confirmar).
-- **[Recomendación]**:
-  - Se definen como biomas data-driven (`worldgen/biome`). Los atributos de entorno (cielo, niebla, color) aprovechan `DimensionEvents.MODIFY_ATTRIBUTES` y `EnvironmentAttributes` (26.1) cuando aplica.
-  - **Inserción en el Overworld:** Fabric API ofrece `NetherBiomes` y `TheEndBiomes`, pero **no** una API equivalente para el Overworld **[Confirmado: contenido de `biome.v1`]**. Opciones (D6):
-    - (a) Librería de terceros (TerraBlender/Biolith; disponibilidad 26.3: requiere verificación).
-    - (b) Mixin propio sobre el parámetro de biomas del Overworld (frágil).
-    - (c) No añadir biomas en la primera versión y representar el Magical Forest como una *feature* o región de vegetación dentro de biomas de bosque existentes.
-  - Recomendación provisional: **(c) en la v1**, y (a) cuando se verifique una librería mantenida. Las *material rules* (antes surface rules) ahora se pueden registrar por datos (26.3), lo que ayuda con la superficie de biomas propios **[Confirmado: blog 26.3]**.
+- **[JAR]** Magical Forest, Eerie (taint) y Eldritch (dimensión Outer Lands, no usada en BETA26 según la auditoría; a confirmar). En 1.12.2, Magical Forest es un bioma registrado propio (`BiomeGenMagicalForest extends Biome`), no una variante de un bioma vanilla. Se añade a la generación con `BiomeManager.addBiome` en `BiomeType.WARM` y `BiomeType.COOL`, con peso `ModConfig.biomeMagicalForestWeight = 5` (rango 0–100) y el interruptor `generateMagicForest = true` (`Registrar.java`). `BiomeProperties`: `0.2F`, `0.3F`, `0.8F`, `0.4F`, llamados con nombres SRG sin mapear; [Hipótesis] corresponden a altura base, variación de altura, temperatura y lluvia. En ese mismo bloque, Eerie y Outer Lands se registran pero **no** se añaden a `BiomeManager`.
+- **[Decisión confirmada — no negociable] Magical Forest es un bioma real e independiente del Overworld:**
+  - `ResourceKey<Biome>` propio (`<namespace>:magical_forest`) y definición data-driven propia (`worldgen/biome`: clima, efectos de entorno, spawns, features y carvers), generada con datagen.
+  - Lo coloca en el mundo el *multi-noise biome source* del Overworld mediante su propio punto de parámetros climáticos. Su superficie se define con *material rules* propias, que en 26.3 se pueden registrar por datos **[Confirmado: blog 26.3]**.
+  - Los atributos de entorno (cielo, niebla, color de hierba y follaje) se definen en el bioma y, cuando aplique, con `EnvironmentAttributes` (26.1).
+  - **Descartado:** representar Magical Forest como *feature*, región de vegetación, capa o modificación visual de un bioma vanilla, y usar `BiomeModifications` sobre bosques vanilla como sustituto. Era la antigua opción (c) de este documento y queda **eliminada**.
+- **Restricción de plataforma:** Fabric API ofrece `NetherBiomes` y `TheEndBiomes`, pero **no** una API para insertar biomas en el Overworld **[Confirmado: contenido de `biome.v1`]**. Hace falta un mecanismo adicional, que se oculta tras la fachada `BiomePlacementAccess` (en `core`). El contenido declara una sola vez el bioma, sus parámetros climáticos y su peso, y el adaptador de `compat` los traduce a la librería elegida.
+- **Investigación de soluciones mantenidas para 26.3 [Confirmado: Modrinth API + inspección de los jars publicados, 2026-10-02]:**
+
+  | | TerraBlender | Biolith |
+  |---|---|---|
+  | Build Fabric 26.3 | `26.3.0.0.9` (**beta**, 02-10-2026); varias builds 26.3 publicadas entre el 23-09 y el 02-10-2026 | `3.8.0-beta.1` (**beta**, 23-09-2026) |
+  | Licencia | LGPL-3.0 | LGPL-3.0 |
+  | Dependencias | Fabric API; `minecraft: 26.3`; `java >=25` | Fabric API; Loader `>=0.19.5`; MixinExtras `>=0.5.5`; `minecraft >=26.3 <26.4` |
+  | Modelo | **Regiones** por mod con peso: cada mod define sus biomas en su propia región del espacio climático | Inserción directa en un punto de ruido del bioma vanilla, reemplazos y sub-biomas por criterios |
+  | API observada en el jar 26.3 | `Region(Identifier, RegionType, int)`, `Region#addBiomes(Registry<Biome>, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>>)`, `addModifiedVanillaOverworldBiomes`, `Regions.register(...)`, `RegionType.OVERWORLD`, `MaterialRuleManager`, regiones por datos (`terrablender.api.data`) | `BiomePlacement.addOverworld(ResourceKey<Biome>, Climate.ParameterPoint)`, `replaceOverworld(..., double)`, `addSubOverworld(..., Criterion)`, `api.surface.*`; colocación también por datapack (README) |
+  | Punto de entrada | Entrypoint `terrablender` (`TerraBlenderApi#onTerraBlenderInitialized`, según su wiki) | Llamadas estáticas durante la inicialización (momento exacto: requiere verificación) |
+  | Madurez | La más adoptada (≈40 M descargas en Modrinth); el wiki documenta el modelo de regiones | El README advierte "Somewhat Experimental": las estrategias de selección pueden cambiar y **mover biomas en mundos existentes** |
+  | Compatibilidad entre ellas | — | El README declara compatibilidad total con TerraBlender y con biomas de Fabric Biome API |
+
+- **[Recomendación] Plan A: TerraBlender**, porque es la más adoptada, ya tiene varias builds 26.3 y sus regiones evitan competir por el espacio climático con otros mods de biomas. **Plan B: Biolith**, si TerraBlender no da el control de distribución necesario o deja de actualizarse; la fachada hace el cambio local. La elección final queda en D6. **Requiere verificación** antes de implementar:
+  - Estabilidad de la API en las builds beta de 26.3 y si la API pública de ambas se mantiene entre parches `26.3.x`.
+  - Parámetros climáticos y peso de región para Magical Forest. La referencia es el peso 5 en `WARM`/`COOL` de 1.12.2, pero el sistema de pesos de `BiomeManager` no tiene equivalente directo en multi-noise, así que la frecuencia se calibra empíricamente. El peso pasa a ser una opción de configuración, igual que en el original.
+  - Cómo interactúan las *material rules* de la librería (`MaterialRuleManager`, `api.surface`) con las *material rules* por datos de 26.3.
+  - Que la distribución sea determinista con una semilla fija entre versiones de la librería (test de semilla fija en CI).
+- **Plan C, si ninguna librería mantenida sirve (último recurso):**
+  - (C1) **Mixin propio** (M1) sobre la construcción de los parámetros del Overworld (`OverworldBiomeBuilder` o la lista de parámetros del `MultiNoiseBiomeSource`; nombres y puntos de inyección en 26.3: requiere verificación). Es frágil entre drops y puede chocar con TerraBlender o Biolith si el jugador los tiene instalados por otros mods.
+  - (C2) **Sólo datos:** sobrescribir la definición de la dimensión del Overworld (o su lista de parámetros multi-noise) con un datapack que incluya Magical Forest. No necesita código, pero reemplaza la lista completa de biomas, es incompatible con otros mods de biomas y con *world presets* propios, y hay que rehacerla en cada drop. Viabilidad exacta en 26.3: requiere verificación. Sólo sirve como prototipo o *fallback* documentado.
+- **Eerie** (taint) usa el mismo mecanismo si se decide que se genere de forma natural, y no sólo por conversión de taint (D6). **Eldritch** pertenece a una dimensión propia y queda fuera de esta decisión.
+- Cualquier efecto de bioma en runtime (taint, conversión hacia Magical Forest) depende de M2 (§6.14) y sigue en "requiere verificación".
 
 ### 6.17 Recetas
 
@@ -475,11 +513,11 @@ Ver §7 para el análisis completo y la compatibilidad con Iris.
 | Flux Rift (malla deformada animada) | Geometría generada en CPU por la entidad, `RenderType` vanilla translúcido o portal del End | Media. |
 | HUD de vis, aura y warp | `HudElementRegistry` | No afecta (la HUD no pasa por el shader pack). |
 
-### 7.3 Política de compatibilidad con Iris **[Recomendación]**
+### 7.3 Política de compatibilidad con Iris **[Decisión confirmada: Iris/Sodium como objetivos de compatibilidad, no dependencias; resto Recomendación]**
 
 1. **Ningún Mixin sobre clases de Iris o Sodium.**
 2. La ruta principal usa **sólo** `RenderType`s y pipelines vanilla. Iris advierte de que los shaders añadidos por mods se ignoran con un shader pack activo y recomienda **rutas alternativas sin shaders propios** **[Confirmado: Iris, `docs/development/compatibility/core-shaders.md`]**.
-3. Detectar shader pack activo sólo para elegir alternativas (post-efectos → HUD; pipeline aditivo → translúcido). Hacerlo con la API pública de Iris en un módulo `compat` opcional (existencia y estabilidad de `IrisApi` en 1.11.x: requiere verificación). Sin Iris instalado, la detección devuelve "no".
+3. Detectar un shader pack activo sólo para elegir alternativas (post-efectos → HUD; pipeline aditivo → translúcido). Se hace en `compat/iris-detect`, que **no compila contra Iris**: primero `FabricLoader#isModLoaded("iris")` y, si está, una consulta por reflexión aislada a la API pública de Iris (nombre y estabilidad de `IrisApi` en 1.11.x para 26.3: requiere verificación). Sin Iris instalado, la detección devuelve "no". Si Iris está instalado pero la reflexión falla, se asume un shader pack activo y se usan las rutas seguras [Recomendación].
 4. Probar con Sodium solo, Sodium + Iris sin pack, Sodium + Iris con 2–3 packs populares, OIT on/off y, cuando esté disponible para jugadores, con el backend Vulkan.
 5. Los efectos que no se puedan reproducir de forma segura se **degradan** (documentado por efecto). No se busca la paridad visual exacta con 1.12.2 a costa de la compatibilidad.
 
@@ -493,8 +531,8 @@ Ninguno se implementa ahora. Cada uno se marca con su prioridad: **evitar** (hay
 
 | # | Objetivo (clase/punto, a verificar en 26.3) | Motivo | ¿Lo cubre Fabric API? | Riesgo | Prioridad |
 |---|---|---|---|---|---|
-| M1 | Inserción de biomas en el `MultiNoiseBiomeSource`/parámetros del Overworld | Añadir Magical Forest/Eerie | No (sólo Nether/End) | Alto: muy frágil y choca con otras librerías de biomas | Último recurso; preferir librería o no añadir biomas (D6). |
-| M2 | Mutación de biomas en runtime (contenedor de biomas del chunk) + resincronización | Taint/Magical Forest que cambian el bioma | No (requiere verificación) | Medio | Evitar en la v1. |
+| M1 | Construcción de los parámetros de biomas del Overworld (`OverworldBiomeBuilder` / lista de parámetros del `MultiNoiseBiomeSource`; nombres en 26.3: requiere verificación) | Insertar Magical Forest (bioma real, **[Decisión confirmada]**) y Eerie si se decide | No (sólo Nether/End) | Alto: frágil entre drops y choca con TerraBlender o Biolith | **Plan C** (§6.16): sólo si ninguna librería mantenida sirve. |
+| M2 | Mutación de biomas en runtime (contenedor de biomas del chunk) + resincronización | Taint y conversiones de bioma (hacia Magical Forest o Eerie) | No (requiere verificación) | Medio | Evitar en la v1; reevaluar cuando Magical Forest exista como bioma. |
 | M3 | Hook en `AbstractFurnaceBlockEntity` al completar la fundición | Smelting bonus (pepitas extra) | No (no hay evento de horno, requiere verificación) | Bajo–medio | Probable; o rediseñar el bonus como mecánica del Infernal Furnace propio (D12). |
 | M4 | `InventoryScreen`/`InventoryMenu` | Slots de accesorios propios | No | Alto | **Evitar**: se usa Trinkets Updated. |
 | M5 | `LivingEntity` daño/curación/muerte | Runic Shielding, Charm of Undying, warp | **Sí en su mayor parte**: `ServerLivingEntityEvents.ALLOW_DAMAGE`/`AFTER_DAMAGE`/`ALLOW_DEATH` | — | Evitar. La absorción tipo escudo rúnico podría necesitar un hook en el cálculo de daño (requiere verificación). |
@@ -520,7 +558,7 @@ Ninguno se implementa ahora. Cada uno se marca con su prioridad: **evitar** (hay
 | R6 | Algoritmo de aspectos derivados distinto | Valores de aspectos distintos al original | Documentarlo; permitir overrides por datos. |
 | R7 | Reconstrucción de comportamiento no descompilado (10 métodos) | Divergencias de gameplay | Observación en 1.12.2 (D10). |
 | R8 | Trinkets Updated deja de mantenerse | Accesorios rotos | Fachada `AccessoryAccess` + plan B de slots propios. |
-| R9 | Biomas del Overworld sin API de Fabric | Pérdida de contenido o Mixins frágiles | D6. |
+| R9 | La inserción de Magical Forest en el Overworld depende de una librería con builds 26.3 en beta o, si no, de Mixins | Retraso del worldgen; cambios de distribución de biomas entre versiones | Fachada `BiomePlacementAccess`; TerraBlender (plan A), Biolith (plan B), Mixin M1 o datapack (plan C); versiones fijadas; test de semilla fija. |
 | R10 | Formatos de datos que cambian entre drops (datapack 121.0 en 26.3; features renombradas) | JSON inválidos | Datagen como fuente de verdad; regenerar en cada drop. |
 | R11 | Compatibilidad de saves 1.12.2 → 26.3 | Mundos antiguos inservibles | **Fuera de alcance**: no se soporta la migración de mundos 1.12.2 (Minecraft tampoco lo garantiza para mods). |
 | R12 | Escala de la UI del Thaumonomicon y de la Research Table | Mucho esfuerzo de UI | Construirla tarde, sobre los datos de investigación ya estables. |
@@ -536,7 +574,7 @@ Ninguno se implementa ahora. Cada uno se marca con su prioridad: **evitar** (hay
 | D3 | API exacta de registros propios (`FabricRegistryBuilder`) y sincronización de registros propios | Javadoc de `event.registry` en `0.161.0+26.3` | Aspectos, foci, golems. |
 | D4 | Research como reload listener o como registro recargable (`DynamicRegistries.registerReloadable`) | Semántica, sync y tags del registro recargable en 26.3 | Investigación y recetas. |
 | D5 | Serialización de BEs (`ValueInput`/`ValueOutput`) y componentes en BEs en 26.3 | Código de Minecraft 26.3 | Todos los BEs. |
-| D6 | Biomas en el Overworld | Librerías disponibles en 26.3; viabilidad de la opción (c) | Worldgen y taint. |
+| D6 | **Mecanismo** de inserción de Magical Forest (que sea un bioma real ya está decidido) y si Eerie se genera de forma natural | Confirmar TerraBlender (plan A) frente a Biolith (plan B) con un prototipo; parámetros climáticos y peso; estabilidad de las betas 26.3; calibrar la frecuencia frente al peso 5 de 1.12.2 | Worldgen, aura base por bioma y taint. |
 | D7 | Nombres de grupos y slots de Trinkets Updated 4.2 y su API de render | Wiki o código de Trinkets Updated para 26.3 | Accesorios. |
 | D8 | Exponer la essentia también como `Storage<EssentiaVariant>` (Transfer API) | Diseño y coste | Essentia. |
 | D9 | Visor de recetas soportado (EMI, REI o JEI) | Builds para 26.3 | `compat`. |
@@ -558,7 +596,7 @@ Los sistemas de las fases 0–2 son **fundaciones**: cambiarlos después obliga 
 |---|---|---|---|
 | **0. Decisiones y bootstrap** | D1, D2; proyecto Fabric 26.3 (Loom 1.17, Java 25), `fabric.mod.json`, entrypoints, CI (build + datagen sin diffs + gametest vacío), licencia del repo | Sin namespace ni build fijado, todo lo demás se rehace | El mod vacío carga en cliente y servidor dedicado; CI en verde. |
 | **1. Núcleo técnico** | Helpers de registro, clase de ids, tabla de mapeo de IDs (documento), codecs base, config (D13), infraestructura de payloads, attachments, reload listeners, datagen base (lang, modelos, loot, tags) | Todo el contenido depende de esto | Un bloque y un ítem de prueba generados por datagen. |
-| **2. Modelo de datos de dominio** | Registro de aspectos + `AspectList` + mapeo por datos + derivación; componentes de ítem (§6.4); fachada `AccessoryAccess` + Trinkets; `AuraAccess` + attachment de chunk (sin simulación completa); `PlayerKnowledge`/`PlayerWarp` | Recetas, research, essentia, casters y golems leen estos tipos; cambiarlos después cascadea | Comando de debug que muestra los aspectos de un ítem y el aura del chunk; datos sincronizados. |
+| **2. Modelo de datos de dominio** | Registro de aspectos + `AspectList` + mapeo por datos + derivación; componentes de ítem (§6.4); fachada `AccessoryAccess` + adaptador Trinkets; fachada `BiomePlacementAccess` + clave y definición mínima del bioma Magical Forest insertado con la librería elegida (D6); `AuraAccess` + attachment de chunk (sin simulación completa); `PlayerKnowledge`/`PlayerWarp` | Recetas, research, essentia, casters y golems leen estos tipos; cambiarlos después cascadea | Comando de debug que muestra los aspectos de un ítem y el aura del chunk; datos sincronizados. |
 | **3. Aura completa** | Simulación (difusión, regeneración, fase lunar, flux), Flux Rift básico, HUD de goggles/thaumometer, crystals y worldgen de cristales | Es la base del vis para casting y crafting | Valores estables y perfilados en un servidor de prueba. |
 | **4. Research (datos + lógica)** | Esquema, conversión de JSON, scans, progreso y payloads; el Thaumonomicon de momento sólo en modo debug (lista simple) | Las recetas se condicionan por research | Completar investigación por comandos y por escaneo. |
 | **5. Crafting base** | Arcane Workbench (menú), recetas arcanas, Salis Mundus + multibloques, Crucible + recetas, bloques y materiales básicos (amber, cinnabar, quicksilver, thaumium) | Desbloquea la progresión inicial | Progresión "Basics → Alchemy" jugable sin libro gráfico. |
@@ -566,7 +604,7 @@ Los sistemas de las fases 0–2 son **fundaciones**: cambiarlos después obliga 
 | **7. Infusión y artifice** | Infusion matrix, pedestales, estabilidad, recetas de infusión y de encantamiento, dispositivos de artifice | Depende de la essentia y del research | Las infusiones del árbol funcionan. |
 | **8. Casting** | Casters, foci (grafo), Focal Manipulator, pouch, teclas, HUD | Depende del aura, del research y de la infusión (algunos foci) | Foci combinables con coste de vis. |
 | **9. Golemancy** | Partes por datos, Golem Builder, entidad, seals, task manager, render compuesto | Sistema propio grande, depende de casi todo | Golems básicos (fill/empty/harvest/guard). |
-| **10. Mundo** | Worldgen completo (árboles, plantas, mounds y estructuras como plantillas), mobs (Pech, Wisps, cultistas), biomas (D6), loot | Depende de los bloques y las entidades ya existentes | Generación estable en un mundo nuevo. |
+| **10. Mundo** | Worldgen completo (árboles, plantas, mounds y estructuras como plantillas), mobs (Pech, Wisps, cultistas), Magical Forest completo (features, spawns, superficie y atributos de entorno), Eerie según D6, loot | Depende de los bloques y las entidades ya existentes | Generación estable en un mundo nuevo. |
 | **11. Taint y Eldritch** | Taint (propagación con límites), criaturas de taint, warp events, bosses, contenido eldritch | Es el contenido de final de juego; necesita los sistemas anteriores | Jugable con límites de servidor. |
 | **12. Thaumonomicon gráfico y pulido visual** | Libro completo, Research Table con theorycrafting, FX completos, alternativas para Iris, matriz de pruebas de shaders | Depende de los datos de research estables y de todo el contenido | Matriz Iris/Sodium/OIT verificada. |
 | **13. Integraciones** | Visor de recetas, Mod Menu/Cloth, API pública documentada para addons | Requiere APIs estables | Módulos `compat` opcionales. |
@@ -580,6 +618,7 @@ Cosas que **deben** hacerse pronto para evitar retrabajo:
 5. La fachada de accesorios (aunque se use Trinkets).
 6. Datagen como fuente de verdad (evita miles de JSON escritos a mano que luego cambian en cada drop).
 7. Política de rendering (§7.3), fijada **antes** del primer BER, para no escribir renderers que luego haya que reescribir para Iris.
+8. La clave del bioma Magical Forest y la fachada `BiomePlacementAccess`: el aura base por bioma y el worldgen dependen del bioma, e insertarlo tarde cambia la distribución de los mundos ya generados.
 
 ## 12. Fuera de alcance de esta etapa
 
@@ -587,13 +626,16 @@ Cosas que **deben** hacerse pronto para evitar retrabajo:
 - Migración de mundos 1.12.2.
 - Mecánicas de TC4 (nodos de aura, wands/staffs) que no están en 6.1.BETA26.
 - Soporte de NeoForge, aunque Trinkets Updated e Iris sí lo tienen: el stack fijado es Fabric.
+- Implementación del bioma Magical Forest: en esta etapa sólo se fija la decisión y sus alternativas técnicas.
 
 ## 13. Fuentes consultadas
 
 - Fabric: "Fabric for Minecraft 26.1" (2026-03-14), "26.2" (2026-06-15) y "26.3" (2026-09-15), en `fabricmc.net`.
 - Fabric Docs: Data Attachments, Networking, Basic Rendering Concepts, Block Entity Renderers, Creating Custom Particles (`docs.fabricmc.net`).
 - Javadoc de Fabric API `0.160.4+26.3` (`maven.fabricmc.net/docs`) y metadata de Maven (`0.161.0+26.3`).
-- Modrinth API: versiones 26.3 de Trinkets Updated, Accessories, Sodium, Iris y Cloth Config (consultado el 2026-10-02).
+- Modrinth API: versiones 26.3 de Trinkets Updated, Accessories, Sodium, Iris, Cloth Config, TerraBlender y Biolith (consultado el 2026-10-02).
+- TerraBlender: wiki "Getting started" (`github.com/Glitchfiend/TerraBlender`) y firmas de `terrablender.api.*` del jar `26.3.0.0.9`, obtenidas con `javap`.
+- Biolith: README y wiki (`github.com/TerraformersMC/Biolith`) y firmas de `BiomePlacement` del jar `3.8.0-beta.1`, obtenidas con `javap`.
 - Iris: `docs/development/compatibility/core-shaders.md`.
 - Minecraft 26.3 Snapshot 2 (OIT), en `minecraft.net`.
 - Baubles: README de `github.com/Azanor/Baubles` (licencia).
