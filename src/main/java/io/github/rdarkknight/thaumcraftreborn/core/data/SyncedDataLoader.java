@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -39,6 +40,7 @@ public final class SyncedDataLoader<T> extends SimpleJsonResourceReloadListener<
 	private final CustomPacketPayload.Type<DataSyncPayload<T>> payloadType;
 	private final StreamCodec<RegistryFriendlyByteBuf, Map<Identifier, T>> entriesStreamCodec;
 	private final StreamCodec<RegistryFriendlyByteBuf, DataSyncPayload<T>> payloadCodec;
+	private final AtomicInteger clientSyncCount = new AtomicInteger();
 	private volatile Map<Identifier, T> serverEntries = Map.of();
 	private volatile Map<Identifier, T> clientEntries = Map.of();
 
@@ -78,6 +80,10 @@ public final class SyncedDataLoader<T> extends SimpleJsonResourceReloadListener<
 		return clientEntries;
 	}
 
+	public int clientSyncCount() {
+		return clientSyncCount.get();
+	}
+
 	public Map<Identifier, T> entries(boolean clientSide) {
 		return clientSide ? clientEntries : serverEntries;
 	}
@@ -92,6 +98,7 @@ public final class SyncedDataLoader<T> extends SimpleJsonResourceReloadListener<
 
 	public void replaceClientEntries(Map<Identifier, T> entries) {
 		clientEntries = Map.copyOf(entries);
+		clientSyncCount.incrementAndGet();
 		if (ThaumcraftConfig.common(true).debug().verboseDataLogging()) {
 			clientEntries.keySet().forEach(entryId -> LOGGER.info("Received data entry {} from loader {}", entryId, id));
 		}
@@ -119,7 +126,7 @@ public final class SyncedDataLoader<T> extends SimpleJsonResourceReloadListener<
 		for (Map.Entry<Identifier, List<Resource>> resourceEntry : resourceStacks.entrySet()) {
 			Identifier entryId = fileToIdConverter.fileToId(resourceEntry.getKey());
 			List<Resource> stack = resourceEntry.getValue();
-			Resource winner = stack.getLast();
+			Resource winner = stack.getFirst();
 			if (stack.size() > 1) {
 				LOGGER.info(
 						"Data entry {} is defined by packs {}; {} wins",
