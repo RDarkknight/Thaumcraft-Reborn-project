@@ -4,6 +4,8 @@
 > Base: auditoría 1.12.2 (`architecture.md`, `systems.md`, `dependencies.md`, `assets.md`, `porting-risks.md`), arquitectura objetivo (`fabric-26.3-architecture.md`, en particular §3, §6, §8, §10 y §11) y el skeleton de la Fase 1 (`phase-1-skeleton.md`, ya en `master`).
 > Este documento **no** repite esas auditorías: se centra en las **dependencias entre sistemas** y en el orden que resulta de ellas. Las referencias `§x` apuntan a `fabric-26.3-architecture.md`; `Dn`, `Mn` y `Rn` son sus decisiones, Mixins y riesgos.
 
+> Las decisiones cerradas están en `architecture-decisions.md` (AD-xx) y prevalecen sobre cualquier `requiere decisión` de este documento.
+
 Etiquetas:
 
 | Etiqueta | Significado |
@@ -133,7 +135,7 @@ Columnas: **Necesita** (dependencias duras), **Lo necesitan** (consumidores), **
 | Rendering (infra) | Infra cliente | BERs de máquinas, entidades, HUD | BER moderno (render state + `SubmitNodeCollector`) | HUD (`HudElementRegistry`), color handlers por aspecto | M | Medio | Sí | A (base); FX completos al final |
 | Accesorios | Infra | Goggles/amuletos/anillos, descuento de vis, warp ward | `AccessoryAccess` + adaptador Trinkets | Slots definitivos (D7), atributo o componente de descuento (D11) | B | Bajo (fachada) | Sí | Contenido en etapa intermedia |
 | Aspectos | Registro propio, codecs | Research, scan, crucible, essentia, infusión, recetas, cristales, golems, compat | Patrón Codec/StreamCodec | Registro propio de 37 aspectos, `AspectList`, componente `aspects` | M | **Muy alto** (lo usan casi todos) | Sí | **Primero del dominio** (B) |
-| Mapeo objeto→aspectos | Aspectos, data loaders, tags | Scan, crucible, derivación, compat | Datagen | Loader recargable + sync al cliente; provider de datagen | M | Alto (formato de datos) | Sí | B (explícito); derivación **requiere decisión** |
+| Mapeo objeto→aspectos | Aspectos, data loaders, tags | Scan, crucible, derivación, compat | Datagen | Loader recargable + sync al cliente; provider de datagen | M | Alto (formato de datos) | Sí | B (explícito, sin derivación: AD-04) |
 | Aura / Vis (modelo) | Attachments de chunk | Arcane crafting, casters, scan/HUD, accesorios de vis, vis generator, worldgen | Attachments | Attachment de chunk + `AuraAccess` + init por bioma (D18) | M | **Alto** (API consumida por todos) | Sí | B (**mínimo/mock**: sin difusión) |
 | Aura / Flux (simulación completa) | Modelo de aura, consumidores reales | Flux Rift, taint, equilibrio de juego | — | Presupuesto por tick, round-robin, perfilado (R4), política de chunks no cargados | A | Medio (aislada tras `AuraAccess`) | Sí | Intermedio (D) |
 | Nodos de aura | — | — | — | — | — | — | — | **No se implementan**: no existen en TC6 (§3). |
@@ -142,7 +144,7 @@ Columnas: **Necesita** (dependencias duras), **Lo necesitan** (consumidores), **
 | Escaneo / Thaumometer / goggles | Aspectos+mapeo, research, aura | Progresión inicial (OBSERVATION) | HUD no existe | Raycast de scan, payload, HUD de aura/aspectos | M | Bajo | Sí | C |
 | Thaumonomicon mínimo | Research | Jugabilidad del primer milestone | — | `Screen` de cliente con lista de entradas y páginas de texto/receta simples | M | Bajo | Sí | C/D |
 | Thaumonomicon gráfico | Research estable, todas las recetas | Polish | — | Mapa hex, zoom/pan, páginas animadas (R12) | A | Bajo | Sí | **Final** |
-| Research Table / theorycrafting | Research, conocimiento, menús, BE | Puntos THEORY (gating de research) | — | 52 clases de cartas/aids en el original | A | Medio | Sí | **requiere decisión** (ver §6.2) |
+| Research Table / theorycrafting | Research, conocimiento, menús, BE | Puntos THEORY (gating de research) | — | 52 clases de cartas/aids en el original | A | Medio | Sí | D (simplificada, AD-07) / H (completa) |
 | Bloques y materiales básicos | Infra, datagen | Recetas, máquinas, worldgen, herramientas | Patrón de bloque/ítem + datagen | Tabla de ids 1.12.2→26.3 (D1), texturas (D1) | B–M | Medio (ids) | Sí | C |
 | Worldgen de menas/cristales | Materiales, aspectos (cristales) | Progresión de supervivencia | — | Features 26.3, `BiomeModifications` en biomas vanilla | M | Medio (formato features R10) | Sí | C |
 | Recetas (framework) | Aspectos, research (gating) | Arcane, crucible, infusión, multibloques, compat | — | `RecipeType` + `RecipeSerializer(MapCodec, StreamCodec)`, sync (`recipe.v1.sync`, requiere verificación) | M | Alto (formato de datos) | Sí | C |
@@ -189,7 +191,7 @@ Resumen (las letras no son la Fase 2; la numeración de fases la decidirá el pr
 | **G** | Fin de juego | Fases 9 y 11 | Golems/seals, taint, warp events, eldritch. |
 | **H** | Polish y compatibilidad | Fases 12–13 | Thaumonomicon gráfico, theorycrafting completo, FX/Iris, compat. |
 
-**Desviaciones respecto a §11 de la arquitectura** (a aprobar):
+**Desviaciones respecto a §11 de la arquitectura** (aprobadas; AD-05, AD-06):
 
 - **Magical Forest se inserta en la etapa F, no en la Fase 2.** §11 lo adelantaba para no cambiar la distribución de biomas de mundos ya generados y porque el aura base depende del bioma. Ninguno de los dos motivos obliga a hacerlo pronto: durante el desarrollo los mundos de prueba son desechables, y el aura base se puede calcular con **tags de bioma** propios (`thaumcraft_reborn:aura/...`) en los que Magical Forest entrará cuando exista, sin refactor. Retrasarlo evita atar las etapas B–E a una librería en beta (R9). **Sí** se mantiene pronto la decisión D6 y la fachada `BiomePlacementAccess` (sin implementación). La inserción debe estar hecha **antes de la primera versión pública**, que es cuando la distribución pasa a importar.
 - **El aura se divide en dos**: modelo + API + simulación mínima en B, simulación completa en D (§11 la ponía entera en la fase 3, antes de research).
@@ -203,14 +205,14 @@ Resumen (las letras no son la Fase 2; la numeración de fases la decidirá el pr
 - **Objetivo:** completar la plomería genérica que la Fase 1 no cubrió, para que ningún sistema de dominio tenga que inventarla sobre la marcha.
 - **Sistemas incluidos:**
   - CI (build + gametests + datagen sin diffs). El blueprint de entorno ya instala Java 25; falta el workflow del repo.
-  - Helper de **registro propio** (D3) probado con un registro de debug.
-  - **Cargador de datos recargable** genérico (reload listener o registro recargable, D4) con sync al cliente, probado con datos de debug.
-  - **Config** propia con codecs (D13), con sync de valores de gameplay.
-  - **BlockEntity base** con estado vía codec, ticker y sync (D5), y un BE de debug con inventario.
+  - Helper de **registro propio** (AD-03) probado con un registro de debug.
+  - **Cargador de datos recargable** genérico (`SyncedDataLoader`, AD-03) con sync al cliente, probado con datos de debug.
+  - **Config** propia JSON + Codec (AD-08), con sync de valores de gameplay.
+  - **BlockEntity base** con estado vía `ValueInput`/`ValueOutput`, ticker y sync (AD-09), y un BE de debug con inventario.
   - **Menú base** (`ExtendedMenuType` + screen) con un menú de debug.
   - **FX dispatch mínimo:** `ParticleType` propio + payload S→C para emitir efectos desde el servidor, con la política §7.3 aplicada.
   - **Attachment de chunk** de debug (el patrón todavía no se ha probado; lo necesita el aura).
-  - **Tabla de ids 1.12.2 → 26.3** (documento), al menos para los bloques/ítems de las etapas C–D.
+  - **Tabla de ids 1.12.2 → 26.3** en `docs/id-mapping.md` (AD-10).
 - **Dependencias satisfechas:** sólo la Fase 1.
 - **Qué debe poder probarse:** gametests de cada pieza (registro propio sincronizado, datos recargados con `/reload`, BE que conserva estado tras guardar y cargar, menú que abre y sincroniza, attachment de chunk persistente, partícula emitida desde el servidor en un client gametest). CI verde.
 - **Riesgos:** D3, D4 y D5 tienen APIs de 26.3 sin verificar; si alguna no se comporta como se espera, es mejor descubrirlo aquí que con 48 BEs escritos. Riesgo de sobreingeniería: cada pieza debe tener un solo consumidor de debug, no un framework especulativo.
@@ -220,11 +222,11 @@ Resumen (las letras no son la Fase 2; la numeración de fases la decidirá el pr
 - **Objetivo:** fijar los tipos que todo Thaumcraft lee y escribe.
 - **Sistemas incluidos:**
   - **Aspectos:** registro de los 37 aspectos (6 primales + 31 compuestos), `AspectList` (Codec + StreamCodec), componente `aspects`, colores para tinte.
-  - **Mapeo objeto→aspectos** por datos (ids, tags `c:`), con provider de datagen. La **derivación desde recetas** **requiere decisión** (§7, decisión 3); si se aprueba, va al final de C, cuando existan recetas.
+  - **Mapeo objeto→aspectos** explícito por datos (ids, tags `c:`), con provider de datagen. Sin derivación desde recetas (AD-04).
   - **Aura (mínimo/mock):** attachment de chunk `{base, vis, flux}`, `AuraAccess` (`drainVis`, `addFlux`, `getVis`, `getFlux`, `getBase`), inicialización de `base` por tags de bioma (D18) y una simulación mínima (sólo regeneración hacia `base`). Sin difusión, sin fase lunar, sin rifts.
   - **Conocimiento y warp:** attachments `PlayerKnowledge` y `PlayerWarp` con sync `targetOnly`.
   - **Research (datos):** esquema con codec, cargador (D4), conversión de los JSON 1.12.2 a formato nuevo (al menos las categorías BASICS y ALCHEMY), comandos `research grant/revoke/list`.
-  - **Fachada `BiomePlacementAccess`** sin implementación, y D6 decidida (no implementada).
+  - **Fachada `BiomePlacementAccess`** sin implementación (AD-06); la elección TerraBlender/Biolith (D6) se cierra antes de F.
 - **Dependencias satisfechas:** registro propio, data loaders, attachments de chunk y config (A).
 - **Qué debe poder probarse:** comandos de debug que muestran los aspectos del ítem en la mano y el aura del chunk; gametests de roundtrip de `AspectList`; research concedido por comando que persiste y llega al cliente; drenaje de vis que se regenera.
 - **Riesgos:** el formato de `AspectList`, de `PlayerKnowledge` y del JSON de research es lo más caro de cambiar del proyecto (riesgo arq. muy alto); conviene revisarlos antes de cerrar la etapa. La conversión de research depende de la tabla de ids (A) y de D1.
@@ -241,7 +243,7 @@ Resumen (las letras no son la Fase 2; la numeración de fases la decidirá el pr
   - **Thaumonomicon mínimo:** `Screen` con lista de categorías/entradas y páginas de texto (sin mapa hex).
 - **Dependencias satisfechas:** aspectos, mapeo, aura, research (B); BE, menús, HUD/FX (A).
 - **Qué debe poder probarse:** mundo nuevo con menas y cristales; escanear un ítem otorga conocimiento y muestra sus aspectos; las goggles muestran vis/flux del chunk; el libro mínimo lista lo investigado; una receta de prueba con gating sólo funciona si el research está concedido.
-- **Riesgos:** sin D1 (assets) el contenido usa placeholders y el juego no es «reconocible» visualmente; formatos de features de 26.3 (R10); sync de recetas (`recipe.v1.sync`, requiere verificación).
+- **Riesgos:** la importación de assets originales exige registrar su procedencia (AD-02); formatos de features de 26.3 (R10); sync de recetas (`recipe.v1.sync`, requiere verificación).
 
 ### Etapa D — Primer gameplay (milestone)
 
@@ -251,10 +253,10 @@ Resumen (las letras no son la Fase 2; la numeración de fases la decidirá el pr
   - **Arcane Workbench** con recetas arcanas (vis del chunk + cristales) y flux generado al craftear.
   - **Crucible** con calor/agua, disolución de ítems a aspectos y recetas de crisol.
   - **Simulación de aura completa:** difusión, fase lunar, conversión de exceso en flux, presupuesto por tick, política de chunks no cargados, perfilado (R4).
-  - Progresión **BASICS → ALCHEMY** con el Thaumonomicon mínimo y la fuente de puntos THEORY elegida (**requiere decisión**, §6.2).
+  - Progresión **BASICS → ALCHEMY** con el Thaumonomicon mínimo y una Research Table/theorycrafting simplificada sobre las abstracciones definitivas (AD-07).
 - **Dependencias satisfechas:** recetas, materiales, scan, libro mínimo (C); aura modelo (B).
 - **Qué debe poder probarse:** en supervivencia, sin comandos: encontrar materiales, escanear, crear el Thaumonomicon, la Arcane Workbench y el Crucible, craftear las primeras recetas consumiendo vis y generando flux; el aura evoluciona en un servidor de prueba con métricas de coste por tick.
-- **Riesgos:** equilibrio de la simulación de aura sin el hilo original; el algoritmo exacto de difusión debe extraerse del JAR; la decisión sobre theorycrafting puede bloquear la progresión si no se toma antes.
+- **Riesgos:** equilibrio de la simulación de aura sin el hilo original; el algoritmo exacto de difusión debe extraerse del JAR; el modelo de theorycrafting (AD-07) debe quedar fijado en B para que la versión simplificada no se reescriba en H.
 
 ### Etapa E — Sistemas intermedios
 
@@ -333,22 +335,12 @@ Por qué este milestone:
 
 Lo que **no** incluye: essentia, infusión, casters, Magical Forest, mobs, golems, taint ni el libro gráfico.
 
-### 6.2 Decisión necesaria para el milestone
+### 6.2 THEORY en el milestone (decidido, AD-07)
 
-En TC6, avanzar en research exige puntos **THEORY**, que se obtienen con el theorycrafting de la Research Table, además de OBSERVATION (escaneo). Para el milestone hay tres opciones (**requiere decisión**):
+En TC6 avanzar en research exige puntos **THEORY** (theorycrafting en la Research Table) además de OBSERVATION (escaneo). El milestone incluye una Research Table **simplificada**: un subconjunto de cartas sobre las mismas abstracciones y datos que el sistema completo de la etapa H. No hay fuentes temporales de THEORY.
 
-1. Implementar una Research Table **simplificada** (pocas cartas) en la etapa D y completarla en H.
-2. Conceder THEORY por una vía temporal (por ejemplo, al completar stages) y dejar la Research Table para H.
-3. Implementar el theorycrafting completo en D (más fiel, pero retrasa el milestone).
+## 7. Decisiones arquitectónicas
 
-## 7. Decisiones arquitectónicas a revisar antes de la siguiente fase
+Las decisiones que esta sección dejaba abiertas están cerradas en `architecture-decisions.md`: assets e ids (AD-02, AD-10), registries y datos recargables (AD-03), aspectos sin derivación (AD-04), aura (AD-05), Magical Forest (AD-06), THEORY (AD-07), config (AD-08) y persistencia de BlockEntities (AD-09).
 
-Ordenadas por impacto en el orden propuesto:
-
-1. **D1 — Assets y tabla de ids** (requiere decisión): placeholders propios, assets originales sólo en local, o pack aportado por el usuario. Condiciona que el milestone sea visualmente reconocible y la conversión de research/lang. La tabla de ids 1.12.2 → 26.3 es necesaria desde la etapa A.
-2. **D3 + D4 — Registros propios y datos recargables**: registro estático para aspectos (y si se sincroniza como registro), y research/mapeos como reload listener o como registro recargable de 26.3. Fijan cómo se cargan, sincronizan y extienden (addons) todos los datos de dominio.
-3. **Política de aspectos de objetos** (requiere decisión): mapeo 100 % por datos generado con datagen, o derivación automática desde recetas como en el original (R6). Afecta a la etapa B, al formato de datos y al coste de reload.
-4. **Modelo de aura** (requiere decisión): qué tags de bioma determinan el `base` mientras Magical Forest no existe, momento de inicialización (D18), y fórmula de recuperación de chunks no cargados. Fija el formato del attachment de chunk antes de que lo consuman crafting y casters.
-5. **D6 y el momento de insertar Magical Forest**: aprobar la desviación de §3 (fachada y decisión ahora, inserción en F antes de la primera versión pública) o mantener la inserción temprana de §11.
-
-Además, para el milestone: la vía de puntos THEORY (§6.2).
+Siguen abiertas: la elección TerraBlender/Biolith (D6, antes de F), los nombres de slots de Trinkets (D7, antes de E), el visor de recetas (D9, en H) y la licencia de redistribución de assets (R1, antes de publicar).
