@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "thaumcraft_reborn_gametest",
+  "version": "0.1.0",
+  "name": "Thaumcraft Reborn Game Tests",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-gametest": [
+      "io.github.rdarkknight.thaumcraftreborn.gametest.PhaseOneGameTests"
+    ],
+    "fabric-client-gametest": [
+      "io.github.rdarkknight.thaumcraftreborn.gametest.PhaseOneClientGameTest"
+    ]
+  },
+  "depends": {
+    "thaumcraft_reborn": "*",
+    "trinkets_updated": ">=4.2.1"
+  }
+}

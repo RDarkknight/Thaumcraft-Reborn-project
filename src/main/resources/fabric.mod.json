@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "thaumcraft_reborn",
+  "version": "${version}",
+  "name": "Thaumcraft Reborn",
+  "description": "A clean-room reconstruction of Thaumcraft 6, built for modern Fabric.",
+  "authors": ["rdarkknight"],
+  "license": "All-Rights-Reserved",
+  "icon": "assets/thaumcraft_reborn/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.rdarkknight.thaumcraftreborn.ThaumcraftReborn"
+    ],
+    "client": [
+      "io.github.rdarkknight.thaumcraftreborn.client.ThaumcraftRebornClient"
+    ],
+    "fabric-datagen": [
+      "io.github.rdarkknight.thaumcraftreborn.client.datagen.ThaumcraftRebornDataGenerator"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*",
+    "trinkets_updated": ">=4.2.1"
+  }
+}
