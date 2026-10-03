@@ -1,4 +1,6 @@
 {
+  "block.thaumcraft_reborn.debug_container": "Contenedor de depuración",
   "block.thaumcraft_reborn.test_render_block": "Bloque de prueba de renderizado",
+  "container.thaumcraft_reborn.debug_container": "Contenedor de depuración",
   "item.thaumcraft_reborn.test_probe": "Sonda de prueba"
 }
