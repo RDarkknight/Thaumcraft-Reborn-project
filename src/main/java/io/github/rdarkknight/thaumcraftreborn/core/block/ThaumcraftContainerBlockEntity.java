@@ -59,7 +59,7 @@ public abstract class ThaumcraftContainerBlockEntity extends ThaumcraftBlockEnti
 	public ItemStack removeItem(int slot, int amount) {
 		ItemStack removed = ContainerHelper.removeItem(items, slot, amount);
 		if (!removed.isEmpty()) {
-			markDirtyAndSync();
+			setChanged();
 		}
 		return removed;
 	}
@@ -75,7 +75,7 @@ public abstract class ThaumcraftContainerBlockEntity extends ThaumcraftBlockEnti
 		if (stack.getCount() > getMaxStackSize()) {
 			stack.setCount(getMaxStackSize());
 		}
-		markDirtyAndSync();
+		setChanged();
 	}
 
 	@Override
@@ -89,6 +89,6 @@ public abstract class ThaumcraftContainerBlockEntity extends ThaumcraftBlockEnti
 		for (int slot = 0; slot < items.size(); slot++) {
 			items.set(slot, ItemStack.EMPTY);
 		}
-		markDirtyAndSync();
+		setChanged();
 	}
 }

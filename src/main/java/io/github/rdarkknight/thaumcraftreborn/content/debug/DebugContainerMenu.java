@@ -12,7 +12,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.inventory.Slot;
 
 public final class DebugContainerMenu extends ThaumcraftMenu {
 	public static final ExtendedMenuType<DebugContainerMenu, BlockPos> TYPE = Registry.register(
@@ -24,13 +24,10 @@ public final class DebugContainerMenu extends ThaumcraftMenu {
 	private final ContainerData data;
 
 	public DebugContainerMenu(int containerId, Inventory inventory, BlockPos pos) {
-		super(TYPE, containerId, pos, 9);
-		BlockEntity blockEntity = inventory.player.level().getBlockEntity(pos);
-		Container container = blockEntity instanceof DebugContainerBlockEntity debugContainer
-				? debugContainer
-				: new SimpleContainer(9);
+		super(TYPE, containerId, createMachine(inventory, pos));
+		Container machine = machine();
 		for (int slot = 0; slot < 9; slot++) {
-			addSlot(new net.minecraft.world.inventory.Slot(container, slot, 62 + slot % 3 * 18, 17 + slot / 3 * 18));
+			addSlot(new Slot(machine, slot, 62 + slot % 3 * 18, 17 + slot / 3 * 18));
 		}
 		addPlayerInventory(inventory, 8, 84);
 
@@ -42,7 +39,7 @@ public final class DebugContainerMenu extends ThaumcraftMenu {
 				if (index != 0) {
 					return 0;
 				}
-				if (!inventory.player.level().isClientSide() && blockEntity instanceof DebugContainerBlockEntity debugContainer) {
+				if (machine instanceof DebugContainerBlockEntity debugContainer) {
 					return debugContainer.ticks();
 				}
 				return synchronizedTicks;
@@ -61,6 +58,14 @@ public final class DebugContainerMenu extends ThaumcraftMenu {
 			}
 		};
 		addDataSlots(data);
+	}
+
+	private static Container createMachine(Inventory inventory, BlockPos pos) {
+		if (!inventory.player.level().isClientSide()
+				&& inventory.player.level().getBlockEntity(pos) instanceof DebugContainerBlockEntity blockEntity) {
+			return blockEntity;
+		}
+		return new SimpleContainer(9);
 	}
 
 	public static void init() {

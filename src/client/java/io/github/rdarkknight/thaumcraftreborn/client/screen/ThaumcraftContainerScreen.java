@@ -23,9 +23,17 @@ public abstract class ThaumcraftContainerScreen<M extends AbstractContainerMenu>
 				leftPos + imageWidth,
 				topPos + imageHeight,
 				0.0F,
-				0.6875F,
+				(float) imageWidth / textureWidth(),
 				0.0F,
-				0.6484375F
+				(float) imageHeight / textureHeight()
 		);
+	}
+
+	protected int textureWidth() {
+		return 256;
+	}
+
+	protected int textureHeight() {
+		return 256;
 	}
 }
