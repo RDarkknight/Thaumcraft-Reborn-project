@@ -60,6 +60,7 @@ Siguen vigentes las de `fabric-26.3-architecture.md` § *Confirmed architectural
 
 - JSON + `Codec`. Cierra D13. Archivos: `config/thaumcraft_reborn/common.json` y `config/thaumcraft_reborn/client.json`.
 - Las claves conservan los nombres, los grupos y los valores por defecto de `ModConfig` de TC6, en snake_case (por ejemplo, `CONFIG_MISC.wussMode` → `misc.wuss_mode`). Cada clave la añade la etapa que la consume.
+- El grupo `debug` es propio del port (no existe en TC6) y sólo contiene claves de diagnóstico de infraestructura.
 - Los valores comunes que afectan al gameplay se sincronizan del servidor al cliente; los del cliente nunca viajan.
 - Un archivo ausente se crea con los valores por defecto. Un archivo inválido se registra en el log y se usan los valores por defecto, sin sobrescribir el archivo del usuario.
 
