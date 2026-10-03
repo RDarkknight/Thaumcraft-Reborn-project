@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import com.mojang.logging.LogUtils;
+import java.nio.file.Path;
 import org.slf4j.Logger;
 
 public final class ThaumcraftConfig {
@@ -44,7 +45,7 @@ public final class ThaumcraftConfig {
 		LOGGER.info("Loaded common configuration");
 	}
 
-	private static java.nio.file.Path configPath(String filename) {
+	private static Path configPath(String filename) {
 		return FabricLoader.getInstance().getConfigDir().resolve("thaumcraft_reborn").resolve(filename);
 	}
 }

@@ -38,6 +38,7 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.phys.Vec3;
 import io.netty.buffer.Unpooled;
 
 public final class StageAGameTests implements CustomTestMethodInvoker {
@@ -56,7 +57,7 @@ public final class StageAGameTests implements CustomTestMethodInvoker {
 
 	@GameTest
 	public void fxPayloadRoundTripsWithRegistryAccess(GameTestHelper context) {
-		FxPayload original = FxPayload.of(DebugFx.DEBUG_BURST, 19, new net.minecraft.world.phys.Vec3(1.25, 64.5, -8.75));
+		FxPayload original = FxPayload.of(DebugFx.DEBUG_BURST, 19, new Vec3(1.25, 64.5, -8.75));
 		RegistryFriendlyByteBuf buffer = new RegistryFriendlyByteBuf(Unpooled.buffer(), context.getLevel().registryAccess());
 		FxPayload.STREAM_CODEC.encode(buffer, original);
 		FxPayload decoded = FxPayload.STREAM_CODEC.decode(buffer);
