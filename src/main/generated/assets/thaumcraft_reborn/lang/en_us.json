@@ -1,4 +1,6 @@
 {
+  "block.thaumcraft_reborn.debug_container": "Debug Container",
   "block.thaumcraft_reborn.test_render_block": "Test Render Block",
+  "container.thaumcraft_reborn.debug_container": "Debug Container",
   "item.thaumcraft_reborn.test_probe": "Test Probe"
 }

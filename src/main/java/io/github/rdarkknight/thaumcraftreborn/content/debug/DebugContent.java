@@ -1,6 +1,8 @@
 package io.github.rdarkknight.thaumcraftreborn.content.debug;
 
 import io.github.rdarkknight.thaumcraftreborn.ThaumcraftReborn;
+import io.github.rdarkknight.thaumcraftreborn.content.debug.DebugContainerBlock;
+import io.github.rdarkknight.thaumcraftreborn.content.debug.DebugContainerBlockEntity;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -36,6 +38,21 @@ public final class DebugContent {
 			ThaumcraftReborn.id("test_render_block"),
 			new BlockEntityType<>(TestRenderBlockEntity::new, Set.of(TEST_RENDER_BLOCK))
 	);
+	public static final Block DEBUG_CONTAINER = Registry.register(
+			BuiltInRegistries.BLOCK,
+			ThaumcraftReborn.id("debug_container"),
+			new DebugContainerBlock(BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, ThaumcraftReborn.id("debug_container"))))
+	);
+	public static final Item DEBUG_CONTAINER_ITEM = Registry.register(
+			BuiltInRegistries.ITEM,
+			ThaumcraftReborn.id("debug_container"),
+			new BlockItem(DEBUG_CONTAINER, new Item.Properties().setId(ResourceKey.create(Registries.ITEM, ThaumcraftReborn.id("debug_container"))))
+	);
+	public static final BlockEntityType<DebugContainerBlockEntity> DEBUG_CONTAINER_BLOCK_ENTITY = Registry.register(
+			BuiltInRegistries.BLOCK_ENTITY_TYPE,
+			ThaumcraftReborn.id("debug_container"),
+			new BlockEntityType<>(DebugContainerBlockEntity::new, Set.of(DEBUG_CONTAINER))
+	);
 
 	private DebugContent() {
 	}
@@ -43,5 +60,6 @@ public final class DebugContent {
 	public static void init() {
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(output -> output.accept(TEST_PROBE));
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(output -> output.accept(TEST_RENDER_BLOCK_ITEM));
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(output -> output.accept(DEBUG_CONTAINER_ITEM));
 	}
 }
