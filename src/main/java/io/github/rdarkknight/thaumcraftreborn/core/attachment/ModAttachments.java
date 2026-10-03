@@ -16,6 +16,12 @@ public final class ModAttachments {
 					.copyOnDeath()
 					.syncWith(ByteBufCodecs.VAR_INT, AttachmentSyncPredicate.targetOnly())
 	);
+	public static final AttachmentType<Integer> DEBUG_CHUNK_MARKER = AttachmentRegistry.create(
+			ThaumcraftRebornApi.id("debug_chunk_marker"),
+			builder -> builder
+					.initializer(() -> 0)
+					.persistent(Codec.INT)
+	);
 
 	private ModAttachments() {
 	}
