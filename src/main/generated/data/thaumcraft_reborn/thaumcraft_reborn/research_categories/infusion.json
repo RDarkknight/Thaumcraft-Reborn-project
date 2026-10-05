@@ -1,0 +1,16 @@
+{
+  "background": "thaumcraft_reborn:textures/research/background_infusion",
+  "background2": "thaumcraft_reborn:textures/research/background_overlay",
+  "formula": {
+    "thaumcraft_reborn:fabrico": 5,
+    "thaumcraft_reborn:instrumentum": 10,
+    "thaumcraft_reborn:praecantatio": 30,
+    "thaumcraft_reborn:praemunio": 10,
+    "thaumcraft_reborn:spiritus": 5,
+    "thaumcraft_reborn:terra": 3,
+    "thaumcraft_reborn:vitium": 5
+  },
+  "icon": "thaumcraft_reborn:textures/research/category_infusion",
+  "research_key": "thaumcraft_reborn:unlockinfusion",
+  "sort_order": 4
+}

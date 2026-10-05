@@ -4,6 +4,7 @@ import io.github.rdarkknight.thaumcraftreborn.api.ThaumcraftRebornApi;
 import io.github.rdarkknight.thaumcraftreborn.compat.CompatBootstrap;
 import io.github.rdarkknight.thaumcraftreborn.content.ContentBootstrap;
 import io.github.rdarkknight.thaumcraftreborn.core.CoreBootstrap;
+import io.github.rdarkknight.thaumcraftreborn.systems.SystemsBootstrap;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
@@ -20,8 +21,9 @@ public final class ThaumcraftReborn implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		CoreBootstrap.init();
+		SystemsBootstrap.init();
 		ContentBootstrap.init();
 		CompatBootstrap.init();
-		LOGGER.info("Thaumcraft Reborn Phase 1 initialized");
+		LOGGER.info("Thaumcraft Reborn initialized");
 	}
 }
