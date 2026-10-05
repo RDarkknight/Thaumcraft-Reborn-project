@@ -63,6 +63,12 @@ public final class Aspect {
 		return "aspect.thaumcraft_reborn." + tag;
 	}
 
+	@Override
+	public String toString() {
+		Identifier id = registry().getKey(this);
+		return id == null ? tag : id.toString();
+	}
+
 	public static Registry<Aspect> registry() {
 		return registryValue();
 	}

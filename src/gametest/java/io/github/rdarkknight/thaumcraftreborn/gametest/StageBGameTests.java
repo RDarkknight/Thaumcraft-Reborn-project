@@ -132,28 +132,32 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 
 	@GameTest
 	public void aspectListOperationsPreserveOrderAndInvariants(GameTestHelper context) {
-		Aspect air = ThaumcraftRegistries.ASPECT.getValue(ThaumcraftRebornApi.id("aer"));
+		Aspect aer = ThaumcraftRegistries.ASPECT.getValue(ThaumcraftRebornApi.id("aer"));
+		Aspect terra = ThaumcraftRegistries.ASPECT.getValue(ThaumcraftRebornApi.id("terra"));
 		Aspect fire = ThaumcraftRegistries.ASPECT.getValue(ThaumcraftRebornApi.id("ignis"));
 		Aspect order = ThaumcraftRegistries.ASPECT.getValue(ThaumcraftRebornApi.id("ordo"));
-		AspectList base = AspectList.builder().add(order, 2).add(air, 2).add(fire, 1).build();
-		AspectList added = base.add(air, 3).add(fire, -1);
-		AspectList merged = base.merge(air, 1).merge(fire, 4);
+		AspectList base = AspectList.builder().add(order, 2).add(aer, 2).add(fire, 1).build();
+		AspectList added = base.add(aer, 3).add(fire, -1);
+		AspectList merged = base.merge(aer, 1).merge(fire, 4);
 		AspectList removed = base.remove(order, 2).remove(fire, 1);
 		Optional<AspectList> reduced = base.reduce(order, 2);
-		AspectList equalContentInOtherOrder = AspectList.builder().add(fire, 1).add(air, 2).add(order, 2).build();
+		AspectList equalContentInOtherOrder = AspectList.builder().add(fire, 1).add(aer, 2).add(order, 2).build();
 
-		context.assertTrue(added.amount(air) == 5 && added.amount(fire) == 0, "add sums and drops non-positive entries");
-		context.assertTrue(merged.amount(air) == 2 && merged.amount(fire) == 4, "merge keeps the maximum amount");
-		context.assertTrue(removed.aspects().equals(List.of(air)), "remove drops entries at zero");
+		context.assertTrue(added.amount(aer) == 5 && added.amount(fire) == 0, "add sums and drops non-positive entries");
+		context.assertTrue(merged.amount(aer) == 2 && merged.amount(fire) == 4, "merge keeps the maximum amount");
+		context.assertTrue(removed.aspects().equals(List.of(aer)), "remove drops entries at zero");
 		context.assertTrue(reduced.isPresent() && reduced.get().amount(order) == 0, "reduce removes an exhausted aspect");
 		context.assertTrue(base.reduce(order, 3).isEmpty(), "reduce fails when the amount is insufficient");
 		context.assertTrue(base.visSize() == 5 && base.size() == 3, "visSize and size count amount and entries");
-		context.assertTrue(base.sortedByName().equals(List.of(air, fire, order)), "name sorting uses aspect tags");
-		context.assertTrue(base.sortedByAmount().equals(List.of(order, air, fire)), "amount sorting is descending and stable");
+		context.assertTrue(base.sortedByName().equals(List.of(aer, fire, order)), "name sorting uses aspect tags");
+		context.assertTrue(base.sortedByAmount().equals(List.of(order, aer, fire)), "amount sorting is descending and stable");
 		context.assertTrue(base.equals(equalContentInOtherOrder) && base.hashCode() == equalContentInOtherOrder.hashCode(),
 				"equality and hash code ignore insertion order");
-		context.assertTrue(AspectList.of(air, 0).isEmpty(), "zero-valued construction is empty");
-		context.assertTrue(base.add(air, -2).amount(air) == 0, "addition maintains the positive-entry invariant");
+		context.assertTrue(AspectList.of(aer, 0).isEmpty(), "zero-valued construction is empty");
+		context.assertTrue(base.add(aer, -2).amount(aer) == 0, "addition maintains the positive-entry invariant");
+		context.assertTrue(AspectList.of(terra, 5).add(aer, 2).toString()
+						.equals("{thaumcraft_reborn:terra=5, thaumcraft_reborn:aer=2}"),
+				"AspectList toString uses registry ids and preserves insertion order");
 		context.succeed();
 	}
 
