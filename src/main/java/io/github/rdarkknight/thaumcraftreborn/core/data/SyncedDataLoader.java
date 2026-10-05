@@ -11,15 +11,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
@@ -33,31 +39,49 @@ import org.slf4j.Logger;
 
 public final class SyncedDataLoader<T> extends SimpleJsonResourceReloadListener<T> {
 	private static final Logger LOGGER = LogUtils.getLogger();
+	private static final RegistryAccess.Frozen BUILTIN_REGISTRY_ACCESS =
+			RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY);
 
 	private final Identifier id;
 	private final Codec<T> codec;
 	private final FileToIdConverter fileToIdConverter;
+	private final boolean requiresRuntimeRegistryAccess;
 	private final CustomPacketPayload.Type<DataSyncPayload<T>> payloadType;
 	private final StreamCodec<RegistryFriendlyByteBuf, Map<Identifier, T>> entriesStreamCodec;
 	private final StreamCodec<RegistryFriendlyByteBuf, DataSyncPayload<T>> payloadCodec;
+	private final List<Runnable> serverEntriesListeners = new CopyOnWriteArrayList<>();
+	private final List<Runnable> clientEntriesListeners = new CopyOnWriteArrayList<>();
 	private final AtomicInteger clientSyncCount = new AtomicInteger();
+	private volatile ResourceManager lastResourceManager;
+	private volatile HolderLookup.Provider runtimeRegistryLookup;
 	private volatile Map<Identifier, T> serverEntries = Map.of();
 	private volatile Map<Identifier, T> clientEntries = Map.of();
 
 	public SyncedDataLoader(Identifier id, Codec<T> codec, StreamCodec<RegistryFriendlyByteBuf, T> streamCodec) {
-		this(id, codec, streamCodec, FileToIdConverter.json("thaumcraft_reborn/" + id.getPath()));
+		this(id, codec, streamCodec, false);
+	}
+
+	public SyncedDataLoader(
+			Identifier id,
+			Codec<T> codec,
+			StreamCodec<RegistryFriendlyByteBuf, T> streamCodec,
+			boolean requiresRuntimeRegistryAccess
+	) {
+		this(id, codec, streamCodec, FileToIdConverter.json("thaumcraft_reborn/" + id.getPath()), requiresRuntimeRegistryAccess);
 	}
 
 	private SyncedDataLoader(
 			Identifier id,
 			Codec<T> codec,
 			StreamCodec<RegistryFriendlyByteBuf, T> streamCodec,
-			FileToIdConverter fileToIdConverter
+			FileToIdConverter fileToIdConverter,
+			boolean requiresRuntimeRegistryAccess
 	) {
 		super(codec, fileToIdConverter);
 		this.id = id;
 		this.codec = codec;
 		this.fileToIdConverter = fileToIdConverter;
+		this.requiresRuntimeRegistryAccess = requiresRuntimeRegistryAccess;
 		this.payloadType = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(id.getNamespace(), "data_sync/" + id.getPath()));
 		this.entriesStreamCodec = ByteBufCodecs.map(HashMap::new, Identifier.STREAM_CODEC, streamCodec);
 		this.payloadCodec = StreamCodec.of(
@@ -66,6 +90,17 @@ public final class SyncedDataLoader<T> extends SimpleJsonResourceReloadListener<
 		);
 		ResourceLoader.get(PackType.SERVER_DATA).registerReloadListener(id, this);
 		SyncedDataLoaders.register(this);
+		if (requiresRuntimeRegistryAccess) {
+			ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+				runtimeRegistryLookup = server.registryAccess();
+				reloadWithRuntimeRegistryAccess(server, lastResourceManager);
+			});
+			ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, manager, success) -> {
+				if (success) {
+					reloadWithRuntimeRegistryAccess(server, manager);
+				}
+			});
+		}
 	}
 
 	public Identifier id() {
@@ -99,6 +134,7 @@ public final class SyncedDataLoader<T> extends SimpleJsonResourceReloadListener<
 	public void replaceClientEntries(Map<Identifier, T> entries) {
 		clientEntries = Map.copyOf(entries);
 		clientSyncCount.incrementAndGet();
+		clientEntriesListeners.forEach(Runnable::run);
 		if (ThaumcraftConfig.common(true).debug().verboseDataLogging()) {
 			clientEntries.keySet().forEach(entryId -> LOGGER.info("Received data entry {} from loader {}", entryId, id));
 		}
@@ -106,6 +142,15 @@ public final class SyncedDataLoader<T> extends SimpleJsonResourceReloadListener<
 
 	public void clearClientEntries() {
 		clientEntries = Map.of();
+		clientEntriesListeners.forEach(Runnable::run);
+	}
+
+	public void addServerEntriesListener(Runnable listener) {
+		serverEntriesListeners.add(listener);
+	}
+
+	public void addClientEntriesListener(Runnable listener) {
+		clientEntriesListeners.add(listener);
 	}
 
 	public void syncTo(ServerPlayer player) {
@@ -120,6 +165,14 @@ public final class SyncedDataLoader<T> extends SimpleJsonResourceReloadListener<
 
 	@Override
 	protected Map<Identifier, T> prepare(ResourceManager manager, ProfilerFiller profiler) {
+		if (requiresRuntimeRegistryAccess) {
+			HolderLookup.Provider registryLookup = runtimeRegistryLookup;
+			return registryLookup == null ? Map.of() : loadEntries(manager, registryLookup);
+		}
+		return loadEntries(manager, BUILTIN_REGISTRY_ACCESS);
+	}
+
+	private Map<Identifier, T> loadEntries(ResourceManager manager, HolderLookup.Provider registryLookup) {
 		Map<Identifier, T> entries = new HashMap<>();
 		Map<Identifier, List<Resource>> resourceStacks = fileToIdConverter.listMatchingResourceStacks(manager);
 
@@ -137,7 +190,10 @@ public final class SyncedDataLoader<T> extends SimpleJsonResourceReloadListener<
 			}
 
 			try (Reader reader = winner.openAsReader()) {
-				DataResult<T> result = codec.parse(JsonOps.INSTANCE, StrictJsonParser.parse(reader));
+				DataResult<T> result = codec.parse(
+						RegistryOps.create(JsonOps.INSTANCE, registryLookup),
+						StrictJsonParser.parse(reader)
+				);
 				Optional<DataResult.Error<T>> error = result.error();
 				if (error.isPresent()) {
 					LOGGER.error("Couldn't parse data entry {} from pack {}: {}", entryId, winner.sourcePackId(), error.get().message());
@@ -158,9 +214,23 @@ public final class SyncedDataLoader<T> extends SimpleJsonResourceReloadListener<
 		return entries;
 	}
 
+	private void reloadWithRuntimeRegistryAccess(MinecraftServer server, ResourceManager manager) {
+		if (manager == null) {
+			return;
+		}
+		Map<Identifier, T> entries = Map.copyOf(loadEntries(manager, server.registryAccess()));
+		if (serverEntries.equals(entries)) {
+			return;
+		}
+		serverEntries = entries;
+		serverEntriesListeners.forEach(Runnable::run);
+	}
+
 	@Override
 	protected void apply(Map<Identifier, T> entries, ResourceManager manager, ProfilerFiller profiler) {
+		lastResourceManager = manager;
 		serverEntries = Map.copyOf(entries);
+		serverEntriesListeners.forEach(Runnable::run);
 	}
 
 	public record DataSyncPayload<T>(
