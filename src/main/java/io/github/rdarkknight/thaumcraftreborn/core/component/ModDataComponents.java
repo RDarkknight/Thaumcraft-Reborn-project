@@ -1,6 +1,7 @@
 package io.github.rdarkknight.thaumcraftreborn.core.component;
 
 import io.github.rdarkknight.thaumcraftreborn.api.ThaumcraftRebornApi;
+import io.github.rdarkknight.thaumcraftreborn.api.aspect.AspectList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
@@ -12,6 +13,14 @@ public final class ModDataComponents {
 			DataComponentType.<ProbeStamp>builder()
 					.persistent(ProbeStamp.CODEC)
 					.networkSynchronized(ProbeStamp.STREAM_CODEC)
+					.build()
+	);
+	public static final DataComponentType<AspectList> ASPECTS = Registry.register(
+			BuiltInRegistries.DATA_COMPONENT_TYPE,
+			ThaumcraftRebornApi.id("aspects"),
+			DataComponentType.<AspectList>builder()
+					.persistent(AspectList.CODEC)
+					.networkSynchronized(AspectList.STREAM_CODEC)
 					.build()
 	);
 
