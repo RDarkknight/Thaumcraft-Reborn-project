@@ -1,0 +1,11 @@
+{
+  "entries": [
+    {
+      "item": "minecraft:iron_ingot",
+      "replace": true,
+      "aspects": {
+        "thaumcraft_reborn:ignis": 5
+      }
+    }
+  ]
+}

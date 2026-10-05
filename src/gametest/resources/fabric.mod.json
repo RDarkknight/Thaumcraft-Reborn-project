@@ -7,11 +7,13 @@
   "entrypoints": {
     "fabric-gametest": [
       "io.github.rdarkknight.thaumcraftreborn.gametest.PhaseOneGameTests",
-      "io.github.rdarkknight.thaumcraftreborn.gametest.StageAGameTests"
+      "io.github.rdarkknight.thaumcraftreborn.gametest.StageAGameTests",
+      "io.github.rdarkknight.thaumcraftreborn.gametest.StageBGameTests"
     ],
     "fabric-client-gametest": [
       "io.github.rdarkknight.thaumcraftreborn.gametest.PhaseOneClientGameTest",
-      "io.github.rdarkknight.thaumcraftreborn.gametest.StageAClientGameTest"
+      "io.github.rdarkknight.thaumcraftreborn.gametest.StageAClientGameTest",
+      "io.github.rdarkknight.thaumcraftreborn.gametest.StageBClientGameTest"
     ]
   },
   "depends": {

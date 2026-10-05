@@ -1,0 +1,47 @@
+{
+  "entries": [
+    {
+      "item": "minecraft:stone",
+      "aspects": {
+        "thaumcraft_reborn:terra": 2
+      }
+    },
+    {
+      "tag": "thaumcraft_reborn_test:aspect_samples/a",
+      "aspects": {
+        "thaumcraft_reborn:aer": 3
+      }
+    },
+    {
+      "tag": "thaumcraft_reborn_test:aspect_samples/b",
+      "aspects": {
+        "thaumcraft_reborn:terra": 9
+      }
+    },
+    {
+      "item": "minecraft:gold_ingot",
+      "aspects": {
+        "thaumcraft_reborn:terra": 2
+      }
+    },
+    {
+      "item": "minecraft:iron_ingot",
+      "aspects": {
+        "thaumcraft_reborn:terra": 2
+      }
+    },
+    {
+      "entity": "minecraft:creeper",
+      "aspects": {
+        "thaumcraft_reborn:terra": 1
+      }
+    },
+    {
+      "entity": "minecraft:creeper",
+      "nbt": "{Tags:[\"stage_b_powered\"]}",
+      "aspects": {
+        "thaumcraft_reborn:aer": 4
+      }
+    }
+  ]
+}

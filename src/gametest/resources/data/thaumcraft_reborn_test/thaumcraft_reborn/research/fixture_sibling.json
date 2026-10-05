@@ -1,0 +1,12 @@
+{
+  "name": "research.thaumcraft_reborn_test.fixture_sibling",
+  "category": "thaumcraft_reborn_test:fixture",
+  "parents": ["thaumcraft_reborn_test:fixture_main"],
+  "siblings": ["thaumcraft_reborn_test:fixture_main"],
+  "location": [5, 1],
+  "stages": [
+    {
+      "text": "stage.thaumcraft_reborn_test.fixture_sibling"
+    }
+  ]
+}

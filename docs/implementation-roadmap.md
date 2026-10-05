@@ -223,10 +223,10 @@ Resumen (las letras no son la Fase 2; la numeración de fases la decidirá el pr
 - **Sistemas incluidos:**
   - **Aspectos:** registro de los 37 aspectos (6 primales + 31 compuestos), `AspectList` (Codec + StreamCodec), componente `aspects`, colores para tinte.
   - **Mapeo objeto→aspectos** explícito por datos (ids, tags `c:`), con provider de datagen. Sin derivación desde recetas (AD-04).
-  - **Aura (mínimo/mock):** attachment de chunk `{base, vis, flux}`, `AuraAccess` (`drainVis`, `addFlux`, `getVis`, `getFlux`, `getBase`), inicialización de `base` por tags de bioma (D18) y una simulación mínima (sólo regeneración hacia `base`). Sin difusión, sin fase lunar, sin rifts.
+  - **Aura (mínimo/mock):** attachment de chunk `{base, vis, flux}`, `AuraAccess` (`drainVis`, `addFlux`, `getVis`, `getFlux`, `getBase`), inicialización de `base` por tags de bioma y regeneración mínima según fase lunar cada 20 ticks. Sin difusión, decaimiento, propagación de flux ni rifts.
   - **Conocimiento y warp:** attachments `PlayerKnowledge` y `PlayerWarp` con sync `targetOnly`.
-  - **Research (datos):** esquema con codec, cargador (D4), conversión de los JSON 1.12.2 a formato nuevo (al menos las categorías BASICS y ALCHEMY), comandos `research grant/revoke/list`.
-  - **Fachada `BiomePlacementAccess`** sin implementación (AD-06); la elección TerraBlender/Biolith (D6) se cierra antes de F.
+  - **Research:** esquema con codecs, cargadores (D4), índice y progreso, siete categorías originales con sus fórmulas, comandos `research grant/revoke/list`, y unlocks/rewards. La conversión de JSON de research 1.12.2 queda fuera de B, pendiente de decisión; no se copian assets ni entradas TC6.
+  - **Fachada `BiomePlacementAccess`** sin proveedor: registra requests sin añadir biomas (AD-06). TerraBlender/Biolith/Mixin requieren verificación; la elección se cierra antes de F.
 - **Dependencias satisfechas:** registro propio, data loaders, attachments de chunk y config (A).
 - **Qué debe poder probarse:** comandos de debug que muestran los aspectos del ítem en la mano y el aura del chunk; gametests de roundtrip de `AspectList`; research concedido por comando que persiste y llega al cliente; drenaje de vis que se regenera.
 - **Riesgos:** el formato de `AspectList`, de `PlayerKnowledge` y del JSON de research es lo más caro de cambiar del proyecto (riesgo arq. muy alto); conviene revisarlos antes de cerrar la etapa. La conversión de research depende de la tabla de ids (A) y de D1.

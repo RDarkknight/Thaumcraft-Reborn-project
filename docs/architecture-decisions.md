@@ -79,7 +79,11 @@ Siguen vigentes las de `fabric-26.3-architecture.md` § *Confirmed architectural
 
 | Simplificación | Motivo | Aislada detrás de | Se elimina en |
 |---|---|---|---|
-| Aura mínima: sólo regeneración hacia `base`, sin difusión | Desbloquea consumidores de la Etapa B/C | `AuraAccess` | Etapa D |
+| Aura mínima: regeneración de vis por fase lunar cada 20 ticks; sin difusión, decaimiento, comportamiento de vis bajo, propagación de flux ni rifts | Desbloquea consumidores de la Etapa B/C | `AuraAccess` | Etapa D |
+| El attachment de aura no se sincroniza al cliente | HUD/thaumometer aún no existen | `AuraAccess` | Etapa C |
+| `addFlux(..., showEffect)` no emite efectos | La política de FX pertenece a la simulación completa | `AuraAccess` | Etapa D |
+| Sin packets de ganancia de conocimiento ni popups de interfaz | No hay UI de investigación | `KnowledgeAccess` | Etapa C |
+| Sin aspectos de bonificación por encantamientos, pociones o contenedores | Aún no existen esos consumidores | `AspectLookup` | Etapa C |
 | Research Table simplificada (subconjunto de cartas) | Primer milestone | Abstracciones de theorycrafting (AD-07) | Etapa H |
 
 ## Conflictos detectados y corregidos

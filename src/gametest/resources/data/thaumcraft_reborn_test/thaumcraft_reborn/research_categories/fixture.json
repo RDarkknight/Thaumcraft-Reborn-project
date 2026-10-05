@@ -1,0 +1,11 @@
+{
+  "sort_order": 10,
+  "research_key": "thaumcraft_reborn_test:unlockfixture",
+  "formula": {
+    "thaumcraft_reborn:terra": 3,
+    "thaumcraft_reborn:aer": 1
+  },
+  "icon": "thaumcraft_reborn_test:textures/research/fixture",
+  "background": "thaumcraft_reborn_test:textures/research/background",
+  "background2": "thaumcraft_reborn_test:textures/research/overlay"
+}

@@ -1,0 +1,17 @@
+{
+  "entries": [
+    {
+      "item": "minecraft:gold_ingot",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:aer": 1
+      }
+    },
+    {
+      "item": "minecraft:iron_ingot",
+      "aspects": {
+        "thaumcraft_reborn:aer": 1
+      }
+    }
+  ]
+}
