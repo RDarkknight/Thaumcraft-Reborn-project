@@ -8,6 +8,7 @@ import io.github.rdarkknight.thaumcraftreborn.core.data.SyncedDataLoader;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -48,6 +49,10 @@ public final class AspectMappings {
 	}
 
 	public static void init() {
+	}
+
+	public static int unknownServerRegistryTargetCount() {
+		return snapshot(false).unknownRegistryTargetCount();
 	}
 
 	private static AspectList lookupItem(Level level, ItemStack stack) {
@@ -117,7 +122,7 @@ public final class AspectMappings {
 		synchronized (AspectMappings.class) {
 			current = clientSide ? clientSnapshot : serverSnapshot;
 			if (current.source() != entries) {
-				current = Snapshot.create(entries);
+				current = Snapshot.create(entries, !clientSide);
 				if (clientSide) {
 					clientSnapshot = current;
 				} else {
@@ -156,6 +161,9 @@ public final class AspectMappings {
 		}
 	}
 
+	private record RegistryTarget(TargetType type, Identifier id) {
+	}
+
 	private record EntityRule(Optional<net.minecraft.advancements.predicates.NbtPredicate> nbt, AspectList aspects) {
 	}
 
@@ -169,49 +177,81 @@ public final class AspectMappings {
 			Map<Identifier, AspectMappingFile> source,
 			Map<Identifier, AspectList> items,
 			Map<Identifier, AspectList> tags,
-			Map<Identifier, List<EntityRule>> entities
+			Map<Identifier, List<EntityRule>> entities,
+			int unknownRegistryTargetCount
 	) {
 		private static Snapshot empty() {
-			return new Snapshot(Map.of(), Map.of(), Map.of(), Map.of());
+			return new Snapshot(Map.of(), Map.of(), Map.of(), Map.of(), 0);
 		}
 
-		private static Snapshot create(Map<Identifier, AspectMappingFile> source) {
+		private static Snapshot create(Map<Identifier, AspectMappingFile> source, boolean validateRegistryTargets) {
 			Map<Target, AspectList> merged = new LinkedHashMap<>();
-			source.entrySet().stream()
+			List<Map.Entry<Identifier, AspectMappingFile>> orderedFiles = source.entrySet().stream()
 					.sorted(Map.Entry.comparingByKey())
-					.forEach(file -> {
-						for (AspectMappingFile.Entry entry : file.getValue().entries()) {
-							Target target = target(entry);
-							AspectList previous = merged.get(target);
-							if (entry.replace()) {
-								LOGGER.warn("Replacing aspect mapping from {} for {}", file.getKey(), target);
-								merged.put(target, entry.aspects());
-							} else if (previous == null) {
-								merged.put(target, entry.aspects());
-							} else {
-								LOGGER.debug("Adding aspect mapping from {} to {}", file.getKey(), target);
-								merged.put(target, previous.add(entry.aspects()));
-							}
+					.toList();
+			for (Map.Entry<Identifier, AspectMappingFile> file : orderedFiles) {
+				for (AspectMappingFile.Entry entry : file.getValue().entries()) {
+					if (entry.replace()) {
+						continue;
+					}
+					Target target = target(entry);
+					AspectList previous = merged.get(target);
+					if (previous == null) {
+						merged.put(target, entry.aspects());
+					} else {
+						LOGGER.debug("Adding aspect mapping from {} to {}", file.getKey(), target);
+						merged.put(target, previous.add(entry.aspects()));
+					}
+				}
+			}
+
+			Map<Target, Integer> replacements = new LinkedHashMap<>();
+			Set<Target> duplicateReplacementWarnings = new LinkedHashSet<>();
+			for (Map.Entry<Identifier, AspectMappingFile> file : orderedFiles) {
+				for (AspectMappingFile.Entry entry : file.getValue().entries()) {
+					if (entry.replace()) {
+						Target target = target(entry);
+						int count = replacements.merge(target, 1, Integer::sum);
+						LOGGER.warn("Replacing aspect mapping from {} for {}", file.getKey(), target);
+						if (count > 1 && duplicateReplacementWarnings.add(target)) {
+							LOGGER.warn("Multiple replacement aspect mappings for {}; the last one wins", target);
 						}
-					});
+						merged.put(target, entry.aspects());
+					}
+				}
+			}
 
 			Map<Identifier, AspectList> items = new LinkedHashMap<>();
 			Map<Identifier, AspectList> tags = new LinkedHashMap<>();
 			Map<Identifier, List<EntityRule>> entities = new LinkedHashMap<>();
+			Set<RegistryTarget> unknownTargets = new LinkedHashSet<>();
 			merged.forEach((target, aspects) -> {
 				switch (target.type()) {
-					case ITEM -> items.put(target.id(), aspects);
+					case ITEM -> {
+						items.put(target.id(), aspects);
+						if (validateRegistryTargets && !BuiltInRegistries.ITEM.containsKey(target.id())) {
+							unknownTargets.add(new RegistryTarget(target.type(), target.id()));
+						}
+					}
 					case TAG -> tags.put(target.id(), aspects);
-					case ENTITY -> entities.computeIfAbsent(target.id(), ignored -> new ArrayList<>())
-							.add(new EntityRule(target.nbt(), aspects));
+					case ENTITY -> {
+						entities.computeIfAbsent(target.id(), ignored -> new ArrayList<>())
+								.add(new EntityRule(target.nbt(), aspects));
+						if (validateRegistryTargets && !BuiltInRegistries.ENTITY_TYPE.containsKey(target.id())) {
+							unknownTargets.add(new RegistryTarget(target.type(), target.id()));
+						}
+					}
 				}
 			});
+			unknownTargets.forEach(target -> LOGGER.warn("Unknown {} registry ID in aspect mappings: {}",
+					target.type().name().toLowerCase(), target.id()));
 			entities.replaceAll((id, rules) -> List.copyOf(rules));
 			return new Snapshot(
 					source,
 					Map.copyOf(items),
 					Map.copyOf(tags),
-					Map.copyOf(entities)
+					Map.copyOf(entities),
+					unknownTargets.size()
 			);
 		}
 

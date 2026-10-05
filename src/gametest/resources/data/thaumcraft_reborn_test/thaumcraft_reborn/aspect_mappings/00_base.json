@@ -1,7 +1,7 @@
 {
   "entries": [
     {
-      "item": "minecraft:stone",
+      "item": "minecraft:barrier",
       "aspects": {
         "thaumcraft_reborn:terra": 2
       }
@@ -19,7 +19,7 @@
       }
     },
     {
-      "item": "minecraft:gold_ingot",
+      "item": "minecraft:command_block",
       "aspects": {
         "thaumcraft_reborn:terra": 2
       }
@@ -31,13 +31,13 @@
       }
     },
     {
-      "entity": "minecraft:creeper",
+      "entity": "minecraft:armor_stand",
       "aspects": {
         "thaumcraft_reborn:terra": 1
       }
     },
     {
-      "entity": "minecraft:creeper",
+      "entity": "minecraft:armor_stand",
       "nbt": "{Tags:[\"stage_b_powered\"]}",
       "aspects": {
         "thaumcraft_reborn:aer": 4

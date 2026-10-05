@@ -26,6 +26,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Prediction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 
 public final class ResearchProgression {
 	private ResearchProgression() {
@@ -72,7 +73,9 @@ public final class ResearchProgression {
 			return true;
 		}
 		PlayerKnowledge knowledge = KnowledgeAccess.get().knowledge(player);
-		return entry.get().parents().stream().allMatch(knowledge::isResearchKnown);
+		return entry.get().parents().stream().allMatch(parent -> parent.stage().isPresent()
+				? knowledge.isResearchKnown(parent)
+				: knowledge.isResearchComplete(parent.key()));
 	}
 
 	private static boolean completeResearch(
@@ -107,20 +110,24 @@ public final class ResearchProgression {
 		boolean popups = true;
 		if (entry != null) {
 			List<ResearchStage> stages = entry.stages();
-			int stage = knowledge.getResearchStage(key);
-			ResearchStage currentStage = stage > 0 ? stages.get(Math.min(stage, stages.size()) - 1) : null;
-			if (stages.size() == 1 && stage == 0 && hasNoRequirements(stages.getFirst())) {
-				stage++;
-			} else if (stages.size() > 1 && stages.size() <= stage + 1 && stage < stages.size()
-					&& hasNoRequirements(stages.get(stage))) {
-				stage++;
+			int cs = knowledge.getResearchStage(key);
+			ResearchStage currentStage = null;
+			if (cs > 0) {
+				cs = Math.min(cs, stages.size());
+				currentStage = stages.get(cs - 1);
 			}
-			KnowledgeAccess.get().setResearchStage(player, key, Math.min(stages.size() + 1, stage + 1));
-			popups = stage >= stages.size();
+			if (stages.size() == 1 && cs == 0 && hasNoRequirements(stages.getFirst())) {
+				cs++;
+			} else if (stages.size() > 1 && stages.size() <= cs + 1 && cs < stages.size()
+					&& hasNoRequirements(stages.get(cs))) {
+				cs++;
+			}
+			KnowledgeAccess.get().setResearchStage(player, key, Math.min(stages.size() + 1, cs + 1));
+			popups = cs >= stages.size();
 			int warp = currentStage == null ? 0 : currentStage.warp();
 			if (popups) {
-				stage = Math.min(stage, stages.size());
-				currentStage = stages.get(stage - 1);
+				cs = Math.min(cs, stages.size());
+				currentStage = stages.get(cs - 1);
 			}
 			if (currentStage != null) {
 				warp += currentStage.warp();
@@ -168,8 +175,8 @@ public final class ResearchProgression {
 	}
 
 	private static void giveRewards(ServerPlayer player, ResearchEntry entry) {
-		for (ItemStack reward : entry.rewardItem()) {
-			ItemStack stack = reward.copy();
+		for (ItemStackTemplate reward : entry.rewardItem()) {
+			ItemStack stack = reward.create();
 			if (!player.getInventory().add(stack)) {
 				player.drop(stack, false, Prediction.SERVER_ONLY);
 			}
@@ -205,7 +212,8 @@ public final class ResearchProgression {
 	}
 
 	private static boolean giveRecursiveResearch(ServerPlayer player, Identifier key, Set<Identifier> visited) {
-		if (!visited.add(key)) {
+		PlayerKnowledge knowledge = KnowledgeAccess.get().knowledge(player);
+		if (knowledge.isResearchComplete(key) || !visited.add(key)) {
 			return false;
 		}
 		boolean changed = false;
@@ -217,13 +225,13 @@ public final class ResearchProgression {
 				}
 				for (ResearchStage stage : entry.stages()) {
 					for (ResearchRequirement requirement : stage.requiredResearch()) {
-						changed |= giveRecursiveResearch(player, requirement.reference().key(), visited);
+						changed |= completeResearch(player, requirement.reference().key(), true);
 					}
 				}
 			}
 			changed |= completeResearch(player, key, true);
 			for (MapEntry entryWithResearch : entriesRequiring(key)) {
-				KnowledgeAccess.get().setResearchFlag(player, entryWithResearch.key(), ResearchFlag.PAGE);
+				changed |= KnowledgeAccess.get().setResearchFlag(player, entryWithResearch.key(), ResearchFlag.PAGE);
 			}
 			if (entry != null) {
 				for (ResearchReference sibling : entry.siblings()) {

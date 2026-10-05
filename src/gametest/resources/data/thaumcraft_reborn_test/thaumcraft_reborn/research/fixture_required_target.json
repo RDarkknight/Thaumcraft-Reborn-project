@@ -1,0 +1,14 @@
+{
+  "name": "research.thaumcraft_reborn_test.fixture_required_target",
+  "category": "thaumcraft_reborn_test:fixture",
+  "stages": [
+    {
+      "text": "stage.thaumcraft_reborn_test.fixture_required_target",
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn_test:fixture_required"
+        }
+      ]
+    }
+  ]
+}

@@ -14,7 +14,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,8 +25,7 @@ public final class ResearchIndex implements ResearchAccess {
 	public static final SyncedDataLoader<ResearchEntry> RESEARCH = new SyncedDataLoader<>(
 			ThaumcraftRebornApi.id("research"),
 			ResearchEntry.CODEC,
-			ByteBufCodecs.fromCodecWithRegistries(ResearchEntry.CODEC),
-			true
+			ByteBufCodecs.fromCodecWithRegistries(ResearchEntry.CODEC)
 	);
 	public static final SyncedDataLoader<ResearchCategory> CATEGORIES = new SyncedDataLoader<>(
 			ThaumcraftRebornApi.id("research_categories"),
@@ -43,7 +41,6 @@ public final class ResearchIndex implements ResearchAccess {
 		CATEGORIES.addServerEntriesListener(ResearchIndex::rebuildServer);
 		RESEARCH.addClientEntriesListener(ResearchIndex::rebuildClient);
 		CATEGORIES.addClientEntriesListener(ResearchIndex::rebuildClient);
-		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> rebuildServer());
 	}
 
 	private ResearchIndex() {

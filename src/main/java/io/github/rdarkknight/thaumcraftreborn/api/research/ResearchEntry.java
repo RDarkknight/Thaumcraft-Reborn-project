@@ -11,7 +11,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 
 public record ResearchEntry(
 		String name,
@@ -21,7 +21,7 @@ public record ResearchEntry(
 		List<ResearchReference> siblings,
 		java.util.Optional<ResearchLocation> location,
 		Set<ResearchMeta> meta,
-		List<ItemStack> rewardItem,
+		List<ItemStackTemplate> rewardItem,
 		List<KnowledgeAmount> rewardKnowledge,
 		List<ResearchStage> stages,
 		List<ResearchAddendum> addenda
@@ -43,7 +43,7 @@ public record ResearchEntry(
 			ResearchReference.CODEC.listOf().optionalFieldOf("siblings", List.of()).forGetter(ResearchEntry::siblings),
 			ResearchLocation.CODEC.optionalFieldOf("location").forGetter(ResearchEntry::location),
 			META_CODEC.optionalFieldOf("meta", Set.of()).forGetter(ResearchEntry::meta),
-			ItemStack.CODEC.listOf().optionalFieldOf("reward_item", List.of()).forGetter(ResearchEntry::rewardItem),
+			ItemStackTemplate.CODEC.listOf().optionalFieldOf("reward_item", List.of()).forGetter(ResearchEntry::rewardItem),
 			KnowledgeAmount.CODEC.listOf().optionalFieldOf("reward_knowledge", List.of()).forGetter(ResearchEntry::rewardKnowledge),
 			NON_EMPTY_STAGES_CODEC.fieldOf("stages").forGetter(ResearchEntry::stages),
 			ResearchAddendum.CODEC.listOf().optionalFieldOf("addenda", List.of()).forGetter(ResearchEntry::addenda)
@@ -57,7 +57,7 @@ public record ResearchEntry(
 		siblings = List.copyOf(siblings);
 		location = location == null ? java.util.Optional.empty() : location;
 		meta = meta.isEmpty() ? Set.of() : Collections.unmodifiableSet(EnumSet.copyOf(meta));
-		rewardItem = rewardItem.stream().map(ItemStack::copy).toList();
+		rewardItem = List.copyOf(rewardItem);
 		rewardKnowledge = List.copyOf(rewardKnowledge);
 		stages = List.copyOf(stages);
 		addenda = List.copyOf(addenda);

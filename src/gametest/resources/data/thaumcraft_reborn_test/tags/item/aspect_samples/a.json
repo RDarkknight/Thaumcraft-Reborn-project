@@ -1,6 +1,6 @@
 {
   "values": [
-    "minecraft:stone",
-    "minecraft:dirt"
+    "minecraft:barrier",
+    "minecraft:structure_void"
   ]
 }

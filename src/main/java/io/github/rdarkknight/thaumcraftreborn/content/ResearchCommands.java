@@ -1,7 +1,6 @@
 package io.github.rdarkknight.thaumcraftreborn.content;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import io.github.rdarkknight.thaumcraftreborn.api.knowledge.KnowledgeAccess;
 import io.github.rdarkknight.thaumcraftreborn.api.research.KnowledgeType;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchAccess;
@@ -13,6 +12,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.IdentifierArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
@@ -41,7 +41,7 @@ public final class ResearchCommands {
 									EntityArgument.getPlayers(context, "targets")
 							)))
 							.then(Commands.literal("grant")
-									.then(Commands.argument("key", StringArgumentType.greedyString())
+									.then(Commands.argument("key", IdentifierArgument.id())
 											.suggests((context, builder) -> SharedSuggestionProvider.suggest(
 													ResearchAccess.get().entries(false).keySet().stream()
 															.map(Identifier::toString).toList(),
@@ -50,10 +50,10 @@ public final class ResearchCommands {
 											.executes(context -> grant(
 													context.getSource(),
 													EntityArgument.getPlayers(context, "targets"),
-													StringArgumentType.getString(context, "key")
+													IdentifierArgument.getId(context, "key")
 											))))
 							.then(Commands.literal("revoke")
-									.then(Commands.argument("key", StringArgumentType.greedyString())
+									.then(Commands.argument("key", IdentifierArgument.id())
 											.suggests((context, builder) -> SharedSuggestionProvider.suggest(
 													ResearchAccess.get().entries(false).keySet().stream()
 															.map(Identifier::toString).toList(),
@@ -62,7 +62,7 @@ public final class ResearchCommands {
 											.executes(context -> revoke(
 													context.getSource(),
 													EntityArgument.getPlayers(context, "targets"),
-													StringArgumentType.getString(context, "key")
+													IdentifierArgument.getId(context, "key")
 											)))));
 			var warp = Commands.literal("warp")
 					.requires(ResearchCommands::canManage)
@@ -178,10 +178,9 @@ public final class ResearchCommands {
 		return count;
 	}
 
-	private static int grant(CommandSourceStack source, Iterable<ServerPlayer> targets, String rawKey) {
-		Identifier key = Identifier.tryParse(rawKey);
-		if (key == null || ResearchAccess.get().entry(key, false).isEmpty()) {
-			source.sendFailure(Component.literal("Research does not exist: " + rawKey));
+	private static int grant(CommandSourceStack source, Iterable<ServerPlayer> targets, Identifier key) {
+		if (ResearchAccess.get().entry(key, false).isEmpty()) {
+			source.sendFailure(Component.literal("Research does not exist: " + key));
 			return 0;
 		}
 		int count = 0;
@@ -194,10 +193,9 @@ public final class ResearchCommands {
 		return count;
 	}
 
-	private static int revoke(CommandSourceStack source, Iterable<ServerPlayer> targets, String rawKey) {
-		Identifier key = Identifier.tryParse(rawKey);
-		if (key == null || ResearchAccess.get().entry(key, false).isEmpty()) {
-			source.sendFailure(Component.literal("Research does not exist: " + rawKey));
+	private static int revoke(CommandSourceStack source, Iterable<ServerPlayer> targets, Identifier key) {
+		if (ResearchAccess.get().entry(key, false).isEmpty()) {
+			source.sendFailure(Component.literal("Research does not exist: " + key));
 			return 0;
 		}
 		int count = 0;

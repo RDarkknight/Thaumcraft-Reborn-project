@@ -4,6 +4,13 @@
   "icons": [
     {
       "texture": "thaumcraft_reborn_test:textures/research/fixture"
+    },
+    {
+      "item": {
+        "id": "minecraft:diamond",
+        "count": 1,
+        "components": {}
+      }
     }
   ],
   "parents": [
@@ -18,7 +25,8 @@
   "reward_item": [
     {
       "id": "minecraft:diamond",
-      "count": 2
+      "count": 2,
+      "components": {}
     }
   ],
   "reward_knowledge": [
@@ -36,7 +44,8 @@
         {
           "item": {
             "id": "minecraft:diamond",
-            "count": 1
+            "count": 1,
+            "components": {}
           }
         }
       ],

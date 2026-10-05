@@ -6,7 +6,12 @@
   "location": [5, 1],
   "stages": [
     {
-      "text": "stage.thaumcraft_reborn_test.fixture_sibling"
+      "text": "stage.thaumcraft_reborn_test.fixture_sibling",
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn_test:fixture_main"
+        }
+      ]
     }
   ]
 }

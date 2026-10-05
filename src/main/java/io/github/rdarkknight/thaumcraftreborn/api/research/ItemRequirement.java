@@ -9,10 +9,10 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 
-public record ItemRequirement(Optional<ItemStack> item, Optional<Identifier> tag, int count) {
-	private static final Codec<ItemRequirement> ITEM_CODEC = ItemStack.CODEC.fieldOf("item").codec()
+public record ItemRequirement(Optional<ItemStackTemplate> item, Optional<Identifier> tag, int count) {
+	private static final Codec<ItemRequirement> ITEM_CODEC = ItemStackTemplate.CODEC.fieldOf("item").codec()
 			.xmap(ItemRequirement::forItem, requirement -> requirement.item().orElseThrow());
 	private static final Codec<ItemRequirement> TAG_CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			Identifier.CODEC.fieldOf("tag").forGetter(requirement -> requirement.tag().orElseThrow()),
@@ -28,7 +28,7 @@ public record ItemRequirement(Optional<ItemStack> item, Optional<Identifier> tag
 			ByteBufCodecs.fromCodecWithRegistries(CODEC);
 
 	public ItemRequirement {
-		item = item == null ? Optional.empty() : item.map(ItemStack::copy);
+		item = item == null ? Optional.empty() : item;
 		tag = tag == null ? Optional.empty() : tag;
 		if (item.isPresent() == tag.isPresent()) {
 			throw new IllegalArgumentException("Item requirement must have exactly one of item or tag");
@@ -38,8 +38,8 @@ public record ItemRequirement(Optional<ItemStack> item, Optional<Identifier> tag
 		}
 	}
 
-	public static ItemRequirement forItem(ItemStack item) {
-		return new ItemRequirement(Optional.of(item), Optional.empty(), Math.max(1, item.getCount()));
+	public static ItemRequirement forItem(ItemStackTemplate item) {
+		return new ItemRequirement(Optional.of(item), Optional.empty(), Math.max(1, item.count()));
 	}
 
 	public static ItemRequirement forTag(Identifier tag, int count) {

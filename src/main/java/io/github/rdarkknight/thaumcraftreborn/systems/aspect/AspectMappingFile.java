@@ -33,24 +33,25 @@ public record AspectMappingFile(List<AspectMappingFile.Entry> entries) {
 				predicate -> predicate.tag().toString()
 		);
 
-		public static final Codec<Entry> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+		public static final Codec<Entry> CODEC = RecordCodecBuilder.<Entry>create(instance -> instance.group(
 				Identifier.CODEC.optionalFieldOf("item").forGetter(Entry::item),
 				Identifier.CODEC.optionalFieldOf("tag").forGetter(Entry::tag),
 				Identifier.CODEC.optionalFieldOf("entity").forGetter(Entry::entity),
 				SNBT_CODEC.optionalFieldOf("nbt").forGetter(Entry::nbt),
 				AspectList.CODEC.fieldOf("aspects").forGetter(Entry::aspects),
 				Codec.BOOL.optionalFieldOf("replace", false).forGetter(Entry::replace)
-		).apply(instance, Entry::new));
-
-		public Entry {
-			int targetCount = (item.isPresent() ? 1 : 0) + (tag.isPresent() ? 1 : 0) + (entity.isPresent() ? 1 : 0);
+		).apply(instance, Entry::new)).validate(entry -> {
+			int targetCount = (entry.item().isPresent() ? 1 : 0)
+					+ (entry.tag().isPresent() ? 1 : 0)
+					+ (entry.entity().isPresent() ? 1 : 0);
 			if (targetCount != 1) {
-				throw new IllegalArgumentException("An aspect mapping entry must define exactly one of item, tag, or entity");
+				return DataResult.error(() -> "An aspect mapping entry must define exactly one of item, tag, or entity");
 			}
-			if (nbt.isPresent() && entity.isEmpty()) {
-				throw new IllegalArgumentException("NBT predicates are only valid for entity mappings");
+			if (entry.nbt().isPresent() && entry.entity().isEmpty()) {
+				return DataResult.error(() -> "NBT predicates are only valid for entity mappings");
 			}
-		}
+			return DataResult.success(entry);
+		});
 
 		private static DataResult<NbtPredicate> parseNbtPredicate(String snbt) {
 			try {

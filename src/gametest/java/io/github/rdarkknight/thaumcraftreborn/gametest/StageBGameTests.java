@@ -18,6 +18,7 @@ import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchAccess;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchCategory;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchEntry;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchFlag;
+import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchIcon;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchMeta;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchReference;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchStatus;
@@ -36,6 +37,8 @@ import io.github.rdarkknight.thaumcraftreborn.systems.aura.AuraSystems;
 import io.github.rdarkknight.thaumcraftreborn.systems.aura.BiomeAuraType;
 import io.github.rdarkknight.thaumcraftreborn.systems.aura.BiomeAuraTypes;
 import io.github.rdarkknight.thaumcraftreborn.systems.aura.MinimalAuraSimulation;
+import io.github.rdarkknight.thaumcraftreborn.systems.aspect.AspectMappingFile;
+import io.github.rdarkknight.thaumcraftreborn.systems.aspect.AspectMappings;
 import io.github.rdarkknight.thaumcraftreborn.systems.research.ResearchIndex;
 import io.github.rdarkknight.thaumcraftreborn.systems.research.ResearchProgression;
 import io.netty.buffer.Unpooled;
@@ -65,7 +68,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.clock.WorldClock;
 import net.minecraft.world.clock.WorldClocks;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -209,21 +214,29 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 		Aspect air = ThaumcraftRegistries.ASPECT.getValue(ThaumcraftRebornApi.id("aer"));
 		Aspect earth = ThaumcraftRegistries.ASPECT.getValue(ThaumcraftRebornApi.id("terra"));
 		Aspect fire = ThaumcraftRegistries.ASPECT.getValue(ThaumcraftRebornApi.id("ignis"));
-		AspectList exactItem = AspectLookup.get().getAspects(context.getLevel(), new ItemStack(Items.STONE));
-		AspectList taggedItem = AspectLookup.get().getAspects(context.getLevel(), new ItemStack(Items.DIRT));
-		AspectList summedItem = AspectLookup.get().getAspects(context.getLevel(), new ItemStack(Items.GOLD_INGOT));
+		AspectList exactItem = AspectLookup.get().getAspects(context.getLevel(), vanillaItem("barrier"));
+		AspectList taggedItem = AspectLookup.get().getAspects(context.getLevel(), vanillaItem("structure_void"));
+		AspectList summedItem = AspectLookup.get().getAspects(context.getLevel(), vanillaItem("command_block"));
 		AspectList replacedItem = AspectLookup.get().getAspects(context.getLevel(), new ItemStack(Items.IRON_INGOT));
-		AspectList unmappedItem = AspectLookup.get().getAspects(context.getLevel(), new ItemStack(Items.COBBLESTONE));
-		var creeperType = BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.fromNamespaceAndPath("minecraft", "creeper"));
-		Creeper untagged = (Creeper) creeperType.create(context.getLevel(), EntitySpawnReason.COMMAND);
-		Creeper tagged = (Creeper) creeperType.create(context.getLevel(), EntitySpawnReason.COMMAND);
-		context.assertTrue(untagged != null && tagged != null, "creepers are created from the entity registry");
+		AspectList replaceBeforeAdditive = AspectLookup.get().getAspects(context.getLevel(), new ItemStack(Items.DIAMOND_SWORD));
+		AspectList unmappedItem = AspectLookup.get().getAspects(context.getLevel(), vanillaItem("structure_block"));
+		var armorStandType = BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.fromNamespaceAndPath("minecraft", "armor_stand"));
+		Entity untagged = armorStandType.create(context.getLevel(), EntitySpawnReason.COMMAND);
+		Entity tagged = armorStandType.create(context.getLevel(), EntitySpawnReason.COMMAND);
+		context.assertTrue(untagged != null && tagged != null, "armor stands are created from the entity registry");
 		context.assertTrue(tagged.addTag("stage_b_powered"), "NBT fixture tag is applied to the matching entity");
 
 		context.assertTrue(exactItem.amount(earth) == 2 && exactItem.size() == 1, "exact item mapping wins over matching tags");
 		context.assertTrue(taggedItem.amount(air) == 3 && taggedItem.size() == 1, "lexicographically first matching tag is used");
 		context.assertTrue(summedItem.amount(earth) == 5 && summedItem.amount(air) == 1, "same targets sum across files");
 		context.assertTrue(replacedItem.amount(fire) == 5 && replacedItem.size() == 1, "replace mapping overwrites earlier targets");
+		context.assertTrue(replaceBeforeAdditive.amount(earth) == 7 && replaceBeforeAdditive.size() == 1,
+				"replacement wins over additive entries even when its file sorts first");
+		context.assertTrue(
+				AspectMappings.LOADER.serverEntries().keySet().stream().anyMatch(id -> id.getPath().endsWith("00_base"))
+						&& AspectMappings.LOADER.serverEntries().keySet().stream().noneMatch(id -> id.getPath().endsWith("30_invalid")),
+				"invalid mapping fixture is skipped while valid mapping fixtures load"
+		);
 		context.assertTrue(unmappedItem.isEmpty(), "unmapped items return EMPTY");
 		context.assertTrue(
 				AspectLookup.get().getAspects(untagged).amount(earth) == 1,
@@ -232,6 +245,64 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 		context.assertTrue(
 				AspectLookup.get().getAspects(tagged).amount(air) == 4,
 				"matching entity NBT mapping wins over the fallback"
+		);
+		context.succeed();
+	}
+
+	@GameTest
+	public void tc6VanillaAspectMappingsPreserveFlattenedValues(GameTestHelper context) {
+		AspectMappingFile vanillaItems = AspectMappings.LOADER.serverEntries()
+				.get(ThaumcraftRebornApi.id("tc6_vanilla_items"));
+		Identifier lapisOre = Identifier.fromNamespaceAndPath("minecraft", "lapis_ore");
+		Identifier lapisOreTag = Identifier.fromNamespaceAndPath("c", "ores/lapis");
+		AspectList lapisAspects = aspectFormula("terra", 5, "sensus", 15);
+
+		context.assertTrue(AspectMappings.unknownServerRegistryTargetCount() == 0,
+				"shipped aspect mappings contain no unknown item or entity ids");
+		context.assertTrue(vanillaItems != null, "the vanilla item mapping file is loaded");
+		context.assertTrue(vanillaItems.entries().stream()
+						.anyMatch(entry -> entry.tag().filter(lapisOreTag::equals).isPresent())
+						&& vanillaItems.entries().stream().anyMatch(entry ->
+								entry.item().filter(lapisOre::equals).isPresent() && entry.aspects().equals(lapisAspects)),
+				"the ore tag and its vanilla item value are both shipped");
+		context.assertTrue(
+				AspectLookup.get().getAspects(context.getLevel(), vanillaItem("granite"))
+						.equals(aspectFormula("terra", 5)),
+				"legacy stone metadata maps granite to its flattened item id"
+		);
+		context.assertTrue(
+				AspectLookup.get().getAspects(context.getLevel(), vanillaItem("charcoal"))
+						.equals(aspectFormula("potentia", 10, "ignis", 10)),
+				"wildcard coal metadata expands to charcoal"
+		);
+		context.assertTrue(
+				AspectLookup.get().getAspects(context.getLevel(), vanillaItem("lapis_ore")).equals(lapisAspects),
+				"the emitted ore-dictionary tag value is preserved on its vanilla item"
+		);
+		context.assertTrue(
+				AspectLookup.get().getAspects(context.getLevel(), vanillaItem("brick"))
+						.equals(aspectFormula("aqua", 5, "terra", 5, "ignis", 1)),
+				"brick copies clay-ball aspects before adding fire"
+		);
+		context.assertTrue(
+				AspectLookup.get().getAspects(context.getLevel(), vanillaItem("dead_bush"))
+						.equals(aspectFormula("herba", 5, "perditio", 1)),
+				"the later dead-bush registration overwrites its earlier flattened wildcard value"
+		);
+
+		Creeper powered = (Creeper) BuiltInRegistries.ENTITY_TYPE
+				.getValue(Identifier.fromNamespaceAndPath("minecraft", "creeper"))
+				.create(context.getLevel(), EntitySpawnReason.COMMAND);
+		LightningBolt lightning = (LightningBolt) BuiltInRegistries.ENTITY_TYPE
+				.getValue(Identifier.fromNamespaceAndPath("minecraft", "lightning_bolt"))
+				.create(context.getLevel(), EntitySpawnReason.COMMAND);
+		context.assertTrue(powered != null && lightning != null, "the vanilla entity types can be created");
+		powered.thunderHit(context.getLevel(), lightning);
+		context.assertTrue(
+				powered.isPowered()
+						&& AspectLookup.get().getAspects(powered)
+								.equals(aspectFormula("herba", 15, "ignis", 15, "potentia", 15)),
+				"the powered-creeper NBT rule matches its exact TC6 aspects"
 		);
 		context.succeed();
 	}
@@ -463,15 +534,21 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 		ResearchEntry fixtureMain = research.entry(fixtureMainKey, false).orElseThrow();
 		context.assertTrue(fixtureMain.category().equals(fixtureCategory), "test research category is indexed");
 		context.assertTrue(fixtureMain.meta().contains(ResearchMeta.HEX), "research metadata decodes");
-		context.assertTrue(fixtureMain.icons().size() == 1 && fixtureMain.parents().size() == 2, "icons and parent references decode");
+		context.assertTrue(fixtureMain.icons().size() == 2 && fixtureMain.parents().size() == 2, "icons and parent references decode");
+		context.assertTrue(fixtureMain.icons().stream().filter(ResearchIcon.Item.class::isInstance)
+						.map(ResearchIcon.Item.class::cast)
+						.anyMatch(icon -> icon.item().item().value() == Items.DIAMOND && icon.item().count() == 1),
+				"item icons decode to deferred stack templates");
 		context.assertTrue(fixtureMain.siblings().size() == 1 && fixtureMain.stages().size() == 2, "siblings and stages decode");
 		context.assertTrue(fixtureMain.stages().getFirst().warp() == 3, "stage warp decodes");
-		context.assertTrue(fixtureMain.stages().getFirst().requiredItem().getFirst().item().isPresent(), "item requirement decodes");
+		context.assertTrue(fixtureMain.stages().getFirst().requiredItem().getFirst().item()
+						.map(template -> template.item().value() == Items.DIAMOND && template.count() == 1).orElse(false),
+				"item requirement decodes to a deferred stack template");
 		context.assertTrue(fixtureMain.stages().getFirst().requiredCraft().getFirst().tag().isPresent(), "tag requirement decodes");
-		context.assertTrue(fixtureMain.rewardItem().getFirst().getCount() == 2, "item rewards decode");
+		context.assertTrue(fixtureMain.rewardItem().getFirst().count() == 2, "item rewards decode to deferred stack templates");
 		context.assertTrue(fixtureMain.rewardKnowledge().getFirst().amount() == 2, "knowledge rewards decode");
 		context.assertTrue(fixtureMain.addenda().size() == 1, "addenda decode");
-		context.assertTrue(research.entriesInCategory(fixtureCategory, false).size() == 4, "entries are grouped by category");
+		context.assertTrue(research.entriesInCategory(fixtureCategory, false).size() == 7, "entries are grouped by category");
 		context.assertTrue(research.bounds(fixtureCategory, false).orElseThrow()
 						.equals(new io.github.rdarkknight.thaumcraftreborn.api.research.ResearchBounds(0, 7, -2, 4)),
 				"category display bounds include loaded entry locations");
@@ -501,8 +578,29 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 		Identifier missingParent = testId("missing_parent");
 		Identifier fixtureMain = testId("fixture_main");
 		Identifier fixtureSibling = testId("fixture_sibling");
+		Identifier fixtureStrict = testId("fixture_strict");
 		ResearchProgression.unlockAutomaticResearch(player);
 		context.assertTrue(knowledge.knowledge(player).isResearchKnown(fixtureAuto), "AUTOUNLOCK research is granted on join");
+
+		ServerPlayer strictPlayer = context.makeMockServerPlayerInLevel();
+		KnowledgeAccess.get().addResearch(strictPlayer, fixtureParent);
+		context.assertTrue(!research.doesPlayerHaveRequisites(strictPlayer, fixtureStrict),
+				"an in-progress parent does not satisfy an unstaged prerequisite");
+		context.assertTrue(research.completeResearch(strictPlayer, missingParent, false),
+				"the unstaged pseudo-parent can be completed");
+		context.assertTrue(!research.doesPlayerHaveRequisites(strictPlayer, fixtureMain),
+				"a staged prerequisite is not satisfied before its requested stage");
+		context.assertTrue(KnowledgeAccess.get().setResearchStage(strictPlayer, fixtureParent, 1),
+				"an in-progress parent can reach stage one");
+		context.assertTrue(research.doesPlayerHaveRequisites(strictPlayer, fixtureMain),
+				"a staged prerequisite is satisfied once its requested stage is reached");
+		context.assertTrue(!research.doesPlayerHaveRequisites(strictPlayer, fixtureStrict),
+				"reaching a stage does not complete an unstaged prerequisite");
+		context.assertTrue(research.completeResearch(strictPlayer, fixtureParent, false),
+				"the parent can then be completed");
+		context.assertTrue(research.doesPlayerHaveRequisites(strictPlayer, fixtureStrict),
+				"an unstaged prerequisite is satisfied after completion");
+
 		context.assertTrue(research.completeResearch(player, fixtureParent, false), "parent completes without sync");
 		context.assertTrue(research.completeResearch(player, missingParent, false), "unknown pseudo-parent can be completed");
 		context.assertTrue(research.doesPlayerHaveRequisites(player, fixtureMain), "all parent stages satisfy requisites");
@@ -531,6 +629,18 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 						&& knowledge.knowledge(recursivePlayer).isResearchComplete(fixtureParent)
 						&& knowledge.knowledge(recursivePlayer).isResearchComplete(missingParent),
 				"recursive grant includes parent and pseudo-parent requisites");
+		context.assertTrue(knowledge.knowledge(recursivePlayer).hasResearchFlag(fixtureSibling, ResearchFlag.PAGE),
+				"recursive grant adds PAGE to entries whose stages require the granted key");
+
+		ServerPlayer directRequirementPlayer = context.makeMockServerPlayerInLevel();
+		Identifier directTarget = testId("fixture_required_target");
+		Identifier directRequirement = testId("fixture_required");
+		context.assertTrue(research.giveRecursiveResearch(directRequirementPlayer, directTarget),
+				"recursive grant completes the requested entry");
+		context.assertTrue(knowledge.knowledge(directRequirementPlayer).isResearchComplete(directTarget)
+						&& !knowledge.knowledge(directRequirementPlayer).isResearchKnown(directRequirement)
+						&& !knowledge.knowledge(directRequirementPlayer).isResearchKnown(fixtureParent),
+				"required_research is completed directly rather than recursively granted");
 		context.assertTrue(research.revokeRecursiveResearch(recursivePlayer, fixtureParent), "recursive revoke removes the target");
 		context.assertTrue(!knowledge.knowledge(recursivePlayer).isResearchKnown(fixtureParent)
 						&& !knowledge.knowledge(recursivePlayer).isResearchKnown(fixtureMain)
@@ -572,6 +682,10 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 
 	private static Identifier testId(String path) {
 		return Identifier.fromNamespaceAndPath("thaumcraft_reborn_test", path);
+	}
+
+	private static ItemStack vanillaItem(String path) {
+		return new ItemStack(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath("minecraft", path)));
 	}
 
 	@Override
