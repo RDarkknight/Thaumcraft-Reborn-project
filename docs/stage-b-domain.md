@@ -256,6 +256,8 @@ Conversión no equivalente pendiente de decisión/Stage C (no se inventaron comp
 
 El cruce contra los 337 mappings item y 43 mappings tag previos halló 59 valores item discordantes y 76 items sin contraparte raw directa. Las discrepancias y diagnósticos por item, además del cruce de tags usando membresía 26.3 y precedencia de resolución, están enumerados en el informe externo. Se conservaron las discrepancias preexistentes salvo los targets sobrescritos por los registros complejos finales; esas actualizaciones usan el valor raw de TC6.
 
+Las 43 tags abarcan 153 apariciones de miembros vanilla en 26.3; todas quedan cubiertas por un mapping item exacto, así que ningún mapping tag tiene un miembro vanilla efectivo para comparar por separado. El informe lista cada tag y sus miembros sobrescritos; las entradas tag siguen aplicándose a miembros de otros mods no presentes en este runtime.
+
 ### Capa de bonus (pendiente, no implementada)
 
 `getBonusTags` aplica una capa por stack: contenedores de essentia, armadura, espada, arco, herramientas/shears/hoes, dye-oredict y encantamientos; luego `AspectHelper.cullTags` reduce hasta siete aspectos y `getObjectTags` limita a 500. No hay una rama específica de pociones en ese método: las 54 filas de poción que difieren entre raw y la consulta pública reflejan el culling general. De las 278 filas raw/public distintas, clasificación primaria: armor 12, sword 2, tool 0, bow 1, essentia container 75, enchantment 87, potion 0 y other 101 (incluye 54 filas de poción, 16 de dye-oredict y 31 restantes). La capa de bonus no se implementa ahora y queda pendiente de una decisión de etapa posterior.
