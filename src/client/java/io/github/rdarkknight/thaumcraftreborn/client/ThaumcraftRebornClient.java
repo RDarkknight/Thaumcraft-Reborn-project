@@ -20,6 +20,7 @@ public final class ThaumcraftRebornClient implements ClientModInitializer {
 		ClientConfigManager.init();
 		ClientConfigSync.init();
 		ClientDataSync.init();
+		ThaumometerClient.init();
 		FxHandlers.init();
 		DebugParticles.register();
 		MenuScreens.register(DebugContainerMenu.TYPE, DebugContainerScreen::new);

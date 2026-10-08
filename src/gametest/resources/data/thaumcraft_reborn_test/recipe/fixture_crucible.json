@@ -1,0 +1,10 @@
+{
+  "type": "thaumcraft_reborn:crucible",
+  "result": {
+    "id": "minecraft:iron_ingot"
+  },
+  "catalyst": "minecraft:gold_ingot",
+  "aspects": {
+    "thaumcraft_reborn:aer": 2
+  }
+}

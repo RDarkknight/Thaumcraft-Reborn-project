@@ -8,12 +8,15 @@
     "fabric-gametest": [
       "io.github.rdarkknight.thaumcraftreborn.gametest.PhaseOneGameTests",
       "io.github.rdarkknight.thaumcraftreborn.gametest.StageAGameTests",
-      "io.github.rdarkknight.thaumcraftreborn.gametest.StageBGameTests"
+      "io.github.rdarkknight.thaumcraftreborn.gametest.StageBGameTests",
+      "io.github.rdarkknight.thaumcraftreborn.gametest.StageCGameTests",
+      "io.github.rdarkknight.thaumcraftreborn.gametest.ThaumometerGameTests"
     ],
     "fabric-client-gametest": [
       "io.github.rdarkknight.thaumcraftreborn.gametest.PhaseOneClientGameTest",
       "io.github.rdarkknight.thaumcraftreborn.gametest.StageAClientGameTest",
-      "io.github.rdarkknight.thaumcraftreborn.gametest.StageBClientGameTest"
+      "io.github.rdarkknight.thaumcraftreborn.gametest.StageBClientGameTest",
+      "io.github.rdarkknight.thaumcraftreborn.gametest.StageC2ClientGameTest"
     ]
   },
   "depends": {

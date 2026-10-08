@@ -2,6 +2,8 @@ package io.github.rdarkknight.thaumcraftreborn.systems.aspect;
 
 import com.mojang.logging.LogUtils;
 import io.github.rdarkknight.thaumcraftreborn.api.ThaumcraftRebornApi;
+import io.github.rdarkknight.thaumcraftreborn.api.aspect.AspectBonusProviders;
+import io.github.rdarkknight.thaumcraftreborn.api.aspect.AspectLimiter;
 import io.github.rdarkknight.thaumcraftreborn.api.aspect.AspectList;
 import io.github.rdarkknight.thaumcraftreborn.api.aspect.AspectLookup;
 import io.github.rdarkknight.thaumcraftreborn.core.data.SyncedDataLoader;
@@ -142,6 +144,12 @@ public final class AspectMappings {
 	private static final class MappingLookup implements AspectLookup {
 		@Override
 		public AspectList getAspects(Level level, ItemStack stack) {
+			return AspectResolver.resolve(level, stack, lookupItem(level, stack),
+					AspectBonusProviders.providers(), AspectLimiter.get());
+		}
+
+		@Override
+		public AspectList getBaseAspects(Level level, ItemStack stack) {
 			return lookupItem(level, stack);
 		}
 

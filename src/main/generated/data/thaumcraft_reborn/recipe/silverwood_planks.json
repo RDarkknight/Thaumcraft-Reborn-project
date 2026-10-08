@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "L": "thaumcraft_reborn:log_silverwood"
+  },
+  "pattern": [
+    "L"
+  ],
+  "result": {
+    "count": 4,
+    "id": "thaumcraft_reborn:plank_silverwood"
+  }
+}

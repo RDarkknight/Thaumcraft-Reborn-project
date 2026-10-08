@@ -1,0 +1,14 @@
+{
+  "type": "thaumcraft_reborn:crucible",
+  "result": {
+    "id": "thaumcraft_reborn:crystal_essence",
+    "components": {
+      "thaumcraft_reborn:crystal_aspect": "thaumcraft_reborn:ordo"
+    }
+  },
+  "catalyst": "#c:nuggets/quartz",
+  "aspects": {
+    "thaumcraft_reborn:ordo": 2
+  },
+  "research": "BASEALCHEMY"
+}

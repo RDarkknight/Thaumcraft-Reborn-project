@@ -1,0 +1,10 @@
+{
+  "type": "thaumcraft_reborn:arcane_shapeless",
+  "result": {
+    "id": "minecraft:iron_ingot"
+  },
+  "ingredients": [
+    "minecraft:gold_ingot"
+  ],
+  "vis_cost": 1
+}

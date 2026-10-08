@@ -13,6 +13,11 @@ public interface AspectLookup {
 		}
 
 		@Override
+		public AspectList getBaseAspects(Level level, ItemStack stack) {
+			return AspectList.EMPTY;
+		}
+
+		@Override
 		public AspectList getAspects(Entity entity) {
 			return AspectList.EMPTY;
 		}
@@ -27,6 +32,8 @@ public interface AspectLookup {
 	}
 
 	AspectList getAspects(Level level, ItemStack stack);
+
+	AspectList getBaseAspects(Level level, ItemStack stack);
 
 	AspectList getAspects(Entity entity);
 

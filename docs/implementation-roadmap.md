@@ -265,7 +265,8 @@ Resumen (las letras no son la Fase 2; la numeración de fases la decidirá el pr
   - **Essentia:** API `EssentiaTransport` + `BlockApiLookup`, Smelter, Alembic, Jars, tubos (valve, filter, oneway, restrict, buffer), D8.
   - **Infusión:** Infusion Matrix, pedestales, estabilidad, recetas de infusión; encantamientos de infusión según D14.
   - **Flux Rift** (entidad) y flux goo, conectados a la simulación de aura.
-  - **Accesorios de contenido** (amuletos/anillos de vis, Goggles como accesorio si D7 lo decide) sobre `AccessoryAccess`; descuento de vis (D11).
+  - **Accesorios de contenido** (amuletos/anillos de vis y Goggles en `head/face`, AD-12) sobre `AccessoryAccess`; descuento de vis (D11).
+  - Capa de bonus de aspectos: proveedores ordenados y transformadores para armadura, armas, herramientas, tinte, encantamientos y contenedores de essentia; limiter TC6 de 7 aspectos y 500 por cantidad (AD-13).
   - Primer lote de **máquinas** que sólo dependen de essentia/aura (Centrifuge, lámparas, Condenser, Vis Generator…).
   - Herramientas y armaduras infundidas.
 - **Dependencias satisfechas:** multibloques, recetas, aura completa (D); aspectos (B).
@@ -294,7 +295,7 @@ Resumen (las letras no son la Fase 2; la numeración de fases la decidirá el pr
 ### Etapa H — Polish y compatibilidad
 
 - **Objetivo:** cerrar la experiencia y la compatibilidad.
-- **Sistemas incluidos:** Thaumonomicon gráfico completo (mapa hex, páginas de receta animadas), Research Table con theorycrafting completo (si en D se usó una versión simplificada), FX completos (streams, rayos, post-efectos con alternativa HUD, D15–D17), matriz Iris/Sodium/OIT, visor de recetas (D9), Mod Menu/Cloth, detección de Iris, API pública documentada.
+- **Sistemas incluidos:** Thaumonomicon gráfico completo (mapa hex, páginas de receta animadas), Research Table con theorycrafting completo (si en D se usó una versión simplificada), FX completos (streams, rayos, post-efectos con alternativa HUD, D15–D17), matriz Iris/Sodium/OIT, visor de recetas (D9), Mod Menu/Cloth, detección de Iris, API pública documentada y dataset separado de aspectos de compatibilidad moderna para objetos de 26.3 (`modern_*`, AD-14).
 - **Dependencias satisfechas:** todo el contenido y los datos de research estables.
 - **Qué debe poder probarse:** matriz de shaders verificada; recetas visibles en el visor elegido.
 - **Riesgos:** R3 (rendering en drops futuros), R14 (visores cambiantes).

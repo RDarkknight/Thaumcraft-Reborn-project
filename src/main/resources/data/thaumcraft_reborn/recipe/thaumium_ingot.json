@@ -1,0 +1,12 @@
+{
+  "type": "thaumcraft_reborn:crucible",
+  "result": {
+    "id": "thaumcraft_reborn:ingot_thaumium"
+  },
+  "catalyst": "#c:ingots/iron",
+  "aspects": {
+    "thaumcraft_reborn:praecantatio": 5,
+    "thaumcraft_reborn:terra": 5
+  },
+  "research": "METALLURGY@2"
+}

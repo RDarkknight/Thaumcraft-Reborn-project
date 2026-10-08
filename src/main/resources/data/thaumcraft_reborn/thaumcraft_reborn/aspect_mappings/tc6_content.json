@@ -1,0 +1,276 @@
+{
+  "entries": [
+    {
+      "item": "thaumcraft_reborn:amber",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 10,
+        "thaumcraft_reborn:vitreus": 10
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:amber_block",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 30,
+        "thaumcraft_reborn:vitreus": 30
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:amber_brick",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 22,
+        "thaumcraft_reborn:vitreus": 22
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:crystal_aer",
+      "aspects": {
+        "thaumcraft_reborn:aer": 15,
+        "thaumcraft_reborn:vitreus": 10
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:crystal_aqua",
+      "aspects": {
+        "thaumcraft_reborn:aqua": 15,
+        "thaumcraft_reborn:vitreus": 10
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:crystal_ignis",
+      "aspects": {
+        "thaumcraft_reborn:ignis": 15,
+        "thaumcraft_reborn:vitreus": 10
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:crystal_ordo",
+      "aspects": {
+        "thaumcraft_reborn:ordo": 15,
+        "thaumcraft_reborn:vitreus": 10
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:crystal_perditio",
+      "aspects": {
+        "thaumcraft_reborn:perditio": 15,
+        "thaumcraft_reborn:vitreus": 10
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:crystal_terra",
+      "aspects": {
+        "thaumcraft_reborn:terra": 15,
+        "thaumcraft_reborn:vitreus": 10
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:ingot_thaumium",
+      "aspects": {
+        "thaumcraft_reborn:metallum": 15,
+        "thaumcraft_reborn:praecantatio": 2,
+        "thaumcraft_reborn:terra": 2
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:leaves_greatwood",
+      "aspects": {
+        "thaumcraft_reborn:herba": 5
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:leaves_silverwood",
+      "aspects": {
+        "thaumcraft_reborn:herba": 5
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:log_greatwood",
+      "aspects": {
+        "thaumcraft_reborn:herba": 20,
+        "thaumcraft_reborn:victus": 5
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:log_silverwood",
+      "aspects": {
+        "thaumcraft_reborn:herba": 20,
+        "thaumcraft_reborn:auram": 5
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:metal_thaumium",
+      "aspects": {
+        "thaumcraft_reborn:metallum": 101,
+        "thaumcraft_reborn:praecantatio": 13,
+        "thaumcraft_reborn:terra": 13
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:nugget_thaumium",
+      "aspects": {
+        "thaumcraft_reborn:metallum": 1
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:nugget_quicksilver",
+      "aspects": {
+        "thaumcraft_reborn:metallum": 1
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:ore_amber",
+      "aspects": {
+        "thaumcraft_reborn:terra": 5,
+        "thaumcraft_reborn:vinculum": 10,
+        "thaumcraft_reborn:vitreus": 10
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:ore_cinnabar",
+      "aspects": {
+        "thaumcraft_reborn:terra": 5,
+        "thaumcraft_reborn:metallum": 10,
+        "thaumcraft_reborn:alkimia": 5,
+        "thaumcraft_reborn:mortuus": 5
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:ore_quartz",
+      "aspects": {
+        "thaumcraft_reborn:terra": 5,
+        "thaumcraft_reborn:vitreus": 10
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:plank_greatwood",
+      "aspects": {
+        "thaumcraft_reborn:herba": 3,
+        "thaumcraft_reborn:victus": 1
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:plank_silverwood",
+      "aspects": {
+        "thaumcraft_reborn:herba": 3,
+        "thaumcraft_reborn:auram": 1
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:quicksilver",
+      "aspects": {
+        "thaumcraft_reborn:metallum": 10,
+        "thaumcraft_reborn:mortuus": 5,
+        "thaumcraft_reborn:alkimia": 5
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:sapling_greatwood",
+      "aspects": {
+        "thaumcraft_reborn:herba": 15,
+        "thaumcraft_reborn:victus": 5
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:sapling_silverwood",
+      "aspects": {
+        "thaumcraft_reborn:herba": 15,
+        "thaumcraft_reborn:auram": 5
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:stone_arcane",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:stone_arcane_brick",
+      "aspects": {
+        "thaumcraft_reborn:terra": 2
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:thaumium_axe",
+      "aspects": {
+        "thaumcraft_reborn:metallum": 33,
+        "thaumcraft_reborn:praecantatio": 4,
+        "thaumcraft_reborn:terra": 4,
+        "thaumcraft_reborn:herba": 1
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:thaumium_hoe",
+      "aspects": {
+        "thaumcraft_reborn:metallum": 22,
+        "thaumcraft_reborn:praecantatio": 3,
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:herba": 1
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:thaumium_pick",
+      "aspects": {
+        "thaumcraft_reborn:metallum": 33,
+        "thaumcraft_reborn:praecantatio": 4,
+        "thaumcraft_reborn:terra": 4,
+        "thaumcraft_reborn:herba": 1
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:thaumium_shovel",
+      "aspects": {
+        "thaumcraft_reborn:metallum": 11,
+        "thaumcraft_reborn:praecantatio": 1,
+        "thaumcraft_reborn:terra": 1,
+        "thaumcraft_reborn:herba": 1
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:thaumium_sword",
+      "aspects": {
+        "thaumcraft_reborn:metallum": 22,
+        "thaumcraft_reborn:praecantatio": 3,
+        "thaumcraft_reborn:terra": 3
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:crystal_essence",
+      "aspects": {}
+    },
+    {
+      "item": "thaumcraft_reborn:thaumometer",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 10,
+        "thaumcraft_reborn:auram": 10,
+        "thaumcraft_reborn:metallum": 30,
+        "thaumcraft_reborn:desiderium": 30,
+        "thaumcraft_reborn:praecantatio": 3
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:goggles",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 25,
+        "thaumcraft_reborn:auram": 25,
+        "thaumcraft_reborn:bestia": 15,
+        "thaumcraft_reborn:praemunio": 15,
+        "thaumcraft_reborn:metallum": 60,
+        "thaumcraft_reborn:instrumentum": 7,
+        "thaumcraft_reborn:desiderium": 45,
+        "thaumcraft_reborn:praecantatio": 9
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:thaumonomicon_normal",
+      "aspects": {
+        "thaumcraft_reborn:cognitio": 17,
+        "thaumcraft_reborn:herba": 27,
+        "thaumcraft_reborn:aqua": 9,
+        "thaumcraft_reborn:aer": 4,
+        "thaumcraft_reborn:bestia": 6,
+        "thaumcraft_reborn:praemunio": 6,
+        "thaumcraft_reborn:praecantatio": 10
+      }
+    }
+  ]
+}

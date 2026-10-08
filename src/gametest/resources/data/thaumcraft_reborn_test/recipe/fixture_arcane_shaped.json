@@ -1,0 +1,16 @@
+{
+  "type": "thaumcraft_reborn:arcane_shaped",
+  "result": {
+    "id": "minecraft:diamond"
+  },
+  "ingredients": [
+    "minecraft:gold_ingot"
+  ],
+  "width": 1,
+  "height": 1,
+  "vis_cost": 5,
+  "crystal_components": [
+    "thaumcraft_reborn:crystal_aer"
+  ],
+  "research": "thaumcraft_reborn_test:fixture_main@1"
+}

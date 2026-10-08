@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": "thaumcraft_reborn:amber_block"
+  },
+  "pattern": [
+    "B"
+  ],
+  "result": {
+    "count": 4,
+    "id": "thaumcraft_reborn:amber"
+  }
+}
