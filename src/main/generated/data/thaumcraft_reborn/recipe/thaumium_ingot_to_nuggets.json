@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "I": "thaumcraft_reborn:ingot_thaumium"
+  },
+  "pattern": [
+    "I"
+  ],
+  "result": {
+    "count": 9,
+    "id": "thaumcraft_reborn:nugget_thaumium"
+  }
+}

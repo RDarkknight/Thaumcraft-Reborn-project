@@ -11,6 +11,7 @@ public final class ContentBootstrap {
 	}
 
 	public static void init() {
+		ThaumcraftContent.init();
 		DebugContent.init();
 		DebugContainerMenu.init();
 		DebugData.init();

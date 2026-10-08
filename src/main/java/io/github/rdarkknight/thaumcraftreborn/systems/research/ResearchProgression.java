@@ -11,6 +11,7 @@ import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchFlag;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchMeta;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchReference;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchRequirement;
+import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchReference;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchStage;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchStatus;
 import io.github.rdarkknight.thaumcraftreborn.api.research.WarpType;
@@ -18,6 +19,7 @@ import io.github.rdarkknight.thaumcraftreborn.core.config.ThaumcraftConfig;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Set;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -76,6 +78,14 @@ public final class ResearchProgression {
 		return entry.get().parents().stream().allMatch(parent -> parent.stage().isPresent()
 				? knowledge.isResearchKnown(parent)
 				: knowledge.isResearchComplete(parent.key()));
+	}
+
+	public static boolean isUnlocked(Player player, Identifier key, OptionalInt stage) {
+		PlayerKnowledge knowledge = KnowledgeAccess.get().knowledge(player);
+		if (stage.isPresent()) {
+			return knowledge.isResearchKnown(new ResearchReference(key, stage, false));
+		}
+		return knowledge.isResearchComplete(key);
 	}
 
 	private static boolean completeResearch(

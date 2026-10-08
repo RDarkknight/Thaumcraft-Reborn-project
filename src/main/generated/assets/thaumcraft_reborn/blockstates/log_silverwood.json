@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "thaumcraft_reborn:block/log_silverwood"
+      }
+    ]
+  }
+}

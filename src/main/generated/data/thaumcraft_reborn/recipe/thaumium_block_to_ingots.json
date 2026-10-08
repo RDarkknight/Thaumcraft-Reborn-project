@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": "thaumcraft_reborn:metal_thaumium"
+  },
+  "pattern": [
+    "B"
+  ],
+  "result": {
+    "count": 9,
+    "id": "thaumcraft_reborn:ingot_thaumium"
+  }
+}

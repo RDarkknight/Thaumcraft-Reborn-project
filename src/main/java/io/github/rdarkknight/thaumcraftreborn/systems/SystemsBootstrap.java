@@ -10,6 +10,7 @@ import io.github.rdarkknight.thaumcraftreborn.systems.aura.ChunkAuraAccess;
 import io.github.rdarkknight.thaumcraftreborn.systems.knowledge.AttachedKnowledgeAccess;
 import io.github.rdarkknight.thaumcraftreborn.systems.research.ResearchIndex;
 import io.github.rdarkknight.thaumcraftreborn.systems.research.ResearchProgression;
+import io.github.rdarkknight.thaumcraftreborn.systems.recipe.RecipeSystems;
 
 public final class SystemsBootstrap {
 	private SystemsBootstrap() {
@@ -23,6 +24,9 @@ public final class SystemsBootstrap {
 		KnowledgeAccess.install(AttachedKnowledgeAccess.INSTANCE);
 		ResearchIndex.init();
 		ResearchProgression.init();
+		RecipeSystems.init();
+		CrystalGrowth.init();
 		AuraSystems.init();
+		ThaumcraftWorldgen.init();
 	}
 }

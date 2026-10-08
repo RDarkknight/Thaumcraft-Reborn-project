@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": "thaumcraft_reborn:crystal_essence",
+    "S": "minecraft:stone"
+  },
+  "pattern": [
+    "SSS",
+    "SCS",
+    "SSS"
+  ],
+  "result": {
+    "count": 9,
+    "id": "thaumcraft_reborn:stone_arcane"
+  }
+}
