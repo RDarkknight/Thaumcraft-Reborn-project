@@ -1,0 +1,50 @@
+{
+  "name": "research.thaumcraft_reborn.centrifuge.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:centrifuge",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:tubes"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.centrifuge.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.centrifuge.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:centrifuge"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    7,
+    -4
+  ],
+  "addenda": []
+}

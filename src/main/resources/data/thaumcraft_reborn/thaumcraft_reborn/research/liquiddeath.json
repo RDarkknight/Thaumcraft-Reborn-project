@@ -1,0 +1,47 @@
+{
+  "name": "research.thaumcraft_reborn.liquiddeath.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/item/bucket_death"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:hedgealchemy"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.liquiddeath.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        }
+      ],
+      "required_research": [],
+      "warp": 3
+    },
+    {
+      "text": "research.thaumcraft_reborn.liquiddeath.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:liquid_death"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -4,
+    2
+  ],
+  "addenda": []
+}

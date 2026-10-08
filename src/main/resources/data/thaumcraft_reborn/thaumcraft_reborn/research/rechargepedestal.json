@@ -1,0 +1,50 @@
+{
+  "name": "research.thaumcraft_reborn.rechargepedestal.title",
+  "category": "thaumcraft_reborn:auromancy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:recharge_pedestal",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:baseauromancy"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.rechargepedestal.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:auromancy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.rechargepedestal.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:rechargepedestal"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -3,
+    2
+  ],
+  "addenda": []
+}

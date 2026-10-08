@@ -1,0 +1,62 @@
+{
+  "name": "research.thaumcraft_reborn.mindbiothaumic.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:mind_biothaumic",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:mindclockwork",
+    "thaumcraft_reborn:infusion"
+  ],
+  "siblings": [],
+  "meta": [
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.mindbiothaumic.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:artifice"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:f_brain"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.mindbiothaumic.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:mind_biothaumic"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 3
+    }
+  ],
+  "location": [
+    0,
+    7
+  ],
+  "addenda": []
+}

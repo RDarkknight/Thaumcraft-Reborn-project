@@ -1,0 +1,87 @@
+{
+  "name": "research.thaumcraft_reborn.tubes.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:tube",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:wardedjars"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.tubes.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:phial_filled",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:phial_filled",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:phial_filled",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:phial_filled",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:artifice"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.tubes.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:resonator",
+        "thaumcraft_reborn:tube",
+        "thaumcraft_reborn:tube_valve",
+        "thaumcraft_reborn:tube_filter",
+        "thaumcraft_reborn:tube_restrict",
+        "thaumcraft_reborn:tube_oneway",
+        "thaumcraft_reborn:tube_buffer",
+        "thaumcraft_reborn:alchemical_construct"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    6,
+    -2
+  ],
+  "addenda": []
+}

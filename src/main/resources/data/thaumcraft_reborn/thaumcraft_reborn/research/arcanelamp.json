@@ -1,0 +1,54 @@
+{
+  "name": "research.thaumcraft_reborn.arcanelamp.title",
+  "category": "thaumcraft_reborn:artifice",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:lamp_arcane",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:baseartifice"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.arcanelamp.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:artifice"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/lux"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.arcanelamp.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:arcane_lamp"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -3,
+    0
+  ],
+  "addenda": []
+}

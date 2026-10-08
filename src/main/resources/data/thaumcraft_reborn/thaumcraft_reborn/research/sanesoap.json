@@ -1,0 +1,55 @@
+{
+  "name": "research.thaumcraft_reborn.sanesoap.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:sanity_soap",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:bathsalts"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.sanesoap.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:eldritch"
+        },
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.sanesoap.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:sane_soap"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -3,
+    -4
+  ],
+  "addenda": []
+}

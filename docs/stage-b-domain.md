@@ -176,246 +176,179 @@ Se conservó el predicado de creeper `{powered:1b}` porque el campo mantiene su 
 
 Los mappings de `Thaumcraft.*` se difieren a C; el detalle por callsite está en `/home/ubuntu/stage-b/convert/report.md`.
 
-#### requiere decisión: valores finales explícitos
+## Research TC6
 
-`registerComplexObjectTag` puede combinar aspectos derivados de recetas con una parte explícita. No se emitió ninguno de estos valores ni se evaluaron recetas; la tabla conserva cada target y sólo la operación/aspectos explícitos de TC6 para una decisión posterior.
+Se convirtieron los ocho archivos fuente (alchemy 22, artifice 20, auromancy 23, basics 20, eldritch 5, golemancy 29, infusion 17 y scans 12): **148 entradas**, más las siete categorías ya definidas. IDs y referencias se pasan a minúsculas y namespace `thaumcraft_reborn`; se conservan `@N` y `~`. Names/title y stages son claves `research.thaumcraft_reborn.<key>.title` y `research.thaumcraft_reborn.<key>.stage.N`; no se copian textos, texturas ni assets TC6. Los IDs de recetas y texturas son referencias nuevas; recetas aún no registradas no bloquean el decode.
 
-| Línea | Target TC6/vanilla | Parte explícita (no emitida) |
+Los campos de ítem usan `ItemReference` (`"item": "namespace:id"` o `{"item":"namespace:id","count":N,"components":{...}}`). El tipo retiene IDs aún no registrados y sólo resuelve `ItemStack` en el punto de uso. Es necesario porque Minecraft 26.3 enlaza los componentes de ítems después de terminar los reload listeners; `ItemStack.CODEC` no puede decodificarlos durante ese reload. Requisitos sin resolver no coinciden, recompensas sin resolver se omiten e iconos permanecen sin resolver; el índice cuenta ocurrencias e informa una vez por ID desconocido por reload.
+
+Los `!` no son negación. Se clasificaron 61 claves: 5 flags/eventos, 28 claves de scans y 28 claves de aspecto. De ellas, 4 no aparecen como entradas/referencias en los ocho JSON fuente y sólo existen en el código Java: `!ORBLOCK3`, `!ORBOSS`, `!ORMOB`, `!gotcrystals`. Las claves Java encontradas sin clasificación son 0.
+
+| TC6 key | New key | Class | TC6 granting code |
+|---|---|---|---|
+| `!BATHSALTS` | `thaumcraft_reborn:flag/bath_salts` | event flag | `WarpEvents.java:223-225` |
+| `!BrainyZombie` | `thaumcraft_reborn:scan/brainy_zombie` | scan key | `ConfigResearch.java:256 (ScanEntity)` |
+| `!CrimsonCultist` | `thaumcraft_reborn:scan/crimson_cultist` | scan key | `ConfigResearch.java:259 (ScanEntity)` |
+| `!DRAGONBREATH` | `thaumcraft_reborn:scan/dragon_breath` | scan key | `ConfigResearch.java:332 (ScanGeneric)` |
+| `!EldritchCrab` | `thaumcraft_reborn:scan/eldritch_crab` | scan key | `ConfigResearch.java:257 (ScanEntity)` |
+| `!EldritchGuardian` | `thaumcraft_reborn:scan/eldritch_guardian` | scan key | `ConfigResearch.java:260 (ScanEntity)` |
+| `!Firebat` | `thaumcraft_reborn:scan/firebat` | scan key | `ConfigResearch.java:254 (ScanEntity)` |
+| `!FluxRift` | `thaumcraft_reborn:scan/flux_rift` | scan key | `ConfigResearch.java:266 (ScanEntity)` |
+| `!INSTABILITY` | `thaumcraft_reborn:flag/instability` | event flag | `TileInfusionMatrix.java:680-681` |
+| `!ORBLOCK1` | `thaumcraft_reborn:scan/or_block_1` | scan key | `ConfigResearch.java:281 (ScanBlock)` |
+| `!ORBLOCK2` | `thaumcraft_reborn:scan/or_block_2` | scan key | `ConfigResearch.java:282 (ScanBlock)` |
+| `!ORBLOCK3` | `thaumcraft_reborn:scan/or_block_3` | scan key | `ConfigResearch.java:283 (ScanBlock)` |
+| `!ORBOSS` | `thaumcraft_reborn:scan/or_boss` | scan key | `ConfigResearch.java:280 (ScanEntity)` |
+| `!OREAMBER` | `thaumcraft_reborn:scan/ore_amber` | scan key | `ConfigResearch.java:298 (ScanBlock)` |
+| `!ORECINNABAR` | `thaumcraft_reborn:scan/ore_cinnabar` | scan key | `ConfigResearch.java:299 (ScanBlock)` |
+| `!ORECRYSTAL` | `thaumcraft_reborn:scan/ore_crystal` | scan key | `ConfigResearch.java:302 (ScanGeneric)` |
+| `!ORMOB` | `thaumcraft_reborn:scan/or_mob` | scan key | `ConfigResearch.java:279 (ScanEntity)` |
+| `!PLANTCINDERPEARL` | `thaumcraft_reborn:scan/plant_cinder_pearl` | scan key | `ConfigResearch.java:328 (ScanBlock)` |
+| `!PLANTSHIMMERLEAF` | `thaumcraft_reborn:scan/plant_shimmerleaf` | scan key | `ConfigResearch.java:329 (ScanBlock)` |
+| `!PLANTVISHROOM` | `thaumcraft_reborn:scan/plant_vishroom` | scan key | `ConfigResearch.java:330 (ScanBlock)` |
+| `!PLANTWOOD` | `thaumcraft_reborn:scan/plant_wood` | scan key | `ConfigResearch.java:324 (ScanBlock)` |
+| `!Pech` | `thaumcraft_reborn:scan/pech` | scan key | `ConfigResearch.java:255 (ScanEntity)` |
+| `!Pechwand` | `thaumcraft_reborn:scan/pech_wand` | scan key | `ConfigResearch.java:352 (ScanGeneric)` |
+| `!TOTEMUNDYING` | `thaumcraft_reborn:scan/totem_undying` | scan key | `ConfigResearch.java:333 (ScanGeneric)` |
+| `!TaintCrawler` | `thaumcraft_reborn:scan/taint_crawler` | scan key | `ConfigResearch.java:261 (ScanEntity)` |
+| `!TaintSeed` | `thaumcraft_reborn:scan/taint_seed` | scan key | `ConfigResearch.java:263 (ScanEntity)` |
+| `!TaintSwarm` | `thaumcraft_reborn:scan/taint_swarm` | scan key | `ConfigResearch.java:264 (ScanEntity)` |
+| `!Taintacle` | `thaumcraft_reborn:scan/taintacle` | scan key | `ConfigResearch.java:262 (ScanEntity)` |
+| `!ThaumSlime` | `thaumcraft_reborn:scan/thaum_slime` | scan key | `ConfigResearch.java:253 (ScanEntity)` |
+| `!Wisp` | `thaumcraft_reborn:scan/wisp` | scan key | `ConfigResearch.java:252 (ScanEntity)` |
+| `!aer` | `thaumcraft_reborn:scan/aspect/aer` | aspect scan key | `GuiResearchPage.java:492` |
+| `!alkimia` | `thaumcraft_reborn:scan/aspect/alkimia` | aspect scan key | `GuiResearchPage.java:492` |
+| `!auram` | `thaumcraft_reborn:scan/aspect/auram` | aspect scan key | `GuiResearchPage.java:492` |
+| `!aversio` | `thaumcraft_reborn:scan/aspect/aversio` | aspect scan key | `GuiResearchPage.java:492` |
+| `!bestia` | `thaumcraft_reborn:scan/aspect/bestia` | aspect scan key | `GuiResearchPage.java:492` |
+| `!cognitio` | `thaumcraft_reborn:scan/aspect/cognitio` | aspect scan key | `GuiResearchPage.java:492` |
+| `!desiderium` | `thaumcraft_reborn:scan/aspect/desiderium` | aspect scan key | `GuiResearchPage.java:492` |
+| `!fabrico` | `thaumcraft_reborn:scan/aspect/fabrico` | aspect scan key | `GuiResearchPage.java:492` |
+| `!gelum` | `thaumcraft_reborn:scan/aspect/gelum` | aspect scan key | `GuiResearchPage.java:492` |
+| `!gotcrystals` | `thaumcraft_reborn:flag/got_crystals` | event flag | `PlayerEvents.java:137-139` |
+| `!gotdream` | `thaumcraft_reborn:flag/got_dream` | event flag | `PlayerEvents.java:141-166` |
+| `!gotthaumonomicon` | `thaumcraft_reborn:flag/got_thaumonomicon` | event flag | `PlayerEvents.java:146-148` |
+| `!herba` | `thaumcraft_reborn:scan/aspect/herba` | aspect scan key | `GuiResearchPage.java:492` |
+| `!ignis` | `thaumcraft_reborn:scan/aspect/ignis` | aspect scan key | `GuiResearchPage.java:492` |
+| `!instrumentum` | `thaumcraft_reborn:scan/aspect/instrumentum` | aspect scan key | `GuiResearchPage.java:492` |
+| `!lux` | `thaumcraft_reborn:scan/aspect/lux` | aspect scan key | `GuiResearchPage.java:492` |
+| `!machina` | `thaumcraft_reborn:scan/aspect/machina` | aspect scan key | `GuiResearchPage.java:492` |
+| `!mortuus` | `thaumcraft_reborn:scan/aspect/mortuus` | aspect scan key | `GuiResearchPage.java:492` |
+| `!motus` | `thaumcraft_reborn:scan/aspect/motus` | aspect scan key | `GuiResearchPage.java:492` |
+| `!perditio` | `thaumcraft_reborn:scan/aspect/perditio` | aspect scan key | `GuiResearchPage.java:492` |
+| `!permutatio` | `thaumcraft_reborn:scan/aspect/permutatio` | aspect scan key | `GuiResearchPage.java:492` |
+| `!potentia` | `thaumcraft_reborn:scan/aspect/potentia` | aspect scan key | `GuiResearchPage.java:492` |
+| `!praecantatio` | `thaumcraft_reborn:scan/aspect/praecantatio` | aspect scan key | `GuiResearchPage.java:492` |
+| `!praemunio` | `thaumcraft_reborn:scan/aspect/praemunio` | aspect scan key | `GuiResearchPage.java:492` |
+| `!sensus` | `thaumcraft_reborn:scan/aspect/sensus` | aspect scan key | `GuiResearchPage.java:492` |
+| `!terra` | `thaumcraft_reborn:scan/aspect/terra` | aspect scan key | `GuiResearchPage.java:492` |
+| `!vacuos` | `thaumcraft_reborn:scan/aspect/vacuos` | aspect scan key | `GuiResearchPage.java:492` |
+| `!victus` | `thaumcraft_reborn:scan/aspect/victus` | aspect scan key | `GuiResearchPage.java:492` |
+| `!vinculum` | `thaumcraft_reborn:scan/aspect/vinculum` | aspect scan key | `GuiResearchPage.java:492` |
+| `!vitium` | `thaumcraft_reborn:scan/aspect/vitium` | aspect scan key | `GuiResearchPage.java:492` |
+| `!volatus` | `thaumcraft_reborn:scan/aspect/volatus` | aspect scan key | `GuiResearchPage.java:492` |
+
+Conversión no equivalente pendiente de decisión/Stage C (no se inventaron componentes): los NBT legacy de `crystal_essence`, `phial` y `enchanted_placeholder`; IDs sin fila en `docs/id-mapping.md` (`thaumcraft:leather`, `thaumcraft:metal`, `thaumcraft:nitor`, `thaumcraft:arcane_stone`); el mapeo del oredict `chest` se usa como `c:chests`; y los iconos legacy `focus:thaumcraft.*` se conservan como referencias `ItemReference` no resueltas tras normalizar el path a minúsculas, sin afirmar que sean ítems equivalentes. Los detalles por ocurrencia están en `/home/ubuntu/stage-b/convert/research-conversion.tsv`.
+
+## `registerComplexObjectTag`: resultados pendientes de reproducción exacta
+
+**Decisión tomada:** las llamadas deben convertirse en mappings estáticos con los valores finales de TC6; no se incorpora un API de derivación de recetas ni derivación en runtime. **Estado:** 94 llamadas auditadas, 0 valores emitidos, 10 targets TC6 diferidos a Stage C y 84 targets vanilla pendientes. **Método pendiente:** volcado desde el runtime real de TC6, instrumentando `AspectEventProxy.registerComplexObjectTag` en orden durante `ConfigAspects.postInit` y antes de `ConfigRecipes.postAspects`. Las recetas añadidas por `ConfigRecipes.postAspects` se excluyen. La carpeta de recetas JSON no está presente en el source proporcionado; los registros TC6 relevantes están en Java. Los resultados aproximados previos se descartaron; no se añade nada a `tc6_vanilla_items.json` hasta obtener el volcado.
+
+| Línea | Target TC6 (expresión de fuente) | Parte explícita |
 |---:|---|---|
-| 262 | `Blocks.field_192443_dR` (`minecraft:concrete`, metadata wildcard; 16 colores flattening) | copiar `Blocks.field_192444_dS`; sumar `aqua 1`, `ordo 1` |
-| 363 | `Blocks.field_150440_ba` (`minecraft:melon_block`, wildcard) | sumar `herba 10`; quitar `victus 5` |
-| 369 | `Items.field_151102_aT` (`minecraft:sugar`) | sumar `desiderium 1`, `potentia 1` |
-| 370 | `Items.field_151105_aU` (`minecraft:cake`) | sumar `desiderium 1`, `victus 2` |
-| 371 | `Items.field_151158_bO` (`minecraft:pumpkin_pie`) | sumar `desiderium 1`, `victus 2` |
-| 397 | `Items.field_151106_aX` (`minecraft:cookie`, wildcard) | sumar `desiderium 1` |
-| 399 | `Blocks.field_150478_aa` (`minecraft:torch`, wildcard) | sumar `lux 5` |
-| 485 | `Items.field_151066_bu` (`minecraft:cauldron`) | sumar `alkimia 15` |
-| 486 | `Items.field_151071_bq` (`minecraft:fermented_spider_eye`) | sumar `alkimia 5` |
-| 487 | `Items.field_151065_br` (`minecraft:blaze_powder`) | sumar `alkimia 5` |
-| 488 | `Items.field_151060_bw` (`minecraft:speckled_melon` → `minecraft:glistering_melon_slice`) | sumar `alkimia 5` |
-| 489 | `Items.field_151064_bs` (`minecraft:magma_cream`) | sumar `alkimia 5` |
-| 550 | `Items.field_151121_aF` (`minecraft:paper`) | sumar `cognitio 2` |
-| 551 | `Items.field_151134_bR` (`minecraft:enchanted_book`) | copiar `Items.field_151122_aG` |
-| 552 | `Blocks.field_150342_X` (`minecraft:bookshelf`) | sumar `cognitio 8` |
-| 575 | `Blocks.field_150486_ae` (`minecraft:chest`, wildcard) | sumar `vacuos 15` |
-| 576 | `Blocks.field_150447_bR` (`minecraft:trapped_chest`, wildcard) | sumar `vinculum 10` |
-| 577 | `Items.field_151061_bv` (`minecraft:ender_eye`) | sumar `sensus 10`, `praecantatio 5` |
-| 578 | `Items.field_151032_g` (`minecraft:arrow`) | sumar `aversio 5` |
-| 579 | `Items.field_151069_bo` (`minecraft:glass_bottle`) | sumar `vacuos 5` |
-| 580 | `Items.field_151153_ao` (`minecraft:golden_apple`, metadata 0) | sumar `praecantatio 5`, `victus 10` |
-| 581 | `Items.field_151153_ao` (`minecraft:golden_apple`, metadata 1 → `minecraft:enchanted_golden_apple`) | sumar `praecantatio 5`, `victus 15`, `praemunio 15` |
-| 584 | `Items.field_151054_z` (`minecraft:bowl`) | sumar `vacuos 5` |
-| 585 | `Items.field_151009_A` (`minecraft:mushroom_stew`) | sumar `victus 5` |
-| 586 | `Items.field_151143_au` (`minecraft:minecart`) | sumar `motus 15` |
-| 587 | `Items.field_151139_aw` (`minecraft:iron_door`) | sumar `vinculum 5`, `machina 5` |
-| 588 | `Items.field_179572_au` (`minecraft:acacia_door`) | sumar `vinculum 5`, `machina 5` |
-| 589 | `Items.field_179571_av` (`minecraft:dark_oak_door`) | sumar `vinculum 5`, `machina 5` |
-| 590 | `Items.field_179567_at` (`minecraft:jungle_door`) | sumar `vinculum 5`, `machina 5` |
-| 591 | `Items.field_179570_aq` (`minecraft:oak_door`) | sumar `vinculum 5`, `machina 5` |
-| 592 | `Items.field_179569_ar` (`minecraft:spruce_door`) | sumar `vinculum 5`, `machina 5` |
-| 593 | `Items.field_179568_as` (`minecraft:birch_door`) | sumar `vinculum 5`, `machina 5` |
-| 594 | `Items.field_151124_az` (`minecraft:boat` → `minecraft:oak_boat`) | sumar `aqua 10`, `motus 15` |
-| 595 | `Items.field_185153_aK` (`minecraft:acacia_boat`) | sumar `aqua 10`, `motus 15` |
-| 596 | `Items.field_185151_aI` (`minecraft:birch_boat`) | sumar `aqua 10`, `motus 15` |
-| 597 | `Items.field_185154_aL` (`minecraft:dark_oak_boat`) | sumar `aqua 10`, `motus 15` |
-| 598 | `Items.field_185152_aJ` (`minecraft:jungle_boat`) | sumar `aqua 10`, `motus 15` |
-| 599 | `Items.field_185150_aH` (`minecraft:spruce_boat`) | sumar `aqua 10`, `motus 15` |
-| 600 | `Items.field_151033_d` (`minecraft:flint_and_steel`, wildcard) | sumar `ignis 10`, `instrumentum 5` |
-| 601 | `Items.field_151112_aM` (`minecraft:fishing_rod`, wildcard) | sumar `aqua 10`, `instrumentum 5` |
-| 602 | `Items.field_185159_cQ` (`minecraft:shield`, wildcard) | sumar `praemunio 20` |
-| 609 | `sis` (target construido dinámicamente) | merge `praemunio 20` |
-| 612 | `Items.field_185166_h` (`minecraft:spectral_arrow`, wildcard) | sumar `sensus 10`, `praecantatio 5` |
-| 613 | `Items.field_151133_ar` (`minecraft:bucket`) | sumar `vacuos 5` |
-| 623 | `Items.field_151067_bt` (`minecraft:brewing_stand`) | sumar `fabrico 15`, `alkimia 25` |
-| 624 | `Blocks.field_150430_aB` (`minecraft:stone_button`) | sumar `machina 5` |
-| 625 | `Blocks.field_150448_aq` (`minecraft:rail`, wildcard) | sumar `motus 10` |
-| 626 | `Blocks.field_150319_E` (`minecraft:detector_rail`, wildcard) | sumar `machina 5`, `sensus 1` |
-| 627 | `Blocks.field_150318_D` (`minecraft:golden_rail` → `minecraft:powered_rail`, wildcard) | sumar `machina 5`, `potentia 1` |
-| 628 | `Blocks.field_150408_cc` (`minecraft:activator_rail`, wildcard) | sumar `machina 5` |
-| 629 | `Blocks.field_180387_bt` (`minecraft:acacia_fence_gate`, wildcard) | sumar `vinculum 5`, `machina 5` |
-| 630 | `Blocks.field_180385_bs` (`minecraft:dark_oak_fence_gate`, wildcard) | sumar `vinculum 5`, `machina 5` |
-| 631 | `Blocks.field_180386_br` (`minecraft:jungle_fence_gate`, wildcard) | sumar `vinculum 5`, `machina 5` |
-| 632 | `Blocks.field_180385_bs` (`minecraft:dark_oak_fence_gate`, wildcard; duplicate call) | sumar `vinculum 5`, `machina 5` |
-| 633 | `Blocks.field_180391_bp` (`minecraft:spruce_fence_gate`, wildcard) | sumar `vinculum 5`, `machina 5` |
-| 634 | `Blocks.field_180392_bq` (`minecraft:birch_fence_gate`, wildcard) | sumar `vinculum 5`, `machina 5` |
-| 635 | `Blocks.field_150452_aw` (`minecraft:wooden_pressure_plate` → `minecraft:oak_pressure_plate`, wildcard) | sumar `machina 5`, `sensus 5` |
-| 636 | `Blocks.field_150456_au` (`minecraft:stone_pressure_plate`, wildcard) | sumar `machina 5`, `sensus 5` |
-| 637 | `Blocks.field_150445_bS` (`minecraft:light_weighted_pressure_plate`, wildcard) | sumar `machina 5`, `sensus 5` |
-| 638 | `Blocks.field_150443_bT` (`minecraft:heavy_weighted_pressure_plate`, wildcard) | sumar `machina 5`, `sensus 5` |
-| 639 | `Blocks.field_150442_at` (`minecraft:lever`, wildcard) | sumar `machina 5` |
-| 640 | `Blocks.field_150331_J` (`minecraft:piston`, wildcard) | sumar `machina 10`, `motus 10` |
-| 641 | `Blocks.field_150320_F` (`minecraft:sticky_piston`, wildcard) | sumar `machina 10`, `motus 10` |
-| 642 | `Blocks.field_150421_aI` (`minecraft:jukebox`) | sumar `sensus 20`, `machina 10`, `aer 15` |
-| 645 | `Blocks.field_150323_B` (`minecraft:noteblock` → `minecraft:note_block`) | sumar `sensus 20`, `machina 10`, `aer 15` |
-| 648 | `Blocks.field_150415_aT` (`minecraft:trapdoor` → `minecraft:oak_trapdoor`, wildcard) | sumar `motus 5` |
-| 649 | `Blocks.field_150460_al` (`minecraft:furnace`, wildcard) | sumar `ignis 10` |
-| 650 | `Blocks.field_150381_bn` (`minecraft:enchanting_table`) | sumar `praecantatio 25`, `fabrico 15` |
-| 651 | `Blocks.field_150462_ai` (`minecraft:crafting_table`) | sumar `fabrico 20` |
-| 652 | `Items.field_151113_aN` (`minecraft:clock`) | sumar `machina 10` |
-| 653 | `Blocks.field_150461_bJ` (`minecraft:beacon`) | sumar `auram 10`, `praecantatio 10`, `permutatio 10` |
-| 656 | `Blocks.field_150471_bO` (`minecraft:wooden_button` → `minecraft:oak_button`, wildcard) | sumar `machina 5` |
-| 657 | `Items.field_151146_bM` (`minecraft:carrot_on_a_stick`, wildcard) | sumar `motus 5`, `desiderium 10` |
-| 658 | `Items.field_151162_bE` (`minecraft:flower_pot`) | sumar `vacuos 5`, `herba 5` |
-| 659 | `Items.field_151150_bK` (`minecraft:golden_carrot`) | sumar `sensus 10`, `alkimia 5` |
-| 660 | `Blocks.field_150477_bB` (`minecraft:ender_chest`, wildcard) | merge `permutatio 10`, `motus 10`, `vacuos 20` |
-| 663 | `Items.field_151132_bS` (`minecraft:comparator`, wildcard) | merge `machina 15`, `ordo 5`, `sensus 5` |
-| 666 | `Items.field_151107_aW` (`minecraft:repeater`, wildcard) | merge `machina 15`, `potentia 10` |
-| 669 | `Blocks.field_150438_bZ` (`minecraft:hopper`, wildcard) | merge `machina 5`, `permutatio 10`, `vacuos 5` |
-| 672 | `Blocks.field_150409_cd` (`minecraft:dropper`, wildcard) | merge `machina 5`, `permutatio 10`, `vacuos 5` |
-| 675 | `Blocks.field_150367_z` (`minecraft:dispenser`, wildcard) | merge `machina 5`, `permutatio 10`, `vacuos 5` |
-| 681 | `Blocks.field_150473_bD` (`minecraft:tripwire`, wildcard) | merge `sensus 5`, `machina 5`, `vinculum 5` |
-| 684 | `Blocks.field_150453_bW` (`minecraft:daylight_detector`, wildcard) | merge `sensus 10`, `lux 10`, `machina 5` |
-| 687 | `gear*` (target oredict) | sumar `machina 5` |
-| 712 | `BlocksTC.tableWood` (diferido a C) | sumar `instrumentum 1` |
-| 713 | `BlocksTC.tableStone` (diferido a C) | sumar `instrumentum 1` |
-| 793 | `ca` (target dinámico fuera del alcance vanilla) | sumar `lux 5` |
-| 799 | `BlocksTC.pedestalArcane` (diferido a C) | sumar `praecantatio 3`, `aer 3` |
-| 800 | `BlocksTC.pedestalAncient` (diferido a C) | sumar `praecantatio 3`, `alienis 3` |
-| 801 | `BlocksTC.pedestalEldritch` (diferido a C) | sumar `praecantatio 3`, `alienis 3` |
-| 802 | `ItemsTC.thaumometer` (diferido a C) | sumar `sensus 10`, `auram 10` |
-| 803 | `ItemsTC.goggles` (diferido a C) | merge `sensus 10`, `auram 10` |
-| 804 | `BlocksTC.arcaneEar` (diferido a C) | sumar `sensus 20` |
-| 842 | `ca` (target dinámico fuera del alcance vanilla) | sumar `alienis 5` |
+| 262 | `new ItemStack(Blocks.field_192443_dR, 1, 32767)` | `new AspectList(new ItemStack(Blocks.field_192444_dS)).add(Aspect.WATER, 1).add(Aspect.ORDER, 1)` |
+| 363 | `new ItemStack(Blocks.field_150440_ba, 1, 32767)` | `new AspectList().add(Aspect.PLANT, 10).remove(Aspect.LIFE, 5)` |
+| 369 | `new ItemStack(Items.field_151102_aT)` | `new AspectList().add(Aspect.DESIRE, 1).add(Aspect.ENERGY, 1)` |
+| 370 | `new ItemStack(Items.field_151105_aU)` | `new AspectList().add(Aspect.DESIRE, 1).add(Aspect.LIFE, 2)` |
+| 371 | `new ItemStack(Items.field_151158_bO)` | `new AspectList().add(Aspect.DESIRE, 1).add(Aspect.LIFE, 2)` |
+| 397 | `new ItemStack(Items.field_151106_aX, 1, 32767)` | `new AspectList().add(Aspect.DESIRE, 1)` |
+| 399 | `new ItemStack(Blocks.field_150478_aa, 1, 32767)` | `new AspectList().add(Aspect.LIGHT, 5)` |
+| 485 | `new ItemStack(Items.field_151066_bu)` | `new AspectList().add(Aspect.ALCHEMY, 15)` |
+| 486 | `new ItemStack(Items.field_151071_bq)` | `new AspectList().add(Aspect.ALCHEMY, 5)` |
+| 487 | `new ItemStack(Items.field_151065_br)` | `new AspectList().add(Aspect.ALCHEMY, 5)` |
+| 488 | `new ItemStack(Items.field_151060_bw)` | `new AspectList().add(Aspect.ALCHEMY, 5)` |
+| 489 | `new ItemStack(Items.field_151064_bs)` | `new AspectList().add(Aspect.ALCHEMY, 5)` |
+| 550 | `new ItemStack(Items.field_151121_aF)` | `new AspectList().add(Aspect.MIND, 2)` |
+| 551 | `new ItemStack(Items.field_151134_bR)` | `new AspectList(new ItemStack(Items.field_151122_aG))` |
+| 552 | `new ItemStack(Blocks.field_150342_X)` | `new AspectList().add(Aspect.MIND, 8)` |
+| 575 | `new ItemStack(Blocks.field_150486_ae, 1, 32767)` | `new AspectList().add(Aspect.VOID, 15)` |
+| 576 | `new ItemStack(Blocks.field_150447_bR, 1, 32767)` | `new AspectList().add(Aspect.TRAP, 10)` |
+| 577 | `new ItemStack(Items.field_151061_bv)` | `new AspectList().add(Aspect.SENSES, 10).add(Aspect.MAGIC, 5)` |
+| 578 | `new ItemStack(Items.field_151032_g)` | `new AspectList().add(Aspect.AVERSION, 5)` |
+| 579 | `new ItemStack(Items.field_151069_bo)` | `new AspectList().add(Aspect.VOID, 5)` |
+| 580 | `new ItemStack(Items.field_151153_ao, 1, 0)` | `new AspectList().add(Aspect.MAGIC, 5).add(Aspect.LIFE, 10)` |
+| 581 | `new ItemStack(Items.field_151153_ao, 1, 1)` | `new AspectList().add(Aspect.MAGIC, 5).add(Aspect.LIFE, 15).add(Aspect.PROTECT, 15)` |
+| 584 | `new ItemStack(Items.field_151054_z)` | `new AspectList().add(Aspect.VOID, 5)` |
+| 585 | `new ItemStack(Items.field_151009_A)` | `new AspectList().add(Aspect.LIFE, 5)` |
+| 586 | `new ItemStack(Items.field_151143_au)` | `new AspectList().add(Aspect.MOTION, 15)` |
+| 587 | `new ItemStack(Items.field_151139_aw)` | `new AspectList().add(Aspect.TRAP, 5).add(Aspect.MECHANISM, 5)` |
+| 588 | `new ItemStack(Items.field_179572_au)` | `new AspectList().add(Aspect.TRAP, 5).add(Aspect.MECHANISM, 5)` |
+| 589 | `new ItemStack(Items.field_179571_av)` | `new AspectList().add(Aspect.TRAP, 5).add(Aspect.MECHANISM, 5)` |
+| 590 | `new ItemStack(Items.field_179567_at)` | `new AspectList().add(Aspect.TRAP, 5).add(Aspect.MECHANISM, 5)` |
+| 591 | `new ItemStack(Items.field_179570_aq)` | `new AspectList().add(Aspect.TRAP, 5).add(Aspect.MECHANISM, 5)` |
+| 592 | `new ItemStack(Items.field_179569_ar)` | `new AspectList().add(Aspect.TRAP, 5).add(Aspect.MECHANISM, 5)` |
+| 593 | `new ItemStack(Items.field_179568_as)` | `new AspectList().add(Aspect.TRAP, 5).add(Aspect.MECHANISM, 5)` |
+| 594 | `new ItemStack(Items.field_151124_az)` | `new AspectList().add(Aspect.WATER, 10).add(Aspect.MOTION, 15)` |
+| 595 | `new ItemStack(Items.field_185153_aK)` | `new AspectList().add(Aspect.WATER, 10).add(Aspect.MOTION, 15)` |
+| 596 | `new ItemStack(Items.field_185151_aI)` | `new AspectList().add(Aspect.WATER, 10).add(Aspect.MOTION, 15)` |
+| 597 | `new ItemStack(Items.field_185154_aL)` | `new AspectList().add(Aspect.WATER, 10).add(Aspect.MOTION, 15)` |
+| 598 | `new ItemStack(Items.field_185152_aJ)` | `new AspectList().add(Aspect.WATER, 10).add(Aspect.MOTION, 15)` |
+| 599 | `new ItemStack(Items.field_185150_aH)` | `new AspectList().add(Aspect.WATER, 10).add(Aspect.MOTION, 15)` |
+| 600 | `new ItemStack(Items.field_151033_d, 1, 32767)` | `new AspectList().add(Aspect.FIRE, 10).add(Aspect.TOOL, 5)` |
+| 601 | `new ItemStack(Items.field_151112_aM, 1, 32767)` | `new AspectList().add(Aspect.WATER, 10).add(Aspect.TOOL, 5)` |
+| 602 | `new ItemStack(Items.field_185159_cQ, 1, 32767)` | `new AspectList().add(Aspect.PROTECT, 20)` |
+| 609 | `sis` | `new AspectList().merge(Aspect.PROTECT, 20)` |
+| 612 | `new ItemStack(Items.field_185166_h, 1, 32767)` | `new AspectList().add(Aspect.SENSES, 10).add(Aspect.MAGIC, 5)` |
+| 613 | `new ItemStack(Items.field_151133_ar)` | `new AspectList().add(Aspect.VOID, 5)` |
+| 623 | `new ItemStack(Items.field_151067_bt)` | `new AspectList().add(Aspect.CRAFT, 15).add(Aspect.ALCHEMY, 25)` |
+| 624 | `new ItemStack(Blocks.field_150430_aB)` | `new AspectList().add(Aspect.MECHANISM, 5)` |
+| 625 | `new ItemStack(Blocks.field_150448_aq, 1, 32767)` | `new AspectList().add(Aspect.MOTION, 10)` |
+| 626 | `new ItemStack(Blocks.field_150319_E, 1, 32767)` | `new AspectList().add(Aspect.MECHANISM, 5).add(Aspect.SENSES, 1)` |
+| 627 | `new ItemStack(Blocks.field_150318_D, 1, 32767)` | `new AspectList().add(Aspect.MECHANISM, 5).add(Aspect.ENERGY, 1)` |
+| 628 | `new ItemStack(Blocks.field_150408_cc, 1, 32767)` | `new AspectList().add(Aspect.MECHANISM, 5)` |
+| 629 | `new ItemStack(Blocks.field_180387_bt, 1, 32767)` | `new AspectList().add(Aspect.TRAP, 5).add(Aspect.MECHANISM, 5)` |
+| 630 | `new ItemStack(Blocks.field_180385_bs, 1, 32767)` | `new AspectList().add(Aspect.TRAP, 5).add(Aspect.MECHANISM, 5)` |
+| 631 | `new ItemStack(Blocks.field_180386_br, 1, 32767)` | `new AspectList().add(Aspect.TRAP, 5).add(Aspect.MECHANISM, 5)` |
+| 632 | `new ItemStack(Blocks.field_180385_bs, 1, 32767)` | `new AspectList().add(Aspect.TRAP, 5).add(Aspect.MECHANISM, 5)` |
+| 633 | `new ItemStack(Blocks.field_180391_bp, 1, 32767)` | `new AspectList().add(Aspect.TRAP, 5).add(Aspect.MECHANISM, 5)` |
+| 634 | `new ItemStack(Blocks.field_180392_bq, 1, 32767)` | `new AspectList().add(Aspect.TRAP, 5).add(Aspect.MECHANISM, 5)` |
+| 635 | `new ItemStack(Blocks.field_150452_aw, 1, 32767)` | `new AspectList().add(Aspect.MECHANISM, 5).add(Aspect.SENSES, 5)` |
+| 636 | `new ItemStack(Blocks.field_150456_au, 1, 32767)` | `new AspectList().add(Aspect.MECHANISM, 5).add(Aspect.SENSES, 5)` |
+| 637 | `new ItemStack(Blocks.field_150445_bS, 1, 32767)` | `new AspectList().add(Aspect.MECHANISM, 5).add(Aspect.SENSES, 5)` |
+| 638 | `new ItemStack(Blocks.field_150443_bT, 1, 32767)` | `new AspectList().add(Aspect.MECHANISM, 5).add(Aspect.SENSES, 5)` |
+| 639 | `new ItemStack(Blocks.field_150442_at, 1, 32767)` | `new AspectList().add(Aspect.MECHANISM, 5)` |
+| 640 | `new ItemStack(Blocks.field_150331_J, 1, 32767)` | `new AspectList().add(Aspect.MECHANISM, 10).add(Aspect.MOTION, 10)` |
+| 641 | `new ItemStack(Blocks.field_150320_F, 1, 32767)` | `new AspectList().add(Aspect.MECHANISM, 10).add(Aspect.MOTION, 10)` |
+| 642 | `new ItemStack(Blocks.field_150421_aI)` | `new AspectList().add(Aspect.SENSES, 20).add(Aspect.MECHANISM, 10).add(Aspect.AIR, 15)` |
+| 645 | `new ItemStack(Blocks.field_150323_B)` | `new AspectList().add(Aspect.SENSES, 20).add(Aspect.MECHANISM, 10).add(Aspect.AIR, 15)` |
+| 648 | `new ItemStack(Blocks.field_150415_aT, 1, 32767)` | `new AspectList().add(Aspect.MOTION, 5)` |
+| 649 | `new ItemStack(Blocks.field_150460_al, 1, 32767)` | `new AspectList().add(Aspect.FIRE, 10)` |
+| 650 | `new ItemStack(Blocks.field_150381_bn)` | `new AspectList().add(Aspect.MAGIC, 25).add(Aspect.CRAFT, 15)` |
+| 651 | `new ItemStack(Blocks.field_150462_ai)` | `new AspectList().add(Aspect.CRAFT, 20)` |
+| 652 | `new ItemStack(Items.field_151113_aN)` | `new AspectList().add(Aspect.MECHANISM, 10)` |
+| 653 | `new ItemStack(Blocks.field_150461_bJ)` | `new AspectList().add(Aspect.AURA, 10).add(Aspect.MAGIC, 10).add(Aspect.EXCHANGE, 10)` |
+| 656 | `new ItemStack(Blocks.field_150471_bO, 1, 32767)` | `new AspectList().add(Aspect.MECHANISM, 5)` |
+| 657 | `new ItemStack(Items.field_151146_bM, 1, 32767)` | `new AspectList().add(Aspect.MOTION, 5).add(Aspect.DESIRE, 10)` |
+| 658 | `new ItemStack(Items.field_151162_bE)` | `new AspectList().add(Aspect.VOID, 5).add(Aspect.PLANT, 5)` |
+| 659 | `new ItemStack(Items.field_151150_bK)` | `new AspectList().add(Aspect.SENSES, 10).add(Aspect.ALCHEMY, 5)` |
+| 660 | `new ItemStack(Blocks.field_150477_bB, 1, 32767)` | `new AspectList().merge(Aspect.EXCHANGE, 10).merge(Aspect.MOTION, 10).merge(Aspect.VOID, 20)` |
+| 663 | `new ItemStack(Items.field_151132_bS, 1, 32767)` | `new AspectList().merge(Aspect.MECHANISM, 15).merge(Aspect.ORDER, 5).merge(Aspect.SENSES, 5)` |
+| 666 | `new ItemStack(Items.field_151107_aW, 1, 32767)` | `new AspectList().merge(Aspect.MECHANISM, 15).merge(Aspect.ENERGY, 10)` |
+| 669 | `new ItemStack(Blocks.field_150438_bZ, 1, 32767)` | `new AspectList().merge(Aspect.MECHANISM, 5).merge(Aspect.EXCHANGE, 10).merge(Aspect.VOID, 5)` |
+| 672 | `new ItemStack(Blocks.field_150409_cd, 1, 32767)` | `new AspectList().merge(Aspect.MECHANISM, 5).merge(Aspect.EXCHANGE, 10).merge(Aspect.VOID, 5)` |
+| 675 | `new ItemStack(Blocks.field_150367_z, 1, 32767)` | `new AspectList().merge(Aspect.MECHANISM, 5).merge(Aspect.EXCHANGE, 10).merge(Aspect.VOID, 5)` |
+| 681 | `new ItemStack(Blocks.field_150473_bD, 1, 32767)` | `new AspectList().merge(Aspect.SENSES, 5).merge(Aspect.MECHANISM, 5).merge(Aspect.TRAP, 5)` |
+| 684 | `new ItemStack(Blocks.field_150453_bW, 1, 32767)` | `new AspectList().merge(Aspect.SENSES, 10).merge(Aspect.LIGHT, 10).merge(Aspect.MECHANISM, 5)` |
+| 687 | `"gear*"` | `new AspectList().add(Aspect.MECHANISM, 5)` |
+| 712 | `new ItemStack(BlocksTC.tableWood)` | `new AspectList().add(Aspect.TOOL, 1)` |
+| 713 | `new ItemStack(BlocksTC.tableStone)` | `new AspectList().add(Aspect.TOOL, 1)` |
+| 793 | `new ItemStack(ca)` | `new AspectList().add(Aspect.LIGHT, 5)` |
+| 799 | `new ItemStack(BlocksTC.pedestalArcane, 1, 0)` | `new AspectList().add(Aspect.MAGIC, 3).add(Aspect.AIR, 3)` |
+| 800 | `new ItemStack(BlocksTC.pedestalAncient, 1, 1)` | `new AspectList().add(Aspect.MAGIC, 3).add(Aspect.ELDRITCH, 3)` |
+| 801 | `new ItemStack(BlocksTC.pedestalEldritch, 1, 2)` | `new AspectList().add(Aspect.MAGIC, 3).add(Aspect.ELDRITCH, 3)` |
+| 802 | `new ItemStack(ItemsTC.thaumometer, 1, 32767)` | `new AspectList().add(Aspect.SENSES, 10).add(Aspect.AURA, 10)` |
+| 803 | `new ItemStack(ItemsTC.goggles, 1, 32767)` | `new AspectList().merge(Aspect.SENSES, 10).merge(Aspect.AURA, 10)` |
+| 804 | `new ItemStack(BlocksTC.arcaneEar)` | `new AspectList().add(Aspect.SENSES, 20)` |
+| 842 | `new ItemStack(ca)` | `new AspectList().add(Aspect.ELDRITCH, 5)` |
 
-## Aura, vis y flux
-
-`AuraAccess` opera sólo en servidor y sólo sobre chunks ya cargados (`getChunkNow`); un mundo cliente o chunk ausente devuelve cero/no modifica nada. Los valores de vis y flux se limitan a `[0, 32766]`; los add negativos se ignoran y los drains devuelven la cantidad realmente drenada, también en modo de simulación. `shouldPreserveAura` requiere jugador nulo o investigación `thaumcraft_reborn:aurapreserve` completa y `vis / base < 0.1`.
-
-El attachment persistente `thaumcraft_reborn:aura` contiene `{base, vis, flux}`. No tiene initializer: su ausencia significa que el chunk aún no se generó. Al cargar un chunk ausente, se promedia el modificador de los biomas del centro y los cuatro centros vecinos, todos a Y=50. La consulta de bioma usa el resolver de ruido sin cargar chunks vecinos. El valor inicial es `base = clamp((int)(modifier * 500 * (1 + gaussian * 0.1)), 0, 500)`, `vis = base` y `flux = 0`. El client gametest guarda y reabre el mundo para comprobar que el attachment de aura se conserva.
-
-`biome_aura` carga un archivo por tipo. `biomes` es un tag de bioma con `#` inicial; `modifier` y `aspect` son opcionales:
-
-```json
-{
-  "biomes": "#thaumcraft_reborn:aura_type/forest",
-  "modifier": 0.5,
-  "aspect": "thaumcraft_reborn:terra"
-}
-```
-
-El modificador es la media de los tipos con modificador que contienen el bioma. Si no coincide ningún tipo, o coincide un tipo sin modificador, se usa `0.5`, como fallback de TC6.
-
-| Tipo | Modificador | Aspecto | Tag convencional opcional |
-|---|---:|---|---|
-| water | 0.33 | aqua | `c:is_aquatic` |
-| ocean | 0.33 | aqua | `c:is_ocean` |
-| river | 0.4 | aqua | `c:is_river` |
-| wet | 0.4 | aqua | `c:is_wet` |
-| lush | 0.5 | aqua | `c:is_lush` |
-| hot | 0.33 | ignis | `c:is_hot` |
-| dry | 0.125 | perditio | `c:is_dry` |
-| nether | 0.125 | ignis | `c:is_nether` |
-| mesa | 0.33 | ignis | `c:is_badlands` |
-| spooky | 0.5 | ignis | `c:is_spooky` |
-| dense | 0.4 | ordo | `c:is_dense_vegetation` |
-| snowy | 0.25 | ordo | `c:is_snowy` |
-| cold | 0.25 | ordo | `c:is_cold` |
-| mushroom | 0.75 | ordo | `c:is_mushroom` |
-| magical | 0.75 | ordo | `c:is_magical` |
-| coniferous | 0.33 | terra | `c:is_tree/coniferous` |
-| forest | 0.5 | terra | `c:is_forest` |
-| sandy | 0.25 | terra | `c:is_sandy` |
-| beach | 0.3 | terra | `c:is_beach` |
-| jungle | 0.6 | terra | `c:is_jungle` |
-| savanna | 0.25 | aer | `c:is_savanna` |
-| mountain | 0.3 | aer | `c:is_mountain` |
-| hills | 0.33 | aer | `c:is_hill` |
-| plains | 0.3 | aer | `c:is_plains` |
-| end | 0.125 | aer | `c:is_end` |
-| sparse | 0.2 | perditio | `c:is_sparse_vegetation` |
-| swamp | 0.5 | perditio | `c:is_swamp` |
-| wasteland | 0.125 | perditio | `c:is_wasteland` |
-| dead | 0.1 | perditio | `c:is_dead` |
-| rare | — | — | `c:is_rare` |
-| void | — | — | `c:is_void` |
-
-Los 31 tags propios siguen `thaumcraft_reborn:aura_type/<tipo>` e incorporan como referencia opcional el tag convencional disponible. Se verificó en Fabric API 0.161 que todos existen; no hay ausencias que marcar como «requiere verificación». La constante Fabric `IS_CONIFEROUS_TREE` corresponde a `c:is_tree/coniferous` (no a `c:is_coniferous_tree`). RARE y VOID no tienen modificador ni aspecto, como los tipos no registrados de TC6. DRY queda en `0.125/perditio`: TC6 lo registra primero como `0.25/ignis` y después lo reemplaza en el `HashMap`.
-
-La simulación actual sólo regenera vis cada 20 ticks de servidor, si avanzó el game time. Usa las tablas lunares TC6:
-
-```text
-phaseVis = [0.25, 0.15, 0.1, 0.05, 0, 0.05, 0.1, 0.15]
-phaseMax = [0.15, 0.05, 0, -0.05, -0.15, -0.05, 0, 0.05]
-target = base * (1 + phaseMax[phase])
-```
-
-Si `vis + flux < target`, se suma a `vis` el mínimo entre el déficit y `phaseVis[phase]`. `addFlux(..., showEffect)` conserva el parámetro pero aún no emite efectos; el attachment tampoco se sincroniza al cliente, por lo que HUD/thaumometer quedan para C.
-
-| Simplificación temporal | Se completa en |
-|---|---|
-| Sólo regeneración lunar: sin difusión, decaimiento por exceso, comportamiento de vis bajo, propagación de flux ni rifts | D |
-| Sin sincronización cliente del aura | C |
-| `showEffect` no produce FX | D |
-| No hay aspectos extra derivados de encantamientos, pociones o contenedores | C |
-
-## Conocimiento y warp
-
-`KnowledgeAccess` expone las vistas `PlayerKnowledge` y `PlayerWarp` y las mutaciones de servidor. `thaumcraft_reborn:knowledge` guarda research conocido, stage, flags y cantidades raw de conocimiento; `thaumcraft_reborn:warp` guarda warp permanente, normal, temporal y su contador. Ambos attachments son persistentes, se copian al morir y se sincronizan sólo al jugador propietario (`AttachmentSyncPredicate.targetOnly()`). Cada mutación exitosa reemplaza el attachment mediante `setAttached`.
-
-Los tipos de conocimiento se ordenan `THEORY` y `OBSERVATION`; una unidad de progresión equivale respectivamente a 32 y 16 unidades raw. El API conserva los valores raw y devuelve el entero inferior al consultar puntos completos. Research desconocido devuelve `UNKNOWN`; una referencia `clave@N` exige alcanzar ese stage. Para los padres, una referencia con `@N` se satisface con `isResearchKnown` en ese stage; una referencia sin stage exige que el research esté completo. Las expresiones compuestas de padres de TC6 con `&&` o `||` no están soportadas por este formato y quedan pendientes de decisión.
-
-## Datos de investigación
-
-Los archivos se cargan desde `data/<namespace>/thaumcraft_reborn/research_categories/<ruta>.json` y `data/<namespace>/thaumcraft_reborn/research/<ruta>.json`, con `SyncedDataLoader` y codecs JSON/StreamCodec. Todos los loaders leen `ResourceLoader.REGISTRY_LOOKUP_KEY` del `SharedState` de Fabric durante el reload y decodifican con `RegistryOps.create(JsonOps.INSTANCE, lookup)`. Los campos de investigación que describen stacks usan `ItemStackTemplate`, igual que los resultados de recetas vanilla en 26.3: el reload enlaza los componentes de ítems después de ejecutar sus listeners, así que la plantilla conserva id, cantidad y parche de componentes y sólo se materializa como `ItemStack` al usarla, por ejemplo al entregar una recompensa.
-
-Una categoría usa `sort_order`, `research_key` opcional, `formula`, `icon`, `background` y `background2` opcional. El índice ordena categorías por `sort_order` y luego por id; las entradas se ordenan por id. Las categorías presentes y sus fórmulas originales de TC6 son:
-
-| Categoría | Orden | Fórmula |
-|---|---:|---|
-| `basics` | 0 | `herba 5`, `ordo 5`, `perditio 5`, `aer 5`, `ignis 5`, `terra 3`, `aqua 5` |
-| `auromancy` | 1 | `auram 20`, `praecantatio 20`, `vitium 15`, `vitreus 5`, `gelum 5`, `aer 5` |
-| `alchemy` | 2 | `alkimia 30`, `vitium 10`, `praecantatio 10`, `victus 5`, `aversio 5`, `desiderium 5`, `aqua 5` |
-| `artifice` | 3 | `machina 10`, `fabrico 10`, `metallum 10`, `instrumentum 10`, `potentia 10`, `lux 5`, `volatus 5`, `vinculum 5`, `ignis 5` |
-| `infusion` | 4 | `praecantatio 30`, `praemunio 10`, `instrumentum 10`, `vitium 5`, `fabrico 5`, `spiritus 5`, `terra 3` |
-| `golemancy` | 5 | `humanus 20`, `motus 10`, `cognitio 10`, `machina 10`, `permutatio 5`, `sensus 5`, `bestia 5`, `ordo 5` |
-| `eldritch` | 6 | `alienis 20`, `tenebrae 10`, `praecantatio 5`, `cognitio 5`, `vacuos 5`, `mortuus 5`, `exanimis 5`, `perditio 5` |
-
-Una entrada se identifica por el id del archivo y requiere `name`, `category` y al menos un `stage`. Los demás campos son `icons`, `parents`, `siblings`, `location: [columna, fila]`, `meta`, `reward_item`, `reward_knowledge` y `addenda`. Un icono es `{"texture": "namespace:id"}` o `{"item": {"id": "minecraft:stone", "count": 1, "components": {}}}`. Los ítems de `reward_item` y los requisitos `required_item` usan la misma forma de plantilla; `count` y `components` son opcionales según el codec vanilla. Las etapas admiten `text`, `recipes`, `required_item`, `required_craft`, `required_knowledge`, `required_research` y `warp`; un requisito de research contiene `reference` y `icon` opcional. Un addendum contiene `text`, `recipes` y `required_research`. Las referencias aceptan `namespace:clave`, `namespace:clave@N` y el prefijo `~` para línea oculta.
-
-Ejemplo reducido de entrada:
-
-```json
-{
-  "name": "research.example",
-  "category": "thaumcraft_reborn:basics",
-  "icons": [{"texture": "thaumcraft_reborn:textures/research/example"}],
-  "location": [0, 0],
-  "meta": ["hex"],
-  "reward_knowledge": [{"type": "theory", "category": "thaumcraft_reborn:basics", "amount": 1}],
-  "stages": [
-    {
-      "text": "research.example.stage1",
-      "required_item": [{"tag": "c:gems/quartz", "count": 1}],
-      "required_research": [{"reference": "thaumcraft_reborn:firststeps@1"}],
-      "warp": 2
-    }
-  ]
-}
-```
-
-El índice omite y registra con error las entradas cuya categoría no existe; un padre desconocido sólo produce advertencia, pues puede ser una pseudo-investigación. Los límites de categoría se calculan desde las ubicaciones cargadas. No se incluyen entradas de investigación de producción ni JSON de TC6: la conversión de las aproximadamente 136 entradas queda pendiente de decisión.
-
-`ResearchAccess` da acceso a categorías/entradas y a la progresión. `ResearchProgression` porta los stages y requisitos externos, completion, rewards, flags, warp y siblings recursivos. Warp mayor que uno se divide entre `PERMANENT` (cantidad menos la mitad entera) y `NORMAL` (mitad entera), como en TC6; `misc.wuss_mode` es `false` por defecto y desactiva esa concesión. Los rewards de conocimiento multiplican la cantidad declarada por la progresión de `KnowledgeType`. Las entradas `AUTOUNLOCK` se otorgan al conectar el jugador y después de un reload exitoso.
-
-Los comandos con permiso de gamemaster son `/thaumcraft_reborn research list`, `research <targets> list|all|reset|grant <key>|revoke <key>`, `warp <targets> get|add|set <amount> [permanent|temporary]` y `knowledge <targets> get`. El warp omite el tipo para usar `NORMAL`. Debug añade `aspects list|hand|entity` y `aura get|drain_vis|add_vis|add_flux|drain_flux`. No existe comando para conceder puntos de conocimiento ni THEORY. No se envían packets de ganancia de conocimiento ni se muestran popups de interfaz; sí se guardan y sincronizan los flags de research.
-
-| Simplificación temporal | Se completa en |
-|---|---|
-| Sin packets de ganancia de conocimiento ni popups de interfaz | C |
-
-## Inserción futura de biomas
-
-`BiomePlacementAccess.NONE` declara `providerId() == "none"` y `isAvailable() == false`. Registra cada solicitud en una vista no modificable y advierte `no biome placement provider; <biome> not placed`; no añade biomas ni introduce dependencias.
-
-| Alternativa para la Etapa F | Estado |
-|---|---|
-| TerraBlender | Plan A; requiere verificación antes de F |
-| Biolith | Plan B; requiere verificación antes de F |
-| Mixin | Plan C; requiere verificación antes de F |
-
-## Decisiones pendientes
-
-- Decidir si y cómo convertir los JSON de research de TC6; no copiar entradas ni assets originales en esta etapa.
-- Decidir el convenio para pseudo-keys TC6 como `!gotdream`; se propone `thaumcraft_reborn:discovery/<lowercase>`, aún sin aprobar.
-- Incorporar descripciones de aspectos sólo cuando se apruebe el texto y su procedencia; esta etapa incluye únicamente los nombres capitalizados.
-- Verificar y cerrar la elección del proveedor de biomas antes de la Etapa F.
+La lista completa por llamada —incluidos aspectos de receta y valor final marcados como no reproducidos y el motivo— está en `/home/ubuntu/stage-b/convert/report.md`. Esto es una limitación de conversión actual, no una autorización para aproximar ni para derivar en runtime.

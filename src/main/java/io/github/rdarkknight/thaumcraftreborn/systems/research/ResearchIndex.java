@@ -2,16 +2,20 @@ package io.github.rdarkknight.thaumcraftreborn.systems.research;
 
 import com.mojang.logging.LogUtils;
 import io.github.rdarkknight.thaumcraftreborn.api.ThaumcraftRebornApi;
+import io.github.rdarkknight.thaumcraftreborn.api.item.ItemReference;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchAccess;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchBounds;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchCategory;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchEntry;
+import io.github.rdarkknight.thaumcraftreborn.api.research.ItemRequirement;
+import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchStage;
 import io.github.rdarkknight.thaumcraftreborn.core.data.SyncedDataLoader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Optional;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -35,6 +39,7 @@ public final class ResearchIndex implements ResearchAccess {
 	private static final ResearchIndex INSTANCE = new ResearchIndex();
 	private static volatile Snapshot serverSnapshot = Snapshot.EMPTY;
 	private static volatile Snapshot clientSnapshot = Snapshot.EMPTY;
+	private static volatile int unresolvedItemReferenceCount;
 
 	static {
 		RESEARCH.addServerEntriesListener(ResearchIndex::rebuildServer);
@@ -48,6 +53,10 @@ public final class ResearchIndex implements ResearchAccess {
 
 	public static void init() {
 		ResearchAccess.install(INSTANCE);
+	}
+
+	public static int unresolvedItemReferenceCount() {
+		return unresolvedItemReferenceCount;
 	}
 
 	@Override
@@ -116,7 +125,45 @@ public final class ResearchIndex implements ResearchAccess {
 	}
 
 	private static void rebuildServer() {
-		serverSnapshot = build(RESEARCH.entries(false), CATEGORIES.entries(false));
+		Map<Identifier, ResearchEntry> entries = RESEARCH.entries(false);
+		if (serverSnapshot.sourceEntries != entries) {
+			reportUnresolvedItemReferences(entries);
+		}
+		serverSnapshot = build(entries, CATEGORIES.entries(false));
+	}
+
+	private static void reportUnresolvedItemReferences(Map<Identifier, ResearchEntry> entries) {
+		int count = 0;
+		LinkedHashSet<Identifier> unresolved = new LinkedHashSet<>();
+		for (ResearchEntry entry : entries.values()) {
+			for (var icon : entry.icons()) {
+				if (icon instanceof io.github.rdarkknight.thaumcraftreborn.api.research.ResearchIcon.Item item) {
+					count += countUnresolved(item.item(), unresolved);
+				}
+			}
+			for (ItemReference reward : entry.rewardItem()) {
+				count += countUnresolved(reward, unresolved);
+			}
+			for (ResearchStage stage : entry.stages()) {
+				for (ItemRequirement requirement : stage.requiredItem()) {
+					count += requirement.item().map(item -> countUnresolved(item, unresolved)).orElse(0);
+				}
+				for (ItemRequirement requirement : stage.requiredCraft()) {
+					count += requirement.item().map(item -> countUnresolved(item, unresolved)).orElse(0);
+				}
+			}
+		}
+		unresolvedItemReferenceCount = count;
+		unresolved.forEach(item -> LOGGER.warn("Unresolved research item reference {}", item));
+		LOGGER.info("Loaded research with {} unresolved item references", count);
+	}
+
+	private static int countUnresolved(ItemReference reference, LinkedHashSet<Identifier> unresolved) {
+		if (reference.isRegistered()) {
+			return 0;
+		}
+		unresolved.add(reference.item());
+		return 1;
 	}
 
 	private static void rebuildClient() {

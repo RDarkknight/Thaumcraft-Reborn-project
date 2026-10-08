@@ -1,0 +1,18 @@
+{
+  "sort_order": 3,
+  "formula": {
+    "thaumcraft_reborn:machina": 10,
+    "thaumcraft_reborn:fabrico": 10,
+    "thaumcraft_reborn:metallum": 10,
+    "thaumcraft_reborn:instrumentum": 10,
+    "thaumcraft_reborn:potentia": 10,
+    "thaumcraft_reborn:lux": 5,
+    "thaumcraft_reborn:volatus": 5,
+    "thaumcraft_reborn:vinculum": 5,
+    "thaumcraft_reborn:ignis": 5
+  },
+  "icon": "thaumcraft_reborn:textures/research/cat_artifice",
+  "background": "thaumcraft_reborn:textures/gui/gui_research_back_4",
+  "background2": "thaumcraft_reborn:textures/gui/gui_research_back_over",
+  "research_key": "thaumcraft_reborn:unlockartifice"
+}

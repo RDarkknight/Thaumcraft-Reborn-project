@@ -1,0 +1,62 @@
+{
+  "name": "research.thaumcraft_reborn.runicshielding.title",
+  "category": "thaumcraft_reborn:infusion",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/r_runicupg"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:infusionenchantment"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.runicshielding.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:enchanted_placeholder",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:amber",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:infusion"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.runicshielding.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:runic_armor_fake0",
+        "thaumcraft_reborn:runic_armor_fake1",
+        "thaumcraft_reborn:runic_armor_fake2"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -6,
+    6
+  ],
+  "addenda": []
+}

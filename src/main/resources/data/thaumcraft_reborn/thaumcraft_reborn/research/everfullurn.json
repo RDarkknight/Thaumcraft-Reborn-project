@@ -1,0 +1,55 @@
+{
+  "name": "research.thaumcraft_reborn.everfullurn.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:everfull_urn",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:hedgealchemy"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.everfullurn.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:basics"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.everfullurn.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:everfull_urn"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -2,
+    2
+  ],
+  "addenda": []
+}

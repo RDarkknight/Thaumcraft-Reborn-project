@@ -3,16 +3,20 @@ package io.github.rdarkknight.thaumcraftreborn.api.research;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.github.rdarkknight.thaumcraftreborn.api.item.ItemReference;
 import java.util.Optional;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
-public record ItemRequirement(Optional<ItemStackTemplate> item, Optional<Identifier> tag, int count) {
-	private static final Codec<ItemRequirement> ITEM_CODEC = ItemStackTemplate.CODEC.fieldOf("item").codec()
+public record ItemRequirement(Optional<ItemReference> item, Optional<Identifier> tag, int count) {
+	private static final Codec<ItemRequirement> ITEM_CODEC = ItemReference.CODEC.fieldOf("item").codec()
 			.xmap(ItemRequirement::forItem, requirement -> requirement.item().orElseThrow());
 	private static final Codec<ItemRequirement> TAG_CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			Identifier.CODEC.fieldOf("tag").forGetter(requirement -> requirement.tag().orElseThrow()),
@@ -38,11 +42,23 @@ public record ItemRequirement(Optional<ItemStackTemplate> item, Optional<Identif
 		}
 	}
 
-	public static ItemRequirement forItem(ItemStackTemplate item) {
+	public static ItemRequirement forItem(ItemReference item) {
 		return new ItemRequirement(Optional.of(item), Optional.empty(), Math.max(1, item.count()));
 	}
 
 	public static ItemRequirement forTag(Identifier tag, int count) {
 		return new ItemRequirement(Optional.empty(), Optional.of(tag), count);
+	}
+
+	public boolean matches(ItemStack stack) {
+		if (stack.isEmpty() || stack.getCount() < count) {
+			return false;
+		}
+		if (item.isPresent()) {
+			return item.get().resolve()
+					.map(required -> ItemStack.isSameItemSameComponents(stack, required))
+					.orElse(false);
+		}
+		return stack.is(TagKey.create(Registries.ITEM, tag.orElseThrow()));
 	}
 }

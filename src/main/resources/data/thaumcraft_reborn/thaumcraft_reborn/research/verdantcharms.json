@@ -1,0 +1,52 @@
+{
+  "name": "research.thaumcraft_reborn.verdantcharms.title",
+  "category": "thaumcraft_reborn:infusion",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:verdant_charm",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:cloudring"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.verdantcharms.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 2,
+          "category": "thaumcraft_reborn:infusion"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.verdantcharms.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:verdant_heart",
+        "thaumcraft_reborn:verdant_heart_life",
+        "thaumcraft_reborn:verdant_heart_sustain"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    4,
+    3
+  ],
+  "addenda": []
+}

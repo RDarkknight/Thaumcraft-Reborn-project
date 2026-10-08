@@ -1,0 +1,54 @@
+{
+  "name": "research.thaumcraft_reborn.flux.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/r_flux"
+    }
+  ],
+  "parents": [],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.flux.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:f_toomuchflux"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.flux.stage.2",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -2,
+    -2
+  ],
+  "addenda": [
+    {
+      "text": "research.thaumcraft_reborn.flux.2",
+      "recipes": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:f_toomuchflux"
+        }
+      ]
+    }
+  ]
+}

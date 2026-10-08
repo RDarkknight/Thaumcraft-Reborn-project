@@ -1,0 +1,85 @@
+{
+  "name": "research.thaumcraft_reborn.baseauromancy.title",
+  "category": "thaumcraft_reborn:auromancy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/cat_auromancy"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:unlockauromancy"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.baseauromancy.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:vis_resonator",
+        "thaumcraft_reborn:caster_basic",
+        "thaumcraft_reborn:focus_1"
+      ],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:focus_1",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.baseauromancy.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:vis_resonator",
+        "thaumcraft_reborn:caster_basic",
+        "thaumcraft_reborn:focus_1",
+        "thaumcraft_reborn:tablestone",
+        "thaumcraft_reborn:wand_workbench"
+      ],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:wand_workbench",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:f_onfire"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.baseauromancy.stage.3",
+      "recipes": [
+        "thaumcraft_reborn:vis_resonator",
+        "thaumcraft_reborn:caster_basic",
+        "thaumcraft_reborn:focus_1",
+        "thaumcraft_reborn:tablestone",
+        "thaumcraft_reborn:wand_workbench"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    0
+  ],
+  "addenda": []
+}

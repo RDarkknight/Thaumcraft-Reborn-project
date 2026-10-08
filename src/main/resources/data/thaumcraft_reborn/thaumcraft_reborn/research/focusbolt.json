@@ -1,0 +1,57 @@
+{
+  "name": "research.thaumcraft_reborn.focusbolt.title",
+  "category": "thaumcraft_reborn:auromancy",
+  "icons": [
+    {
+      "item": {
+        "item": "focus:thaumcraft.bolt",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:focusprojectile@2"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.focusbolt.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:auromancy"
+        },
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:auromancy"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/potentia"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.focusbolt.stage.2",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    7,
+    0
+  ],
+  "addenda": []
+}

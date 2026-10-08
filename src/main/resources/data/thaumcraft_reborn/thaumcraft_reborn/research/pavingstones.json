@@ -1,0 +1,68 @@
+{
+  "name": "research.thaumcraft_reborn.pavingstones.title",
+  "category": "thaumcraft_reborn:infusion",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:paving_stone_barrier",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "thaumcraft_reborn:paving_stone_travel",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:baseinfusion"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.pavingstones.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:arcane_stone"
+      ],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:arcane_stone",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:infusion"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.pavingstones.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:pave_barrier",
+        "thaumcraft_reborn:pave_travel",
+        "thaumcraft_reborn:arcane_stone",
+        "thaumcraft_reborn:arcane_brick"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    -2
+  ],
+  "addenda": []
+}

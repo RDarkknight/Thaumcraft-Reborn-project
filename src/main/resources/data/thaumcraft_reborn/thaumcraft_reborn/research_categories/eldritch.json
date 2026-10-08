@@ -1,0 +1,17 @@
+{
+  "sort_order": 6,
+  "formula": {
+    "thaumcraft_reborn:alienis": 20,
+    "thaumcraft_reborn:tenebrae": 10,
+    "thaumcraft_reborn:praecantatio": 5,
+    "thaumcraft_reborn:cognitio": 5,
+    "thaumcraft_reborn:vacuos": 5,
+    "thaumcraft_reborn:mortuus": 5,
+    "thaumcraft_reborn:exanimis": 5,
+    "thaumcraft_reborn:perditio": 5
+  },
+  "icon": "thaumcraft_reborn:textures/research/cat_eldritch",
+  "background": "thaumcraft_reborn:textures/gui/gui_research_back_6",
+  "background2": "thaumcraft_reborn:textures/gui/gui_research_back_over",
+  "research_key": "thaumcraft_reborn:unlockeldritch"
+}

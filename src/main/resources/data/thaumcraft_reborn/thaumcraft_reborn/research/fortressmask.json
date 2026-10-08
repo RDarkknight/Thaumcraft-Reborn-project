@@ -1,0 +1,56 @@
+{
+  "name": "research.thaumcraft_reborn.fortressmask.title",
+  "category": "thaumcraft_reborn:infusion",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/r_mask0"
+    },
+    {
+      "texture": "thaumcraft_reborn:textures/research/r_mask1"
+    },
+    {
+      "texture": "thaumcraft_reborn:textures/research/r_mask2"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:armorfortress"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.fortressmask.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:infusion"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.fortressmask.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:helm_goggles",
+        "thaumcraft_reborn:mask_grinning_devil",
+        "thaumcraft_reborn:mask_angry_ghost",
+        "thaumcraft_reborn:mask_sipping_fiend"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 2
+    }
+  ],
+  "location": [
+    -5,
+    0
+  ],
+  "addenda": []
+}

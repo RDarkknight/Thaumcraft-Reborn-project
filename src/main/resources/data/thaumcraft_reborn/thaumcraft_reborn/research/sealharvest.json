@@ -1,0 +1,51 @@
+{
+  "name": "research.thaumcraft_reborn.sealharvest.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/item/seals/seal_harvest"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:sealuse"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.sealharvest.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/herba"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.sealharvest.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:seal_harvest"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -5,
+    6
+  ],
+  "addenda": []
+}

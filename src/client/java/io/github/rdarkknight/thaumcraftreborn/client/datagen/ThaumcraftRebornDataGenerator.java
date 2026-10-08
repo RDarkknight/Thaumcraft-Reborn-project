@@ -29,7 +29,6 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 		pack.addProvider(ModBlockLootProvider::new);
 		pack.addProvider(BiomeAuraDataProvider::new);
 		pack.addProvider((output, lookup) -> new BiomeAuraTagsProvider(output, lookup));
-		pack.addProvider(ResearchCategoryDataProvider::new);
 	}
 
 	private static final class ModModelProvider implements DataProvider {

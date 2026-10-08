@@ -1,0 +1,115 @@
+{
+  "name": "research.thaumcraft_reborn.elementaltools.title",
+  "category": "thaumcraft_reborn:infusion",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:elemental_axe",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "thaumcraft_reborn:elemental_sword",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "thaumcraft_reborn:elemental_pick",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "thaumcraft_reborn:elemental_shovel",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "thaumcraft_reborn:elemental_hoe",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:bootstraveller",
+    "thaumcraft_reborn:metallurgy@3"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.elementaltools.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:thaumium_axe",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:thaumium_sword",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:thaumium_pick",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:thaumium_shovel",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:thaumium_hoe",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:infusion"
+        },
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:basics"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.elementaltools.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:elemental_axe",
+        "thaumcraft_reborn:elemental_sword",
+        "thaumcraft_reborn:elemental_pick",
+        "thaumcraft_reborn:elemental_shovel",
+        "thaumcraft_reborn:elemental_hoe"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -4,
+    3
+  ],
+  "addenda": []
+}

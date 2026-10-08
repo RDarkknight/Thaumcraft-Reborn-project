@@ -1,0 +1,68 @@
+{
+  "name": "research.thaumcraft_reborn.jarbrain.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:jar_brain",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:basegolemancy",
+    "thaumcraft_reborn:wardedjars",
+    "thaumcraft_reborn:infusion"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.jarbrain.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:brain",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        },
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:f_brain"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.jarbrain.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:jar_brain"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 3
+    }
+  ],
+  "location": [
+    2,
+    1
+  ],
+  "addenda": []
+}

@@ -1,0 +1,51 @@
+{
+  "name": "research.thaumcraft_reborn.visamulet.title",
+  "category": "thaumcraft_reborn:auromancy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:amulet_vis_crafted",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:rechargepedestal",
+    "thaumcraft_reborn:infusion"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.visamulet.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 2,
+          "category": "thaumcraft_reborn:auromancy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.visamulet.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:vis_amulet"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -5,
+    4
+  ],
+  "addenda": []
+}

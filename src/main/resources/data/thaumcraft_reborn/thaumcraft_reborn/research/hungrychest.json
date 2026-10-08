@@ -1,0 +1,61 @@
+{
+  "name": "research.thaumcraft_reborn.hungrychest.title",
+  "category": "thaumcraft_reborn:artifice",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:hungry_chest",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:baseartifice"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.hungrychest.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "tag": "c:chests",
+          "count": 1
+        },
+        {
+          "item": {
+            "item": "minecraft:hopper",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.hungrychest.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:hungry_chest"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    3,
+    1
+  ],
+  "addenda": []
+}

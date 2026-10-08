@@ -1,0 +1,43 @@
+{
+  "name": "research.thaumcraft_reborn.focusheal.title",
+  "category": "thaumcraft_reborn:auromancy",
+  "icons": [
+    {
+      "item": {
+        "item": "focus:thaumcraft.heal",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:focusflux"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.focusheal.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:auromancy"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/victus"
+        }
+      ],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    7
+  ],
+  "addenda": []
+}

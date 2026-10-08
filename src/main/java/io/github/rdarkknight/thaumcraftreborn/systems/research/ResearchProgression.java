@@ -1,5 +1,6 @@
 package io.github.rdarkknight.thaumcraftreborn.systems.research;
 
+import io.github.rdarkknight.thaumcraftreborn.api.item.ItemReference;
 import io.github.rdarkknight.thaumcraftreborn.api.knowledge.KnowledgeAccess;
 import io.github.rdarkknight.thaumcraftreborn.api.knowledge.PlayerKnowledge;
 import io.github.rdarkknight.thaumcraftreborn.api.research.KnowledgeAmount;
@@ -26,7 +27,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Prediction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackTemplate;
 
 public final class ResearchProgression {
 	private ResearchProgression() {
@@ -175,8 +175,11 @@ public final class ResearchProgression {
 	}
 
 	private static void giveRewards(ServerPlayer player, ResearchEntry entry) {
-		for (ItemStackTemplate reward : entry.rewardItem()) {
-			ItemStack stack = reward.create();
+		for (ItemReference reward : entry.rewardItem()) {
+			ItemStack stack = reward.resolve().orElse(null);
+			if (stack == null) {
+				continue;
+			}
 			if (!player.getInventory().add(stack)) {
 				player.drop(stack, false, Prediction.SERVER_ONLY);
 			}

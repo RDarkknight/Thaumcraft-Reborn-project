@@ -1,0 +1,57 @@
+{
+  "name": "research.thaumcraft_reborn.armorfortress.title",
+  "category": "thaumcraft_reborn:infusion",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:fortress_helm",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:metallurgy@3",
+    "thaumcraft_reborn:bootstraveller"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.armorfortress.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:infusion"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/praemunio"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.armorfortress.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:thaumium_fortress_helm",
+        "thaumcraft_reborn:thaumium_fortress_chest",
+        "thaumcraft_reborn:thaumium_fortress_legs"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -4,
+    1
+  ],
+  "addenda": []
+}

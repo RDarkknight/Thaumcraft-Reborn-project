@@ -1,0 +1,57 @@
+{
+  "name": "research.thaumcraft_reborn.bellows.title",
+  "category": "thaumcraft_reborn:artifice",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:bellows",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:infernalfurnace"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.bellows.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:crystal_essence",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.bellows.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:bellows"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    5,
+    -3
+  ],
+  "addenda": []
+}

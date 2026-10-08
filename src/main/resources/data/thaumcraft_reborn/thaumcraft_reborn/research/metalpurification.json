@@ -1,0 +1,44 @@
+{
+  "name": "research.thaumcraft_reborn.metalpurification.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/item/cluster_iron"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:metallurgy@3"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.metalpurification.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:metal_purification_iron",
+        "thaumcraft_reborn:metal_purification_gold",
+        "thaumcraft_reborn:metal_purification_cinnabar",
+        "thaumcraft_reborn:metal_purification_copper",
+        "thaumcraft_reborn:metal_purification_tin",
+        "thaumcraft_reborn:metal_purification_silver",
+        "thaumcraft_reborn:metal_purification_lead"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 2,
+          "category": "thaumcraft_reborn:alchemy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    2,
+    4
+  ],
+  "addenda": []
+}

@@ -1,0 +1,39 @@
+{
+  "name": "research.thaumcraft_reborn.baseartifice.title",
+  "category": "thaumcraft_reborn:artifice",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/cat_artifice"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:unlockartifice"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.baseartifice.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:goggles",
+        "thaumcraft_reborn:mechanism_simple",
+        "thaumcraft_reborn:mechanism_complex",
+        "thaumcraft_reborn:mirrorglass",
+        "thaumcraft_reborn:ironplate"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    0
+  ],
+  "addenda": []
+}

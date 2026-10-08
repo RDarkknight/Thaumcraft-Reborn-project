@@ -1,0 +1,59 @@
+{
+  "name": "research.thaumcraft_reborn.infusionboost.title",
+  "category": "thaumcraft_reborn:infusion",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:matrix_cost",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "thaumcraft_reborn:matrix_speed",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:infusion"
+  ],
+  "siblings": [],
+  "meta": [
+    "reverse"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.infusionboost.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 2,
+          "category": "thaumcraft_reborn:infusion"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.infusionboost.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:matrix_motion",
+        "thaumcraft_reborn:matrix_cost"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -1,
+    4
+  ],
+  "addenda": []
+}

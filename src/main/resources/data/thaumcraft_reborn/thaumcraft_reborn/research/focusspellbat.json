@@ -1,0 +1,61 @@
+{
+  "name": "research.thaumcraft_reborn.focusspellbat.title",
+  "category": "thaumcraft_reborn:auromancy",
+  "icons": [
+    {
+      "item": {
+        "item": "focus:thaumcraft.spellbat",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:focusmine",
+    "thaumcraft_reborn:f_bat",
+    "thaumcraft_reborn:scan/firebat"
+  ],
+  "siblings": [],
+  "meta": [
+    "reverse"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.focusspellbat.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:auromancy"
+        },
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:eldritch"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/bestia"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.focusspellbat.stage.2",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 2
+    }
+  ],
+  "location": [
+    7,
+    4
+  ],
+  "addenda": []
+}

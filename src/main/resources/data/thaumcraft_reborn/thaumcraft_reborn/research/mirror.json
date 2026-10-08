@@ -1,0 +1,73 @@
+{
+  "name": "research.thaumcraft_reborn.mirror.title",
+  "category": "thaumcraft_reborn:artifice",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:mirror",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:arcanelamp",
+    "thaumcraft_reborn:infusion"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.mirror.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "minecraft:ender_pearl",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:mirrored_glass",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:artifice"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:artifice"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:f_teleport"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.mirror.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:mirror"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -6,
+    0
+  ],
+  "addenda": []
+}

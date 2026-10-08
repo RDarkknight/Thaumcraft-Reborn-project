@@ -1,0 +1,41 @@
+{
+  "name": "research.thaumcraft_reborn.wardedjars.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:jar_normal",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:essentiasmelter"
+  ],
+  "siblings": [],
+  "meta": [
+    "round"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.wardedjars.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:warded_jar",
+        "thaumcraft_reborn:jar_void",
+        "thaumcraft_reborn:brass_brace",
+        "thaumcraft_reborn:jar_label",
+        "thaumcraft_reborn:jar_label_essence"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    4,
+    -2
+  ],
+  "addenda": []
+}

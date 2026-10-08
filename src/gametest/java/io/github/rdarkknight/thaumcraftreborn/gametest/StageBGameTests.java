@@ -13,6 +13,7 @@ import io.github.rdarkknight.thaumcraftreborn.api.aura.AuraAccess;
 import io.github.rdarkknight.thaumcraftreborn.api.knowledge.KnowledgeAccess;
 import io.github.rdarkknight.thaumcraftreborn.api.knowledge.PlayerKnowledge;
 import io.github.rdarkknight.thaumcraftreborn.api.knowledge.PlayerWarp;
+import io.github.rdarkknight.thaumcraftreborn.api.research.ItemRequirement;
 import io.github.rdarkknight.thaumcraftreborn.api.research.KnowledgeType;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchAccess;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchCategory;
@@ -505,6 +506,12 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 		);
 		context.assertTrue(research.categoryOrder(false).equals(expectedCategoryOrder), "categories sort by declared order then id");
 		context.assertTrue(research.categories(false).size() == 8, "seven production categories and the test category load");
+		long convertedEntryCount = ResearchIndex.RESEARCH.serverEntries().keySet().stream()
+				.filter(key -> key.getNamespace().equals("thaumcraft_reborn"))
+				.count();
+		context.assertTrue(convertedEntryCount == 148, "all 148 converted research entries load");
+		context.assertTrue(ResearchIndex.unresolvedItemReferenceCount() > 0,
+				"unresolved deferred item references are counted after reload");
 
 		Map<String, AspectList> expectedFormulas = Map.of(
 				"basics", aspectFormula("herba", 5, "ordo", 5, "perditio", 5, "aer", 5, "ignis", 5, "terra", 3, "aqua", 5),
@@ -522,7 +529,7 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 		for (Map.Entry<String, AspectList> expected : expectedFormulas.entrySet()) {
 			ResearchCategory category = research.category(ThaumcraftRebornApi.id(expected.getKey()), false).orElseThrow();
 			context.assertTrue(category.formula().equals(expected.getValue()), "exact formula for category " + expected.getKey());
-			context.assertTrue(category.icon().getPath().startsWith("textures/research/"), "category icon uses a future research texture id");
+			context.assertTrue(category.icon().getPath().startsWith("textures/"), "category icon uses a future texture id");
 			if (!expected.getKey().equals("basics")) {
 				context.assertTrue(category.researchKey().isPresent(), "non-basics category has its unlock research key");
 			}
@@ -541,15 +548,22 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 		context.assertTrue(fixtureMain.icons().size() == 2 && fixtureMain.parents().size() == 2, "icons and parent references decode");
 		context.assertTrue(fixtureMain.icons().stream().filter(ResearchIcon.Item.class::isInstance)
 						.map(ResearchIcon.Item.class::cast)
-						.anyMatch(icon -> icon.item().item().value() == Items.DIAMOND && icon.item().count() == 1),
-				"item icons decode to deferred stack templates");
+						.anyMatch(icon -> icon.item().item().equals(Identifier.withDefaultNamespace("diamond"))
+								&& icon.item().count() == 1),
+				"item icons decode to deferred references");
 		context.assertTrue(fixtureMain.siblings().size() == 1 && fixtureMain.stages().size() == 2, "siblings and stages decode");
 		context.assertTrue(fixtureMain.stages().getFirst().warp() == 3, "stage warp decodes");
 		context.assertTrue(fixtureMain.stages().getFirst().requiredItem().getFirst().item()
-						.map(template -> template.item().value() == Items.DIAMOND && template.count() == 1).orElse(false),
-				"item requirement decodes to a deferred stack template");
+						.map(reference -> reference.item().equals(Identifier.withDefaultNamespace("diamond"))
+								&& reference.count() == 1).orElse(false),
+				"item requirement decodes to a deferred reference");
 		context.assertTrue(fixtureMain.stages().getFirst().requiredCraft().getFirst().tag().isPresent(), "tag requirement decodes");
-		context.assertTrue(fixtureMain.rewardItem().getFirst().count() == 2, "item rewards decode to deferred stack templates");
+		context.assertTrue(fixtureMain.rewardItem().getFirst().count() == 2, "item rewards decode to deferred references");
+		ItemRequirement unresolvedRequirement = fixtureMain.stages().getFirst().requiredItem().get(1);
+		context.assertTrue(unresolvedRequirement.item().orElseThrow().resolve().isEmpty(),
+				"unresolved references stay represented in requirements");
+		context.assertTrue(!unresolvedRequirement.matches(new ItemStack(Items.DIAMOND)),
+				"unresolved item requirements are unsatisfiable");
 		context.assertTrue(fixtureMain.rewardKnowledge().getFirst().amount() == 2, "knowledge rewards decode");
 		context.assertTrue(fixtureMain.addenda().size() == 1, "addenda decode");
 		context.assertTrue(research.entriesInCategory(fixtureCategory, false).size() == 7, "entries are grouped by category");
@@ -561,6 +575,19 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 				"entries with unknown categories are skipped");
 		context.assertTrue(!ResearchIndex.RESEARCH.serverEntries().containsKey(testId("fixture_invalid")),
 				"loader isolates malformed entry files");
+		context.assertTrue(research.entry(ThaumcraftRebornApi.id("scan/wisp"), false).isPresent(),
+				"the converted Wisp pseudo-key entry loads");
+		ResearchEntry firstSteps = research.entry(ThaumcraftRebornApi.id("firststeps"), false).orElseThrow();
+		Identifier thaumonomiconFlag = ThaumcraftRebornApi.id("flag/got_thaumonomicon");
+		context.assertTrue(firstSteps.parents().stream().anyMatch(parent -> parent.key().equals(thaumonomiconFlag)),
+				"firststeps keeps its external thaumonomicon flag prerequisite");
+		ServerPlayer pseudoKeyPlayer = context.makeMockServerPlayerInLevel();
+		Identifier firstStepsKey = ThaumcraftRebornApi.id("firststeps");
+		context.assertTrue(!research.doesPlayerHaveRequisites(pseudoKeyPlayer, firstStepsKey),
+				"firststeps requires the external thaumonomicon flag");
+		KnowledgeAccess.get().addResearch(pseudoKeyPlayer, thaumonomiconFlag);
+		context.assertTrue(research.doesPlayerHaveRequisites(pseudoKeyPlayer, firstStepsKey),
+				"granting the external thaumonomicon flag satisfies firststeps");
 
 		ResearchReference parsed = ResearchReference.CODEC.parse(JsonOps.INSTANCE,
 				com.google.gson.JsonParser.parseString("\"~thaumcraft_reborn_test:fixture_main@2\"")).getOrThrow();

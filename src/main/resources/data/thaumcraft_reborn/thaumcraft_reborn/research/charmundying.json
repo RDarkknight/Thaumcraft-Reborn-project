@@ -1,0 +1,54 @@
+{
+  "name": "research.thaumcraft_reborn.charmundying.title",
+  "category": "thaumcraft_reborn:infusion",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:charm_undying",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:cloudring",
+    "thaumcraft_reborn:scan/totem_undying"
+  ],
+  "siblings": [],
+  "meta": [
+    "hidden",
+    "reverse"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.charmundying.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:infusion"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.charmundying.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:charmundying"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    3,
+    -1
+  ],
+  "addenda": []
+}

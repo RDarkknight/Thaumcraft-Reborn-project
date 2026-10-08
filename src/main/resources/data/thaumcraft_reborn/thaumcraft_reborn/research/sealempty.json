@@ -1,0 +1,63 @@
+{
+  "name": "research.thaumcraft_reborn.sealempty.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/item/seals/seal_empty"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:sealstore"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.sealempty.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/vacuos"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.sealempty.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:seal_empty"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -8,
+    4
+  ],
+  "addenda": [
+    {
+      "text": "research.thaumcraft_reborn.sealempty.adv",
+      "recipes": [
+        "thaumcraft_reborn:seal_empty_adv"
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:mindbiothaumic"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "research.thaumcraft_reborn.knowledgetypes.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/knowledge_theory"
+    }
+  ],
+  "parents": [],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.knowledgetypes.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    2,
+    -1
+  ],
+  "addenda": []
+}

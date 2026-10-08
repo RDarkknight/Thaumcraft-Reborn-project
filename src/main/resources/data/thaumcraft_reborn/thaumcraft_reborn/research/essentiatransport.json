@@ -1,0 +1,57 @@
+{
+  "name": "research.thaumcraft_reborn.essentiatransport.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:essentia_input",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:thaumatorium",
+    "thaumcraft_reborn:infusion"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.essentiatransport.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:artifice"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.essentiatransport.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:essentia_transport_in",
+        "thaumcraft_reborn:essentia_transport_out"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    12,
+    -2
+  ],
+  "addenda": []
+}

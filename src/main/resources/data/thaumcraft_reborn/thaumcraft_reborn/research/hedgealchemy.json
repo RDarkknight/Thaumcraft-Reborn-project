@@ -1,0 +1,173 @@
+{
+  "name": "research.thaumcraft_reborn.hedgealchemy.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/item/tallow"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:basealchemy"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.hedgealchemy.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:hedge_tallow",
+        "thaumcraft_reborn:hedge_leather"
+      ],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:tallow",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:leather",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.hedgealchemy.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:hedge_tallow",
+        "thaumcraft_reborn:tallowcandles",
+        "thaumcraft_reborn:hedge_leather",
+        "thaumcraft_reborn:hedge_gunpowder",
+        "thaumcraft_reborn:hedge_slime",
+        "thaumcraft_reborn:hedge_dye",
+        "thaumcraft_reborn:hedge_glowstone"
+      ],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "minecraft:gunpowder",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "minecraft:slime_ball",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "minecraft:dye",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "minecraft:glowstone_dust",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.hedgealchemy.stage.3",
+      "recipes": [
+        "thaumcraft_reborn:hedge_tallow",
+        "thaumcraft_reborn:tallowcandles",
+        "thaumcraft_reborn:hedge_leather",
+        "thaumcraft_reborn:hedge_gunpowder",
+        "thaumcraft_reborn:hedge_slime",
+        "thaumcraft_reborn:hedge_dye",
+        "thaumcraft_reborn:hedge_glowstone",
+        "thaumcraft_reborn:hedge_clay",
+        "thaumcraft_reborn:hedge_string",
+        "thaumcraft_reborn:hedge_web",
+        "thaumcraft_reborn:hedge_lava"
+      ],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "minecraft:clay_ball",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "minecraft:string",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "minecraft:web",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "minecraft:lava_bucket",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.hedgealchemy.stage.4",
+      "recipes": [
+        "thaumcraft_reborn:hedge_tallow",
+        "thaumcraft_reborn:tallowcandles",
+        "thaumcraft_reborn:hedge_leather",
+        "thaumcraft_reborn:hedge_gunpowder",
+        "thaumcraft_reborn:hedge_slime",
+        "thaumcraft_reborn:hedge_dye",
+        "thaumcraft_reborn:hedge_glowstone",
+        "thaumcraft_reborn:hedge_clay",
+        "thaumcraft_reborn:hedge_string",
+        "thaumcraft_reborn:hedge_web",
+        "thaumcraft_reborn:hedge_lava"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -2,
+    0
+  ],
+  "addenda": []
+}

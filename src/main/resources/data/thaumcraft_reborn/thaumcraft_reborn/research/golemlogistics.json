@@ -1,0 +1,64 @@
+{
+  "name": "research.thaumcraft_reborn.golemlogistics.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/golem_logistics"
+    }
+  ],
+  "parents": [
+    "~thaumcraft_reborn:sealprovide",
+    "thaumcraft_reborn:golemdirect"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.golemlogistics.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "minecraft:map",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "minecraft:ender_eye",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:basics"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.golemlogistics.stage.2",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    3,
+    4
+  ],
+  "addenda": []
+}

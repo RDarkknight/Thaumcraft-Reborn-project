@@ -1,0 +1,53 @@
+{
+  "name": "research.thaumcraft_reborn.sealuse.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/item/seals/seal_use"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:controlseals",
+    "thaumcraft_reborn:infusion",
+    "thaumcraft_reborn:mindbiothaumic"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.sealuse.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/instrumentum"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.sealuse.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:seal_use"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -3,
+    6
+  ],
+  "addenda": []
+}

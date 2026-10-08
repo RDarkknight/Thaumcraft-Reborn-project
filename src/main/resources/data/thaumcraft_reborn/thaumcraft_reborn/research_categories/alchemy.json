@@ -1,0 +1,16 @@
+{
+  "sort_order": 2,
+  "formula": {
+    "thaumcraft_reborn:alkimia": 30,
+    "thaumcraft_reborn:vitium": 10,
+    "thaumcraft_reborn:praecantatio": 10,
+    "thaumcraft_reborn:victus": 5,
+    "thaumcraft_reborn:aversio": 5,
+    "thaumcraft_reborn:desiderium": 5,
+    "thaumcraft_reborn:aqua": 5
+  },
+  "icon": "thaumcraft_reborn:textures/research/cat_alchemy",
+  "background": "thaumcraft_reborn:textures/gui/gui_research_back_3",
+  "background2": "thaumcraft_reborn:textures/gui/gui_research_back_over",
+  "research_key": "thaumcraft_reborn:unlockalchemy"
+}

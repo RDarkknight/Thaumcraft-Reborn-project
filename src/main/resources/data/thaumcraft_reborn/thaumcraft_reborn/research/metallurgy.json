@@ -1,0 +1,85 @@
+{
+  "name": "research.thaumcraft_reborn.metallurgy.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/item/ingot_brass"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:basealchemy"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.metallurgy.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:brassingot"
+      ],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:ingot_brass",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.metallurgy.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:brassingot",
+        "thaumcraft_reborn:brass_stuff",
+        "thaumcraft_reborn:thaumiumingot"
+      ],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:ingot_thaumium",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.metallurgy.stage.3",
+      "recipes": [
+        "thaumcraft_reborn:brassingot",
+        "thaumcraft_reborn:brass_stuff",
+        "thaumcraft_reborn:thaumiumingot",
+        "thaumcraft_reborn:thaumium_stuff"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    2,
+    2
+  ],
+  "addenda": []
+}

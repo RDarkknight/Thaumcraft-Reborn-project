@@ -1,0 +1,33 @@
+{
+  "name": "research.thaumcraft_reborn.basegolemancy.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/cat_golemancy"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:unlockgolemancy"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.basegolemancy.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    -1
+  ],
+  "addenda": []
+}

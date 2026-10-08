@@ -1,0 +1,58 @@
+{
+  "name": "research.thaumcraft_reborn.unlockartifice.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/cat_artifice"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:unlockalchemy",
+    "thaumcraft_reborn:metallurgy@2"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "spiky"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.unlockartifice.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:artifice"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/sensus"
+        },
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/machina"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.unlockartifice.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:goggles"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    2,
+    4
+  ],
+  "addenda": []
+}

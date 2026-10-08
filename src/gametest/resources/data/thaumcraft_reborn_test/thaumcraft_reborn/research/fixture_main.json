@@ -7,7 +7,7 @@
     },
     {
       "item": {
-        "id": "minecraft:diamond",
+        "item": "minecraft:diamond",
         "count": 1,
         "components": {}
       }
@@ -24,7 +24,7 @@
   "meta": ["hex"],
   "reward_item": [
     {
-      "id": "minecraft:diamond",
+      "item": "minecraft:diamond",
       "count": 2,
       "components": {}
     }
@@ -43,9 +43,14 @@
       "required_item": [
         {
           "item": {
-            "id": "minecraft:diamond",
+            "item": "minecraft:diamond",
             "count": 1,
             "components": {}
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn_test:not_registered"
           }
         }
       ],

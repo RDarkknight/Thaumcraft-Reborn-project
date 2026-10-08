@@ -3,6 +3,7 @@ package io.github.rdarkknight.thaumcraftreborn.api.research;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.github.rdarkknight.thaumcraftreborn.api.item.ItemReference;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -11,7 +12,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStackTemplate;
 
 public record ResearchEntry(
 		String name,
@@ -21,7 +21,7 @@ public record ResearchEntry(
 		List<ResearchReference> siblings,
 		java.util.Optional<ResearchLocation> location,
 		Set<ResearchMeta> meta,
-		List<ItemStackTemplate> rewardItem,
+		List<ItemReference> rewardItem,
 		List<KnowledgeAmount> rewardKnowledge,
 		List<ResearchStage> stages,
 		List<ResearchAddendum> addenda
@@ -43,7 +43,7 @@ public record ResearchEntry(
 			ResearchReference.CODEC.listOf().optionalFieldOf("siblings", List.of()).forGetter(ResearchEntry::siblings),
 			ResearchLocation.CODEC.optionalFieldOf("location").forGetter(ResearchEntry::location),
 			META_CODEC.optionalFieldOf("meta", Set.of()).forGetter(ResearchEntry::meta),
-			ItemStackTemplate.CODEC.listOf().optionalFieldOf("reward_item", List.of()).forGetter(ResearchEntry::rewardItem),
+			ItemReference.CODEC.listOf().optionalFieldOf("reward_item", List.of()).forGetter(ResearchEntry::rewardItem),
 			KnowledgeAmount.CODEC.listOf().optionalFieldOf("reward_knowledge", List.of()).forGetter(ResearchEntry::rewardKnowledge),
 			NON_EMPTY_STAGES_CODEC.fieldOf("stages").forGetter(ResearchEntry::stages),
 			ResearchAddendum.CODEC.listOf().optionalFieldOf("addenda", List.of()).forGetter(ResearchEntry::addenda)

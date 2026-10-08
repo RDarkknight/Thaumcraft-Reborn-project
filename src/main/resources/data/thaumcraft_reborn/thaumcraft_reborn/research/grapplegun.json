@@ -1,0 +1,67 @@
+{
+  "name": "research.thaumcraft_reborn.grapplegun.title",
+  "category": "thaumcraft_reborn:artifice",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:grapple_gun",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:baseartifice",
+    "thaumcraft_reborn:rechargepedestal"
+  ],
+  "siblings": [],
+  "meta": [
+    "reverse"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.grapplegun.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:nugget_rareearth",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:artifice"
+        },
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:basics"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.grapplegun.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:grapple_gun_tip",
+        "thaumcraft_reborn:grapple_gun_spool",
+        "thaumcraft_reborn:grapple_gun"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    2,
+    3
+  ],
+  "addenda": []
+}

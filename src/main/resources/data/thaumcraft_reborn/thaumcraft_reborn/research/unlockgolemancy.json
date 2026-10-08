@@ -1,0 +1,62 @@
+{
+  "name": "research.thaumcraft_reborn.unlockgolemancy.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/cat_golemancy"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:unlockartifice",
+    "thaumcraft_reborn:unlockauromancy",
+    "thaumcraft_reborn:unlockinfusion"
+  ],
+  "siblings": [
+    "thaumcraft_reborn:basegolemancy"
+  ],
+  "meta": [
+    "round",
+    "spiky",
+    "reverse"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.unlockgolemancy.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:basics"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:f_golem"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.unlockgolemancy.stage.2",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    6
+  ],
+  "addenda": []
+}

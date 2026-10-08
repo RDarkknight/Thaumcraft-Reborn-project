@@ -1,0 +1,53 @@
+{
+  "name": "research.thaumcraft_reborn.sealbutcher.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/item/seals/seal_butcher"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:sealguard",
+    "thaumcraft_reborn:infusion",
+    "thaumcraft_reborn:mindbiothaumic"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.sealbutcher.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/bestia"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.sealbutcher.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:seal_butcher"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 1
+    }
+  ],
+  "location": [
+    -11,
+    6
+  ],
+  "addenda": []
+}

@@ -1,0 +1,16 @@
+{
+  "sort_order": 4,
+  "formula": {
+    "thaumcraft_reborn:praecantatio": 30,
+    "thaumcraft_reborn:praemunio": 10,
+    "thaumcraft_reborn:instrumentum": 10,
+    "thaumcraft_reborn:vitium": 5,
+    "thaumcraft_reborn:fabrico": 5,
+    "thaumcraft_reborn:spiritus": 5,
+    "thaumcraft_reborn:terra": 3
+  },
+  "icon": "thaumcraft_reborn:textures/research/cat_infusion",
+  "background": "thaumcraft_reborn:textures/gui/gui_research_back_7",
+  "background2": "thaumcraft_reborn:textures/gui/gui_research_back_over",
+  "research_key": "thaumcraft_reborn:unlockinfusion"
+}

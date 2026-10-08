@@ -1,0 +1,43 @@
+{
+  "name": "research.thaumcraft_reborn.focusflux.title",
+  "category": "thaumcraft_reborn:auromancy",
+  "icons": [
+    {
+      "item": {
+        "item": "focus:thaumcraft.flux",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:focuselemental"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.focusflux.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:auromancy"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/vitium"
+        }
+      ],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    4
+  ],
+  "addenda": []
+}

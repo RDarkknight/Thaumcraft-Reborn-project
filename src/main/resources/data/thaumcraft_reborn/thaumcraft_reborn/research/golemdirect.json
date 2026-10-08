@@ -1,0 +1,47 @@
+{
+  "name": "research.thaumcraft_reborn.golemdirect.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/misc/golem/head_basic"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:mindclockwork"
+  ],
+  "siblings": [],
+  "meta": [
+    "round"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.golemdirect.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.golemdirect.stage.2",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    1,
+    4
+  ],
+  "addenda": []
+}

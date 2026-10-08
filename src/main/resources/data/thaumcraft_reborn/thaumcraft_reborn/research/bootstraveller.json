@@ -1,0 +1,67 @@
+{
+  "name": "research.thaumcraft_reborn.bootstraveller.title",
+  "category": "thaumcraft_reborn:infusion",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:traveller_boots",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:infusion",
+    "thaumcraft_reborn:rechargepedestal"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.bootstraveller.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:infusion"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/motus"
+        },
+        {
+          "reference": "thaumcraft_reborn:m_walker"
+        },
+        {
+          "reference": "thaumcraft_reborn:m_runner"
+        },
+        {
+          "reference": "thaumcraft_reborn:m_swimmer"
+        },
+        {
+          "reference": "thaumcraft_reborn:m_jumper"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.bootstraveller.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:boots_traveller"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -2,
+    2
+  ],
+  "addenda": []
+}
