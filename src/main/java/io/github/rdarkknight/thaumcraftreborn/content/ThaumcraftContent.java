@@ -19,6 +19,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorMaterials;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -38,6 +43,31 @@ public final class ThaumcraftContent {
 	public static final Item NUGGET_QUARTZ = registerItem("nugget_quartz", new Item.Properties());
 	public static final Item NUGGET_QUICKSILVER = registerItem("nugget_quicksilver", new Item.Properties());
 	public static final Item CRYSTAL_ESSENCE = registerItem("crystal_essence", new Item.Properties());
+	public static final Item THAUMOMETER = registerCustomItem("thaumometer", ThaumometerItem::new,
+			new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+	private static final net.minecraft.tags.TagKey<Item> GOGGLES_REPAIR_ITEMS =
+			net.minecraft.tags.TagKey.create(Registries.ITEM, ThaumcraftReborn.id("repairs/goggles"));
+	private static final ArmorMaterial GOGGLES_ARMOR_MATERIAL = new ArmorMaterial(
+			25,
+			java.util.Map.of(
+					ArmorType.HELMET, 1,
+					ArmorType.CHESTPLATE, 3,
+					ArmorType.LEGGINGS, 2,
+					ArmorType.BOOTS, 1,
+					ArmorType.BODY, 0
+			),
+			25,
+			SoundEvents.ARMOR_EQUIP_LEATHER,
+			1.0F,
+			0.0F,
+			GOGGLES_REPAIR_ITEMS,
+			ArmorMaterials.LEATHER.assetId()
+	);
+	public static final Item GOGGLES = registerItem("goggles",
+			new Item.Properties().humanoidArmor(GOGGLES_ARMOR_MATERIAL, ArmorType.HELMET)
+					.durability(350).rarity(Rarity.RARE).repairable(GOGGLES_REPAIR_ITEMS));
+	public static final Item THAUMONOMICON = registerCustomItem("thaumonomicon_normal", ThaumonomiconItem::new,
+			new Item.Properties().stacksTo(1));
 
 	public static final Block ORE_AMBER = registerBlock("ore_amber",
 			properties -> new DropExperienceBlock(net.minecraft.util.valueproviders.UniformInt.of(1, 4), properties),
@@ -97,7 +127,8 @@ public final class ThaumcraftContent {
 	);
 	public static final List<Item> ITEMS = List.of(
 			AMBER, QUICKSILVER, INGOT_THAUMIUM, NUGGET_THAUMIUM, NUGGET_QUARTZ, NUGGET_QUICKSILVER,
-			THAUMIUM_SWORD, THAUMIUM_AXE, THAUMIUM_PICK, THAUMIUM_SHOVEL, THAUMIUM_HOE, CRYSTAL_ESSENCE
+			THAUMIUM_SWORD, THAUMIUM_AXE, THAUMIUM_PICK, THAUMIUM_SHOVEL, THAUMIUM_HOE, CRYSTAL_ESSENCE,
+			THAUMOMETER, GOGGLES, THAUMONOMICON
 	);
 	private static final List<ResourceKey<Aspect>> PRIMAL_ASPECTS =
 			List.of(Aspects.AIR, Aspects.EARTH, Aspects.FIRE, Aspects.WATER, Aspects.ORDER, Aspects.ENTROPY);
@@ -149,6 +180,11 @@ public final class ThaumcraftContent {
 	private static Item registerItem(String name, Item.Properties properties) {
 		return Registry.register(BuiltInRegistries.ITEM, ThaumcraftReborn.id(name),
 				new Item(properties.setId(ResourceKey.create(Registries.ITEM, ThaumcraftReborn.id(name)))));
+	}
+
+	private static Item registerCustomItem(String name, Function<Item.Properties, Item> factory, Item.Properties properties) {
+		return Registry.register(BuiltInRegistries.ITEM, ThaumcraftReborn.id(name),
+				factory.apply(properties.setId(ResourceKey.create(Registries.ITEM, ThaumcraftReborn.id(name)))));
 	}
 
 	private static Item registerTool(String name, Item.Properties properties) {

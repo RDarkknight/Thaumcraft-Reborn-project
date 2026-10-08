@@ -19,6 +19,15 @@
       "io.github.rdarkknight.thaumcraftreborn.client.datagen.ThaumcraftRebornDataGenerator"
     ]
   },
+  "mixins": [
+    {
+      "config": "thaumcraft_reborn.mixins.json"
+    },
+    {
+      "config": "thaumcraft_reborn.client.mixins.json",
+      "environment": "client"
+    }
+  ],
   "depends": {
     "fabricloader": ">=0.19.5",
     "minecraft": "~26.3",

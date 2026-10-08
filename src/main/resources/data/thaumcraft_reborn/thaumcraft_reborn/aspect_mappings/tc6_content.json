@@ -236,6 +236,41 @@
     {
       "item": "thaumcraft_reborn:crystal_essence",
       "aspects": {}
+    },
+    {
+      "item": "thaumcraft_reborn:thaumometer",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 10,
+        "thaumcraft_reborn:auram": 10,
+        "thaumcraft_reborn:metallum": 30,
+        "thaumcraft_reborn:desiderium": 30,
+        "thaumcraft_reborn:praecantatio": 3
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:goggles",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 25,
+        "thaumcraft_reborn:auram": 25,
+        "thaumcraft_reborn:bestia": 15,
+        "thaumcraft_reborn:praemunio": 15,
+        "thaumcraft_reborn:metallum": 60,
+        "thaumcraft_reborn:instrumentum": 7,
+        "thaumcraft_reborn:desiderium": 45,
+        "thaumcraft_reborn:praecantatio": 9
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:thaumonomicon_normal",
+      "aspects": {
+        "thaumcraft_reborn:cognitio": 17,
+        "thaumcraft_reborn:herba": 27,
+        "thaumcraft_reborn:aqua": 9,
+        "thaumcraft_reborn:aer": 4,
+        "thaumcraft_reborn:bestia": 6,
+        "thaumcraft_reborn:praemunio": 6,
+        "thaumcraft_reborn:praecantatio": 10
+      }
     }
   ]
 }

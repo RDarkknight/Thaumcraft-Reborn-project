@@ -28,5 +28,7 @@ public final class SystemsBootstrap {
 		CrystalGrowth.init();
 		AuraSystems.init();
 		ThaumcraftWorldgen.init();
+		ThaumometerSystem.init();
+		PickupResearchFlags.init();
 	}
 }

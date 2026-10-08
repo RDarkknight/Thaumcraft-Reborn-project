@@ -206,6 +206,7 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 			addTranslations(translations, "Test Probe", "Test Render Block", "Debug Container");
 			addContentTranslations(translations, false);
 			addAspectTranslations(translations);
+			addC2Translations(translations, false);
 		}
 	}
 
@@ -219,7 +220,25 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 			addTranslations(translations, "Sonda de prueba", "Bloque de prueba de renderizado", "Contenedor de depuración");
 			addContentTranslations(translations, true);
 			addAspectTranslations(translations);
+			addC2Translations(translations, true);
 		}
+	}
+
+	private static void addC2Translations(FabricLanguageProvider.TranslationBuilder translations, boolean spanish) {
+		translations.add("message.thaumcraft_reborn.scan_found", spanish ? "Nuevo descubrimiento" : "New discovery");
+		translations.add("message.thaumcraft_reborn.scan_known", spanish ? "Ya conocido" : "Already known");
+		translations.add("message.thaumcraft_reborn.scan_unknown", spanish ? "Sin aspectos que descubrir" : "Nothing to discover");
+		translations.add("message.thaumcraft_reborn.flux_warning", spanish ? "El flujo supera al vis" : "Flux exceeds vis");
+		translations.add("gui.thaumcraft_reborn.research.categories", spanish ? "Categorías" : "Categories");
+		translations.add("gui.thaumcraft_reborn.research.entries", spanish ? "Investigaciones" : "Research");
+		translations.add("gui.thaumcraft_reborn.research.stages", spanish ? "Etapas conocidas" : "Known stages");
+		translations.add("research.thaumcraft_reborn.firststeps.title", spanish ? "Primeros pasos" : "First Steps");
+		translations.add("research.thaumcraft_reborn.firststeps.stage.1", spanish ? "El primer registro." : "The first entry.");
+		translations.add("research.thaumcraft_reborn.firststeps.stage.2", spanish ? "Observa el mundo." : "Observe the world.");
+		translations.add("research.thaumcraft_reborn.firststeps.stage.3", spanish ? "Listo para continuar." : "Ready to continue.");
+		translations.add("hud.thaumcraft_reborn.revealing", spanish ? "Revelación" : "Revealing");
+		translations.add("hud.thaumcraft_reborn.vis", spanish ? "Vis" : "Vis");
+		translations.add("hud.thaumcraft_reborn.flux", spanish ? "Flujo" : "Flux");
 	}
 
 	private static void addTranslations(
@@ -267,6 +286,9 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 				case "nugget_thaumium" -> "Pepita de taumio";
 				case "nugget_quartz" -> "Pepita de cuarzo";
 				case "nugget_quicksilver" -> "Pepita de azogue";
+				case "thaumometer" -> "Thaumómetro";
+				case "goggles" -> "Gafas de revelación";
+				case "thaumonomicon_normal" -> "Thaumonomicon";
 				case "quicksilver" -> "Azogue";
 				case "log_greatwood" -> "Tronco de madera excelsa";
 				case "log_silverwood" -> "Tronco de madera plateada";
@@ -285,6 +307,15 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 						? "Cristal de " + path.substring("crystal_".length())
 						: displayName(path, false);
 			};
+		}
+		if (path.equals("thaumonomicon_normal")) {
+			return "Thaumonomicon";
+		}
+		if (path.equals("thaumometer")) {
+			return "Thaumometer";
+		}
+		if (path.equals("goggles")) {
+			return "Goggles of Revealing";
 		}
 		StringBuilder name = new StringBuilder();
 		for (String part : path.split("_")) {

@@ -76,6 +76,12 @@ Siguen vigentes las de `fabric-26.3-architecture.md` § *Confirmed architectural
 - Reglas: el namespace pasa a `thaumcraft_reborn`; la ruta se conserva tal cual (los nombres de TC6 ya están en snake_case); las variantes por metadata se aplanan como `<base>_<variante>`, igual que nombra TC6 sus texturas y modelos (`ingot` meta `thaumium` → `ingot_thaumium`).
 - No se renombra nada por estilo. Cualquier excepción se justifica en la propia tabla.
 
+## AD-11 — Mixins como último recurso de integración
+
+- Se usan Mixins sólo cuando Fabric API no ofrece un hook público para el punto necesario. Los actuales son `PlayerPickupFlagMixin` en el hook de recogida servidor de `ItemEntity.playerTouch` (Fabric API no tiene evento de recogida de items) y `ContainerScreenAccessor` para leer `hoveredSlot` en cliente.
+- La lógica de gameplay permanece en `systems`; cada mixin se limita a adaptar el hook o acceso y delegar en la lógica correspondiente.
+- Los configs de mixin usan `JAVA_25`, soportado por la versión de Mixin incluida en Fabric.
+
 ## Simplificaciones registradas
 
 | Simplificación | Motivo | Aislada detrás de | Se elimina en |

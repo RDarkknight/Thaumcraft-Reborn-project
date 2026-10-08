@@ -21,6 +21,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -124,19 +125,20 @@ public final class ThaumcraftWorldgen {
 	}
 
 	public static void init() {
-		addFeature("ore_amber");
-		addFeature("ore_cinnabar");
-		addFeature("ore_quartz");
-		addFeature("primal_crystals");
+		addFeature("ore_amber", BiomeSelectors.foundInOverworld());
+		addFeature("ore_cinnabar", BiomeSelectors.foundInOverworld());
+		addFeature("ore_quartz", BiomeSelectors.foundInOverworld());
+		addFeature("primal_crystals", BiomeSelectors.foundInOverworld());
+		addFeature("primal_crystals", BiomeSelectors.foundInTheEnd());
 	}
 
-	private static void addFeature(String path) {
+	private static void addFeature(String path, java.util.function.Predicate<net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext> selector) {
 		ResourceKey<net.minecraft.world.level.levelgen.placement.PlacedFeature> key = ResourceKey.create(
 				Registries.PLACED_FEATURE,
 				ThaumcraftReborn.id(path)
 		);
 		BiomeModifications.addFeature(
-				BiomeSelectors.foundInOverworld(),
+				selector,
 				GenerationStep.Decoration.UNDERGROUND_ORES,
 				key
 		);
@@ -154,7 +156,7 @@ public final class ThaumcraftWorldgen {
 		for (Direction direction : Direction.values()) {
 			BlockPos supportPos = pos.relative(direction);
 			var support = level.getBlockState(supportPos);
-			if (support.is(BlockTags.BASE_STONE_OVERWORLD)
+			if ((support.is(BlockTags.BASE_STONE_OVERWORLD) || support.is(Blocks.END_STONE))
 					&& Block.isFaceFull(support.getCollisionShape(level, supportPos), direction.getOpposite())) {
 				return true;
 			}
