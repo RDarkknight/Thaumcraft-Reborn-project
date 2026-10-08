@@ -1,5 +1,6 @@
 package io.github.rdarkknight.thaumcraftreborn.gametest;
 
+import eu.pb4.trinkets.api.TrinketsApi;
 import io.github.rdarkknight.thaumcraftreborn.api.ThaumcraftRebornApi;
 import io.github.rdarkknight.thaumcraftreborn.api.knowledge.KnowledgeAccess;
 import io.github.rdarkknight.thaumcraftreborn.api.research.KnowledgeType;
@@ -18,6 +19,7 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -108,6 +110,33 @@ public final class ThaumometerGameTests {
 		context.assertTrue(ThaumometerSystem.shouldSyncAura(player), "aura is sent when the thaumometer is held or in slot zero");
 		player.getInventory().setItem(0, new ItemStack(Items.STICK));
 		context.assertTrue(!ThaumometerSystem.shouldSyncAura(player), "aura condition stops when the thaumometer leaves slot zero");
+		context.succeed();
+	}
+
+	@GameTest
+	public void gogglesRevealFromTrinketSlotWithoutArmorModifiers(GameTestHelper context) {
+		ServerPlayer player = context.makeMockServerPlayerInLevel();
+		ItemStack goggles = new ItemStack(ThaumcraftContent.GOGGLES);
+		var faceInventory = TrinketsApi.getAttachment(player).getInventory().get("head").get("face");
+		var faceSlot = faceInventory.getSlotAccess(0);
+
+		context.assertTrue(faceSlot.slotType().validatorCheck(goggles, faceSlot, player),
+				"head/face accepts goggles");
+		context.assertTrue(!faceSlot.slotType().validatorCheck(new ItemStack(Items.STICK), faceSlot, player),
+				"head/face rejects a stick");
+		context.assertTrue(!RevealingEquipment.isRevealing(player), "empty slots do not reveal");
+
+		player.setItemSlot(EquipmentSlot.HEAD, goggles.copy());
+		context.assertTrue(RevealingEquipment.isRevealing(player), "helmet goggles enable revealing");
+		player.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
+
+		double armorBefore = player.getAttributeValue(Attributes.ARMOR);
+		faceInventory.setItem(0, goggles);
+		context.assertTrue(RevealingEquipment.isRevealing(player), "head/face goggles enable revealing");
+		context.assertTrue(armorBefore == 0.0 && player.getAttributeValue(Attributes.ARMOR) == armorBefore,
+				"head/face goggles do not grant armor");
+		faceInventory.setItem(0, ItemStack.EMPTY);
+		context.assertTrue(!RevealingEquipment.isRevealing(player), "removing trinket goggles disables revealing");
 		context.succeed();
 	}
 

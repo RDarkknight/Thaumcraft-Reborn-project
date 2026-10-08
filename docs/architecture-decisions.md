@@ -82,6 +82,25 @@ Siguen vigentes las de `fabric-26.3-architecture.md` § *Confirmed architectural
 - La lógica de gameplay permanece en `systems`; cada mixin se limita a adaptar el hook o acceso y delegar en la lógica correspondiente.
 - Los configs de mixin usan `JAVA_25`, soportado por la versión de Mixin incluida en Fabric.
 
+## AD-12 — Goggles y Trinkets Updated
+
+- `AccessoryAccess` es la fachada para el equipo accesorio. La lógica de gameplay no importa tipos de Trinkets; el código Trinkets de producción vive sólo en `compat.trinkets`. Los datos de slots y tags bajo `data/trinkets/...` forman parte de esa compatibilidad.
+- Las Goggles usan el slot `head/face`, equivalente a `BaubleType.HEAD` de TC6, y siguen funcionando en el slot de casco. Trinkets Updated 4.2.1 ya incluye la definición estándar `head/face`; este mod añade la asignación a jugadores y el tag de Goggles. Llevarlas en el slot accesorio no aplica atributos de armadura vanilla.
+- Quedan diferidos el renderizado de Goggles equipadas como Trinkets (TC6 `IRenderBauble`) y el descuento del 5 % de vis, que necesita los costes de vis de la Etapa D.
+
+## AD-13 — Capa de bonus de aspectos
+
+- La resolución de objetos sigue `getBaseAspects` → proveedores ordenados `AspectBonusProvider` → `AspectLimiter`. Cada proveedor transforma la lista anterior y puede reemplazarla, como hacen los contenedores de essentia; no se presupone que siempre sume aspectos.
+- `AspectBonusProviders` registra proveedores por `Identifier` durante el bootstrap, rechaza ids duplicados y expone una instantánea inmutable en orden de registro. `AspectLimiter` es instalable y empieza como `IDENTITY`.
+- En la Etapa C la capa es inerte: no se registra ningún proveedor y el limiter no se sustituye. La base se cachea por ítem; la resolución final ocurre bajo demanda, sin caché por stack. Una caché futura tendría que considerar los componentes del stack.
+- En la Etapa E se implementará la capa completa: armadura (`praemunio`), espada (`aversio`), arco, herramientas (`instrumentum`), tinte (`sensus`), encantamientos, contenedores de essentia y el limiter de TC6 (culling a 7 aspectos y cap de 500 por cantidad).
+
+## AD-14 — Aspectos de objetos nuevos de 26.3
+
+- El dataset base sigue siendo estrictamente TC6 y vive en archivos `tc6_*`; no se inventan valores para objetos exclusivos de 26.3.
+- La Etapa H añadirá un dataset de compatibilidad moderna separado, en archivos claramente nombrados (por ejemplo, `modern_*`), sin mezclarlo con `tc6_*`. Así se distingue siempre un aspecto original TC6 de uno de compatibilidad moderna. Es trabajo diferido, no descartado.
+- Los `{}` de override existentes para 74 ids exclusivos de 26.3 en la capa generada significan «sin valor TC6». La capa moderna podrá reemplazarlos explícitamente con `replace`, según AD-04.
+
 ## Simplificaciones registradas
 
 | Simplificación | Motivo | Aislada detrás de | Se elimina en |
@@ -90,7 +109,8 @@ Siguen vigentes las de `fabric-26.3-architecture.md` § *Confirmed architectural
 | El attachment de aura no se sincroniza al cliente | HUD/thaumometer aún no existen | `AuraAccess` | Etapa C |
 | `addFlux(..., showEffect)` no emite efectos | La política de FX pertenece a la simulación completa | `AuraAccess` | Etapa D |
 | Sin packets de ganancia de conocimiento ni popups de interfaz | No hay UI de investigación | `KnowledgeAccess` | Etapa C |
-| Sin aspectos de bonificación por encantamientos, pociones o contenedores | Aún no existen esos consumidores | `AspectLookup` | Etapa C |
+| Sin aspectos de bonificación por armadura, herramientas, encantamientos, pociones o contenedores | Se conserva la resolución base durante C | `AspectBonusProvider` / `AspectLimiter` (AD-13) | Etapa E |
+| Las Goggles no se renderizan al llevarlas en un slot de Trinkets | El renderizado equivalente a TC6 `IRenderBauble` queda separado del slot funcional | `AccessoryAccess` (AD-12) | Etapa H |
 | Research Table simplificada (subconjunto de cartas) | Primer milestone | Abstracciones de theorycrafting (AD-07) | Etapa H |
 
 ## Conflictos detectados y corregidos

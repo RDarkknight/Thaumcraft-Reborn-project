@@ -4,6 +4,8 @@ import com.google.gson.JsonParser;
 import com.mojang.serialization.JsonOps;
 import io.github.rdarkknight.thaumcraftreborn.api.ThaumcraftRebornApi;
 import io.github.rdarkknight.thaumcraftreborn.api.aspect.Aspect;
+import io.github.rdarkknight.thaumcraftreborn.api.aspect.AspectBonusProvider;
+import io.github.rdarkknight.thaumcraftreborn.api.aspect.AspectLimiter;
 import io.github.rdarkknight.thaumcraftreborn.api.aspect.AspectList;
 import io.github.rdarkknight.thaumcraftreborn.api.aspect.AspectLookup;
 import io.github.rdarkknight.thaumcraftreborn.api.knowledge.KnowledgeAccess;
@@ -13,6 +15,7 @@ import io.github.rdarkknight.thaumcraftreborn.content.PrimalCrystalBlock;
 import io.github.rdarkknight.thaumcraftreborn.content.ThaumcraftContent;
 import io.github.rdarkknight.thaumcraftreborn.core.component.ModDataComponents;
 import io.github.rdarkknight.thaumcraftreborn.core.registry.ThaumcraftRegistries;
+import io.github.rdarkknight.thaumcraftreborn.systems.aspect.AspectResolver;
 import io.github.rdarkknight.thaumcraftreborn.systems.recipe.ThaumcraftRecipe;
 import java.util.List;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
@@ -34,6 +37,46 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.shapes.CollisionContext;
 
 public final class StageCGameTests {
+	@GameTest
+	public void defaultAspectLookupPreservesTheBaseList(GameTestHelper context) {
+		ItemStack stone = new ItemStack(Items.STONE);
+		AspectList base = AspectLookup.get().getBaseAspects(context.getLevel(), stone);
+		AspectList resolved = AspectLookup.get().getAspects(context.getLevel(), stone);
+		Aspect terra = ThaumcraftRegistries.ASPECT.getValue(ThaumcraftRebornApi.id("terra"));
+
+		context.assertTrue(resolved == base, "default resolution returns the cached base instance");
+		context.assertTrue(resolved.equals(AspectList.of(terra, 5)), "stone retains its TC6 terra:5 mapping");
+		context.succeed();
+	}
+
+	@GameTest
+	public void aspectResolverAppliesProvidersThenLimiter(GameTestHelper context) {
+		Aspect terra = ThaumcraftRegistries.ASPECT.getValue(ThaumcraftRebornApi.id("terra"));
+		Aspect ignis = ThaumcraftRegistries.ASPECT.getValue(ThaumcraftRebornApi.id("ignis"));
+		Aspect aer = ThaumcraftRegistries.ASPECT.getValue(ThaumcraftRebornApi.id("aer"));
+		Aspect ordo = ThaumcraftRegistries.ASPECT.getValue(ThaumcraftRebornApi.id("ordo"));
+		AspectList base = AspectList.of(terra, 5);
+		List<AspectBonusProvider> providers = List.of(
+				(level, stack, aspects) -> AspectList.of(ignis, 2).add(aer, 3),
+				(level, stack, aspects) -> aspects.add(ordo, 4)
+		);
+		AspectLimiter firstTwo = aspects -> {
+			AspectList.Builder limited = AspectList.builder();
+			for (Aspect aspect : aspects.aspects().stream().limit(2).toList()) {
+				limited.add(aspect, aspects.amount(aspect));
+			}
+			return limited.build();
+		};
+
+		AspectList result = AspectResolver.resolve(
+				context.getLevel(), new ItemStack(Items.STONE), base, providers, firstTwo
+		);
+		context.assertTrue(result.equals(AspectList.of(ignis, 2).add(aer, 3))
+						&& result.aspects().equals(List.of(ignis, aer)),
+				"providers replace then add in order before limiting to the first two aspects");
+		context.succeed();
+	}
+
 	@GameTest
 	public void stageCRegistriesToolsDropsAndMappings(GameTestHelper context) {
 		context.assertTrue(BuiltInRegistries.ITEM.getValue(ThaumcraftRebornApi.id("amber")) == ThaumcraftContent.AMBER,
