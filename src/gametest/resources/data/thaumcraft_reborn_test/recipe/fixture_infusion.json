@@ -1,0 +1,15 @@
+{
+  "type": "thaumcraft_reborn:infusion",
+  "result": {
+    "id": "minecraft:diamond"
+  },
+  "central_ingredient": "minecraft:gold_ingot",
+  "components": [
+    "minecraft:iron_ingot",
+    "minecraft:iron_ingot"
+  ],
+  "aspects": {
+    "thaumcraft_reborn:aer": 3
+  },
+  "instability": 2
+}

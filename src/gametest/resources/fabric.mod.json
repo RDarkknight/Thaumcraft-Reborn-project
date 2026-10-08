@@ -8,7 +8,8 @@
     "fabric-gametest": [
       "io.github.rdarkknight.thaumcraftreborn.gametest.PhaseOneGameTests",
       "io.github.rdarkknight.thaumcraftreborn.gametest.StageAGameTests",
-      "io.github.rdarkknight.thaumcraftreborn.gametest.StageBGameTests"
+      "io.github.rdarkknight.thaumcraftreborn.gametest.StageBGameTests",
+      "io.github.rdarkknight.thaumcraftreborn.gametest.StageCGameTests"
     ],
     "fabric-client-gametest": [
       "io.github.rdarkknight.thaumcraftreborn.gametest.PhaseOneClientGameTest",
