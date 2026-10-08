@@ -258,6 +258,8 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 	public void tc6VanillaAspectMappingsPreserveFlattenedValues(GameTestHelper context) {
 		AspectMappingFile vanillaItems = AspectMappings.LOADER.serverEntries()
 				.get(ThaumcraftRebornApi.id("tc6_vanilla_items"));
+		AspectMappingFile vanillaGenerated = AspectMappings.LOADER.serverEntries()
+				.get(ThaumcraftRebornApi.id("tc6_vanilla_generated"));
 		Identifier lapisOre = Identifier.fromNamespaceAndPath("minecraft", "lapis_ore");
 		Identifier lapisOreTag = Identifier.fromNamespaceAndPath("c", "ores/lapis");
 		AspectList lapisAspects = aspectFormula("terra", 5, "sensus", 15);
@@ -265,6 +267,8 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 		context.assertTrue(AspectMappings.unknownServerRegistryTargetCount() == 0,
 				"shipped aspect mappings contain no unknown item or entity ids");
 		context.assertTrue(vanillaItems != null, "the vanilla item mapping file is loaded");
+		context.assertTrue(vanillaGenerated != null && vanillaGenerated.entries().size() == 208,
+				"the frozen TC6 generated layer loads all 208 vanilla entries");
 		context.assertTrue(vanillaItems.entries().stream()
 						.anyMatch(entry -> entry.tag().filter(lapisOreTag::equals).isPresent())
 						&& vanillaItems.entries().stream().anyMatch(entry ->
@@ -295,6 +299,11 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 				"the later dead-bush registration overwrites its earlier flattened wildcard value"
 		);
 		context.assertTrue(
+				AspectLookup.get().getAspects(context.getLevel(), vanillaItem("black_shulker_box"))
+						.equals(aspectFormula("praemunio", 15, "alienis", 7, "bestia", 7, "vacuos", 7, "herba", 13)),
+				"the corrected black shulker box mapping matches TC6's registered value"
+		);
+		context.assertTrue(
 				AspectLookup.get().getAspects(context.getLevel(), new ItemStack(Items.SUGAR))
 						.equals(aspectFormula("desiderium", 1, "potentia", 1, "herba", 3, "aqua", 2, "aer", 1)),
 				"the runtime-captured complex sugar mapping is exact"
@@ -308,6 +317,11 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 				AspectLookup.get().getAspects(context.getLevel(), vanillaItem("white_concrete"))
 						.equals(aspectFormula("terra", 3, "perditio", 2, "aqua", 1, "ordo", 1)),
 				"the runtime-captured wildcard concrete mapping is exact"
+		);
+		context.assertTrue(
+				AspectLookup.get().getAspects(context.getLevel(), vanillaItem("stone_pickaxe"))
+						.equals(aspectFormula("terra", 11, "perditio", 2, "herba", 1)),
+				"the frozen generated-layer value for a recipe-derived tool is exact"
 		);
 
 		Creeper powered = (Creeper) BuiltInRegistries.ENTITY_TYPE

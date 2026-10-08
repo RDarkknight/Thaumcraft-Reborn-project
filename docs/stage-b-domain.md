@@ -40,8 +40,9 @@ La conversión leyó sólo las llamadas vanilla `registerObjectTag` y `registerE
 | Resultado de la conversión | Cantidad |
 |---|---:|
 | `registerObjectTag` inspeccionados | 333 |
-| Entradas explícitas de ítem emitidas | 337 |
+| Targets item explícitos finales (`tc6_vanilla_items.json`) | 430 |
 | Entradas de tag emitidas | 43 |
+| Targets estáticos generados desde runtime (`tc6_vanilla_generated.json`) | 208 |
 | `registerEntityTag` inspeccionados | 81 |
 | Entradas de entidad emitidas | 53 (una con NBT) |
 | Variantes de ítem producidas por metadata wildcard | 88 |
@@ -254,13 +255,19 @@ Conversión no equivalente pendiente de decisión/Stage C (no se inventaron comp
 
 **Decisión:** las 94 llamadas se representan con valores finales explícitos; no hay derivación de recetas en runtime ni API de derivación. Se capturaron en un servidor real Java 8 con TC6 6.1.BETA26, Forge 1.12.2-14.23.5.2860 y Baubles 1.12-1.5.2. El valor estático es una copia de `CommonInternals.objectTags` obtenida con la cadena de claves de `getObjectTags` (ID exacto, metadata 32767, metadata 0–15 para wildcard, ID stripped y stripped+32767), antes de consultar APIs públicas. No se ejecuta el fallback `generateTags`, `getBonusTags` ni el cap. Se emitieron 94 IDs vanilla; 10 llamadas a contenido TC6 se difieren a Stage C. Tres targets vanilla no produjeron resultado raw (un item con raw nulo, `tripwire` sin item resoluble y `gear*` sin miembro resoluble) y se dejaron sin emitir. No se adivinaron valores. El dump completo y la tabla de cada llamada están en `/home/ubuntu/stage-b/convert/report.md`; los JSONL permanecen fuera del repositorio.
 
-El cruce contra los 337 mappings item y 43 mappings tag previos halló 59 valores item discordantes y 76 items sin contraparte raw directa. Las discrepancias y diagnósticos por item, además del cruce de tags usando membresía 26.3 y precedencia de resolución, están enumerados en el informe externo. Se conservaron las discrepancias preexistentes salvo los targets sobrescritos por los registros complejos finales; esas actualizaciones usan el valor raw de TC6.
+Se corrigieron **58 valores** del baseline de 337 mappings item con su valor raw único. La discrepancia 59 es la colisión de flattening `minecraft:dead_bush`: `minecraft:deadbush@0` da `herba:5, perditio:1` y `minecraft:tallgrass@0` da `herba:5, aer:1`; se conserva la última asignación de TC6, `herba:5, perditio:1`. Las 43 entradas tag se mantienen sin cambios. El informe externo enumera cada valor previo, el raw observado y su diagnóstico.
 
-Las 43 tags abarcan 153 apariciones de miembros vanilla en 26.3; todas quedan cubiertas por un mapping item exacto, así que ningún mapping tag tiene un miembro vanilla efectivo para comparar por separado. El informe lista cada tag y sus miembros sobrescritos; las entradas tag siguen aplicándose a miembros de otros mods no presentes en este runtime.
+### Capa generada TC6, congelada desde runtime
+
+Después del inicio del servidor, el dumper llamó `ThaumcraftCraftingManager.generateTags(stack)` para cada stack cuyo lookup raw registrado era nulo. Restauró el snapshot de `CommonInternals.objectTags` antes de cada llamada y guardó el resultado devuelto por `generateTags`, sin consultar la API pública ni implementar derivación en runtime. Los resultados vanilla no vacíos se aplanaron y congelaron en `aspect_mappings/tc6_vanilla_generated.json`: **208 entries**, disjuntas de los **430 targets item** de `tc6_vanilla_items.json` (el conversor comprueba la disjunción). `minecraft:stone_pickaxe` es un ejemplo generado: `terra:11, perditio:2, herba:1`.
+
+De 530 consultas generadas por raw nulo en el dump completo, 296 eran stacks vanilla; 208 tuvieron resultado no vacío y se representaron como item moderno único, y 88 quedaron vacías. No hubo colisiones ni targets vanilla generados no clasificables. Los 74 IDs que sólo existen en 26.3 carecen de stack legacy y reciben deliberadamente **ningún valor generado**. Para mantenerlos fuera de la herencia de tags se conserva un override exacto vacío `{}`. De los dos targets legacy restantes sin raw, `minecraft:dirt@1` se aplanó a `minecraft:coarse_dirt` y se trasladó a la capa generada con `terra:3`; `minecraft:monster_egg@1` se aplanó a `minecraft:infested_cobblestone` y no produjo ni raw ni resultado generado. Ambos stacks estaban presentes en el dump; no hubo stacks requeridos omitidos ni casos sin clasificar.
+
+Las 43 tags abarcan 153 apariciones de miembros vanilla en 26.3. Todas están cubiertas por un item exacto en una de las dos capas, por lo que ningún mapping tag tiene un miembro vanilla efectivo: las tags conservadas sirven sólo a miembros de otros mods no presentes en este runtime.
 
 ### Capa de bonus (pendiente, no implementada)
 
-`getBonusTags` aplica una capa por stack: contenedores de essentia, armadura, espada, arco, herramientas/shears/hoes, dye-oredict y encantamientos; luego `AspectHelper.cullTags` reduce hasta siete aspectos y `getObjectTags` limita a 500. No hay una rama específica de pociones en ese método: las 54 filas de poción que difieren entre raw y la consulta pública reflejan el culling general. De las 278 filas raw/public distintas, clasificación primaria: armor 12, sword 2, tool 0, bow 1, essentia container 75, enchantment 87, potion 0 y other 101 (incluye 54 filas de poción, 16 de dye-oredict y 31 restantes). La capa de bonus no se implementa ahora y queda pendiente de una decisión de etapa posterior.
+`getBonusTags` (TC6 `ThaumcraftCraftingManager.java:194+`) es una capa por stack separada del registro: los `IEssentiaContainerItem` pueden sustituir la lista base por los aspectos contenidos; armadura agrega `praemunio` según protección; espada agrega `aversio` según daño; arco agrega `aversio` y `volatus`; herramientas, shears y hoes agregan `instrumentum` según material o durabilidad; los miembros dye-oredict agregan `sensus`; y los encantamientos agregan aspectos según la tabla de TC6. Después `AspectHelper.cullTags` limita a siete aspectos y `getObjectTags` limita cada cantidad a 500. No hay una rama específica de pociones: las 54 filas de poción que difieren entre raw y la consulta pública reflejan el culling general. De las 278 filas raw/public distintas, clasificación primaria: armor 12, sword 2, tool 0, bow 1, essentia container 75, enchantment 87, potion 0 y other 101 (incluye 54 filas de poción, 16 de dye-oredict y 31 restantes). La capa de bonus no se implementa ahora y queda pendiente de una decisión de etapa posterior.
 
 | Línea | Target TC6 (expresión de fuente) | Parte explícita |
 |---:|---|---|
