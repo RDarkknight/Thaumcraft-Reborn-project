@@ -3,11 +3,12 @@ package io.github.rdarkknight.thaumcraftreborn.systems.research;
 import com.mojang.logging.LogUtils;
 import io.github.rdarkknight.thaumcraftreborn.api.ThaumcraftRebornApi;
 import io.github.rdarkknight.thaumcraftreborn.api.item.ItemReference;
+import io.github.rdarkknight.thaumcraftreborn.api.research.ItemRequirement;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchAccess;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchBounds;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchCategory;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchEntry;
-import io.github.rdarkknight.thaumcraftreborn.api.research.ItemRequirement;
+import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchIcon.Item;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchStage;
 import io.github.rdarkknight.thaumcraftreborn.core.data.SyncedDataLoader;
 import java.util.ArrayList;
@@ -137,7 +138,7 @@ public final class ResearchIndex implements ResearchAccess {
 		LinkedHashSet<Identifier> unresolved = new LinkedHashSet<>();
 		for (ResearchEntry entry : entries.values()) {
 			for (var icon : entry.icons()) {
-				if (icon instanceof io.github.rdarkknight.thaumcraftreborn.api.research.ResearchIcon.Item item) {
+				if (icon instanceof Item item) {
 					count += countUnresolved(item.item(), unresolved);
 				}
 			}

@@ -46,7 +46,7 @@ La conversión leyó sólo las llamadas vanilla `registerObjectTag` y `registerE
 | Entradas de entidad emitidas | 53 (una con NBT) |
 | Variantes de ítem producidas por metadata wildcard | 88 |
 | IDs desconocidos en los datos emitidos | 0 |
-| `registerComplexObjectTag` diferidos, no emitidos | 94 |
+| `registerComplexObjectTag` vanilla con valor raw emitido | 94 IDs item |
 | Llamadas de ítems/bloques propios de TC6 diferidas a C | 83 |
 | Llamadas de entidades propias de TC6 diferidas a C | 27 |
 
@@ -250,9 +250,15 @@ Los `!` no son negación. Se clasificaron 61 claves: 5 flags/eventos, 28 claves 
 
 Conversión no equivalente pendiente de decisión/Stage C (no se inventaron componentes): los NBT legacy de `crystal_essence`, `phial` y `enchanted_placeholder`; IDs sin fila en `docs/id-mapping.md` (`thaumcraft:leather`, `thaumcraft:metal`, `thaumcraft:nitor`, `thaumcraft:arcane_stone`); el mapeo del oredict `chest` se usa como `c:chests`; y los iconos legacy `focus:thaumcraft.*` se conservan como referencias `ItemReference` no resueltas tras normalizar el path a minúsculas, sin afirmar que sean ítems equivalentes. Los detalles por ocurrencia están en `/home/ubuntu/stage-b/convert/research-conversion.tsv`.
 
-## `registerComplexObjectTag`: resultados pendientes de reproducción exacta
+## `registerComplexObjectTag`: valores finales del runtime TC6
 
-**Decisión tomada:** las llamadas deben convertirse en mappings estáticos con los valores finales de TC6; no se incorpora un API de derivación de recetas ni derivación en runtime. **Estado:** 94 llamadas auditadas, 0 valores emitidos, 10 targets TC6 diferidos a Stage C y 84 targets vanilla pendientes. **Método pendiente:** volcado desde el runtime real de TC6, instrumentando `AspectEventProxy.registerComplexObjectTag` en orden durante `ConfigAspects.postInit` y antes de `ConfigRecipes.postAspects`. Las recetas añadidas por `ConfigRecipes.postAspects` se excluyen. La carpeta de recetas JSON no está presente en el source proporcionado; los registros TC6 relevantes están en Java. Los resultados aproximados previos se descartaron; no se añade nada a `tc6_vanilla_items.json` hasta obtener el volcado.
+**Decisión:** las 94 llamadas se representan con valores finales explícitos; no hay derivación de recetas en runtime ni API de derivación. Se capturaron en un servidor real Java 8 con TC6 6.1.BETA26, Forge 1.12.2-14.23.5.2860 y Baubles 1.12-1.5.2. El valor estático es una copia de `CommonInternals.objectTags` obtenida con la cadena de claves de `getObjectTags` (ID exacto, metadata 32767, metadata 0–15 para wildcard, ID stripped y stripped+32767), antes de consultar APIs públicas. No se ejecuta el fallback `generateTags`, `getBonusTags` ni el cap. Se emitieron 94 IDs vanilla; 10 llamadas a contenido TC6 se difieren a Stage C. Tres targets vanilla no produjeron resultado raw (un item con raw nulo, `tripwire` sin item resoluble y `gear*` sin miembro resoluble) y se dejaron sin emitir. No se adivinaron valores. El dump completo y la tabla de cada llamada están en `/home/ubuntu/stage-b/convert/report.md`; los JSONL permanecen fuera del repositorio.
+
+El cruce contra los 337 mappings item y 43 mappings tag previos halló 59 valores item discordantes y 76 items sin contraparte raw directa. Las discrepancias y diagnósticos por item, además del cruce de tags usando membresía 26.3 y precedencia de resolución, están enumerados en el informe externo. Se conservaron las discrepancias preexistentes salvo los targets sobrescritos por los registros complejos finales; esas actualizaciones usan el valor raw de TC6.
+
+### Capa de bonus (pendiente, no implementada)
+
+`getBonusTags` aplica una capa por stack: contenedores de essentia, armadura, espada, arco, herramientas/shears/hoes, dye-oredict y encantamientos; luego `AspectHelper.cullTags` reduce hasta siete aspectos y `getObjectTags` limita a 500. No hay una rama específica de pociones en ese método: las 54 filas de poción que difieren entre raw y la consulta pública reflejan el culling general. De las 278 filas raw/public distintas, clasificación primaria: armor 12, sword 2, tool 0, bow 1, essentia container 75, enchantment 87, potion 0 y other 101 (incluye 54 filas de poción, 16 de dye-oredict y 31 restantes). La capa de bonus no se implementa ahora y queda pendiente de una decisión de etapa posterior.
 
 | Línea | Target TC6 (expresión de fuente) | Parte explícita |
 |---:|---|---|
@@ -351,4 +357,4 @@ Conversión no equivalente pendiente de decisión/Stage C (no se inventaron comp
 | 804 | `new ItemStack(BlocksTC.arcaneEar)` | `new AspectList().add(Aspect.SENSES, 20)` |
 | 842 | `new ItemStack(ca)` | `new AspectList().add(Aspect.ELDRITCH, 5)` |
 
-La lista completa por llamada —incluidos aspectos de receta y valor final marcados como no reproducidos y el motivo— está en `/home/ubuntu/stage-b/convert/report.md`. Esto es una limitación de conversión actual, no una autorización para aproximar ni para derivar en runtime.
+La tabla anterior conserva la llamada y su parte explícita TC6; los resultados raw finales por llamada y sus motivos de no emisión se documentan en `/home/ubuntu/stage-b/convert/report.md`.

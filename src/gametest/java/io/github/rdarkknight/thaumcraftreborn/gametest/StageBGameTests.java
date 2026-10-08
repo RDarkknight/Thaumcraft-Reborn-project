@@ -294,6 +294,21 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 						.equals(aspectFormula("herba", 5, "perditio", 1)),
 				"the later dead-bush registration overwrites its earlier flattened wildcard value"
 		);
+		context.assertTrue(
+				AspectLookup.get().getAspects(context.getLevel(), new ItemStack(Items.SUGAR))
+						.equals(aspectFormula("desiderium", 1, "potentia", 1, "herba", 3, "aqua", 2, "aer", 1)),
+				"the runtime-captured complex sugar mapping is exact"
+		);
+		context.assertTrue(
+				AspectLookup.get().getAspects(context.getLevel(), new ItemStack(Items.CAKE))
+						.equals(aspectFormula("desiderium", 2, "victus", 13, "potentia", 1, "herba", 15, "aqua", 3, "aer", 1)),
+				"the runtime-captured complex cake mapping is exact"
+		);
+		context.assertTrue(
+				AspectLookup.get().getAspects(context.getLevel(), vanillaItem("white_concrete"))
+						.equals(aspectFormula("terra", 3, "perditio", 2, "aqua", 1, "ordo", 1)),
+				"the runtime-captured wildcard concrete mapping is exact"
+		);
 
 		Creeper powered = (Creeper) BuiltInRegistries.ENTITY_TYPE
 				.getValue(Identifier.fromNamespaceAndPath("minecraft", "creeper"))

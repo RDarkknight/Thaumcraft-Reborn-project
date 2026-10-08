@@ -1,6 +1,30 @@
 {
   "entries": [
     {
+      "item": "minecraft:acacia_boat",
+      "aspects": {
+        "thaumcraft_reborn:aqua": 10,
+        "thaumcraft_reborn:motus": 15,
+        "thaumcraft_reborn:herba": 11
+      }
+    },
+    {
+      "item": "minecraft:acacia_door",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 5,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:herba": 4
+      }
+    },
+    {
+      "item": "minecraft:acacia_fence_gate",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 5,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:herba": 7
+      }
+    },
+    {
       "item": "minecraft:acacia_leaves",
       "aspects": {
         "thaumcraft_reborn:herba": 5
@@ -26,6 +50,14 @@
       }
     },
     {
+      "item": "minecraft:activator_rail",
+      "aspects": {
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:metallum": 11,
+        "thaumcraft_reborn:potentia": 1
+      }
+    },
+    {
       "item": "minecraft:allium",
       "aspects": {
         "thaumcraft_reborn:herba": 5,
@@ -44,6 +76,16 @@
       "aspects": {
         "thaumcraft_reborn:herba": 5,
         "thaumcraft_reborn:victus": 5
+      }
+    },
+    {
+      "item": "minecraft:arrow",
+      "aspects": {
+        "thaumcraft_reborn:aversio": 5,
+        "thaumcraft_reborn:terra": 1,
+        "thaumcraft_reborn:instrumentum": 1,
+        "thaumcraft_reborn:volatus": 1,
+        "thaumcraft_reborn:aer": 1
       }
     },
     {
@@ -72,6 +114,20 @@
       "aspects": {
         "thaumcraft_reborn:herba": 5,
         "thaumcraft_reborn:victus": 5
+      }
+    },
+    {
+      "item": "minecraft:beacon",
+      "aspects": {
+        "thaumcraft_reborn:auram": 17,
+        "thaumcraft_reborn:praecantatio": 25,
+        "thaumcraft_reborn:permutatio": 10,
+        "thaumcraft_reborn:vitreus": 18,
+        "thaumcraft_reborn:alienis": 7,
+        "thaumcraft_reborn:ordo": 15,
+        "thaumcraft_reborn:terra": 11,
+        "thaumcraft_reborn:ignis": 11,
+        "thaumcraft_reborn:tenebrae": 11
       }
     },
     {
@@ -107,6 +163,30 @@
       }
     },
     {
+      "item": "minecraft:birch_boat",
+      "aspects": {
+        "thaumcraft_reborn:aqua": 10,
+        "thaumcraft_reborn:motus": 15,
+        "thaumcraft_reborn:herba": 11
+      }
+    },
+    {
+      "item": "minecraft:birch_door",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 5,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:herba": 4
+      }
+    },
+    {
+      "item": "minecraft:birch_fence_gate",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 5,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:herba": 7
+      }
+    },
+    {
       "item": "minecraft:birch_leaves",
       "aspects": {
         "thaumcraft_reborn:herba": 5
@@ -129,6 +209,15 @@
       "item": "minecraft:birch_wood",
       "aspects": {
         "thaumcraft_reborn:herba": 20
+      }
+    },
+    {
+      "item": "minecraft:black_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
       }
     },
     {
@@ -156,10 +245,27 @@
       }
     },
     {
+      "item": "minecraft:blaze_powder",
+      "aspects": {
+        "thaumcraft_reborn:alkimia": 5,
+        "thaumcraft_reborn:ignis": 5,
+        "thaumcraft_reborn:potentia": 1
+      }
+    },
+    {
       "item": "minecraft:blaze_rod",
       "aspects": {
         "thaumcraft_reborn:ignis": 15,
         "thaumcraft_reborn:potentia": 5
+      }
+    },
+    {
+      "item": "minecraft:blue_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
       }
     },
     {
@@ -217,11 +323,49 @@
       }
     },
     {
+      "item": "minecraft:bookshelf",
+      "aspects": {
+        "thaumcraft_reborn:cognitio": 17,
+        "thaumcraft_reborn:herba": 27,
+        "thaumcraft_reborn:aqua": 9,
+        "thaumcraft_reborn:aer": 4,
+        "thaumcraft_reborn:bestia": 6,
+        "thaumcraft_reborn:praemunio": 6
+      }
+    },
+    {
+      "item": "minecraft:bowl",
+      "aspects": {
+        "thaumcraft_reborn:vacuos": 5,
+        "thaumcraft_reborn:herba": 1
+      }
+    },
+    {
+      "item": "minecraft:brewing_stand",
+      "aspects": {
+        "thaumcraft_reborn:fabrico": 15,
+        "thaumcraft_reborn:alkimia": 25,
+        "thaumcraft_reborn:ignis": 11,
+        "thaumcraft_reborn:potentia": 3,
+        "thaumcraft_reborn:terra": 11,
+        "thaumcraft_reborn:perditio": 2
+      }
+    },
+    {
       "item": "minecraft:brick",
       "aspects": {
         "thaumcraft_reborn:aqua": 5,
         "thaumcraft_reborn:terra": 5,
         "thaumcraft_reborn:ignis": 1
+      }
+    },
+    {
+      "item": "minecraft:brown_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
       }
     },
     {
@@ -272,11 +416,29 @@
       }
     },
     {
+      "item": "minecraft:bucket",
+      "aspects": {
+        "thaumcraft_reborn:vacuos": 5,
+        "thaumcraft_reborn:metallum": 33
+      }
+    },
+    {
       "item": "minecraft:cactus",
       "aspects": {
         "thaumcraft_reborn:herba": 5,
         "thaumcraft_reborn:aqua": 5,
         "thaumcraft_reborn:aversio": 1
+      }
+    },
+    {
+      "item": "minecraft:cake",
+      "aspects": {
+        "thaumcraft_reborn:desiderium": 2,
+        "thaumcraft_reborn:victus": 13,
+        "thaumcraft_reborn:potentia": 1,
+        "thaumcraft_reborn:herba": 15,
+        "thaumcraft_reborn:aqua": 3,
+        "thaumcraft_reborn:aer": 1
       }
     },
     {
@@ -288,9 +450,29 @@
       }
     },
     {
+      "item": "minecraft:carrot_on_a_stick",
+      "aspects": {
+        "thaumcraft_reborn:motus": 5,
+        "thaumcraft_reborn:desiderium": 10,
+        "thaumcraft_reborn:aqua": 7,
+        "thaumcraft_reborn:instrumentum": 3,
+        "thaumcraft_reborn:herba": 5,
+        "thaumcraft_reborn:bestia": 5,
+        "thaumcraft_reborn:victus": 3,
+        "thaumcraft_reborn:sensus": 3
+      }
+    },
+    {
       "item": "minecraft:carved_pumpkin",
       "aspects": {
         "thaumcraft_reborn:herba": 10
+      }
+    },
+    {
+      "item": "minecraft:cauldron",
+      "aspects": {
+        "thaumcraft_reborn:alkimia": 15,
+        "thaumcraft_reborn:metallum": 78
       }
     },
     {
@@ -350,6 +532,12 @@
       }
     },
     {
+      "item": "minecraft:chest",
+      "aspects": {
+        "thaumcraft_reborn:herba": 18
+      }
+    },
+    {
       "item": "minecraft:chicken",
       "aspects": {
         "thaumcraft_reborn:bestia": 5,
@@ -397,6 +585,15 @@
       "aspects": {
         "thaumcraft_reborn:aqua": 5,
         "thaumcraft_reborn:terra": 5
+      }
+    },
+    {
+      "item": "minecraft:clock",
+      "aspects": {
+        "thaumcraft_reborn:machina": 10,
+        "thaumcraft_reborn:metallum": 30,
+        "thaumcraft_reborn:desiderium": 30,
+        "thaumcraft_reborn:potentia": 7
       }
     },
     {
@@ -457,6 +654,17 @@
       }
     },
     {
+      "item": "minecraft:comparator",
+      "aspects": {
+        "thaumcraft_reborn:machina": 15,
+        "thaumcraft_reborn:ordo": 5,
+        "thaumcraft_reborn:sensus": 5,
+        "thaumcraft_reborn:potentia": 15,
+        "thaumcraft_reborn:vitreus": 3,
+        "thaumcraft_reborn:terra": 11
+      }
+    },
+    {
       "item": "minecraft:cooked_beef",
       "aspects": {
         "thaumcraft_reborn:fabrico": 1,
@@ -513,6 +721,14 @@
       }
     },
     {
+      "item": "minecraft:cookie",
+      "aspects": {
+        "thaumcraft_reborn:desiderium": 1,
+        "thaumcraft_reborn:herba": 1,
+        "thaumcraft_reborn:victus": 1
+      }
+    },
+    {
       "item": "minecraft:copper_ingot",
       "aspects": {
         "thaumcraft_reborn:metallum": 10,
@@ -531,6 +747,13 @@
       "item": "minecraft:cracked_stone_bricks",
       "aspects": {
         "thaumcraft_reborn:perditio": 1
+      }
+    },
+    {
+      "item": "minecraft:crafting_table",
+      "aspects": {
+        "thaumcraft_reborn:fabrico": 20,
+        "thaumcraft_reborn:herba": 9
       }
     },
     {
@@ -569,6 +792,15 @@
       }
     },
     {
+      "item": "minecraft:cyan_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
+      }
+    },
+    {
       "item": "minecraft:cyan_glazed_terracotta",
       "aspects": {
         "thaumcraft_reborn:ignis": 2,
@@ -601,6 +833,30 @@
       }
     },
     {
+      "item": "minecraft:dark_oak_boat",
+      "aspects": {
+        "thaumcraft_reborn:aqua": 10,
+        "thaumcraft_reborn:motus": 15,
+        "thaumcraft_reborn:herba": 11
+      }
+    },
+    {
+      "item": "minecraft:dark_oak_door",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 5,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:herba": 4
+      }
+    },
+    {
+      "item": "minecraft:dark_oak_fence_gate",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 5,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:herba": 7
+      }
+    },
+    {
       "item": "minecraft:dark_oak_leaves",
       "aspects": {
         "thaumcraft_reborn:herba": 5
@@ -623,6 +879,16 @@
       "item": "minecraft:dark_oak_wood",
       "aspects": {
         "thaumcraft_reborn:herba": 20
+      }
+    },
+    {
+      "item": "minecraft:daylight_detector",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 10,
+        "thaumcraft_reborn:lux": 10,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:vitreus": 22,
+        "thaumcraft_reborn:herba": 2
       }
     },
     {
@@ -692,6 +958,16 @@
       }
     },
     {
+      "item": "minecraft:detector_rail",
+      "aspects": {
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:sensus": 1,
+        "thaumcraft_reborn:metallum": 11,
+        "thaumcraft_reborn:terra": 1,
+        "thaumcraft_reborn:potentia": 1
+      }
+    },
+    {
       "item": "minecraft:diamond",
       "aspects": {
         "thaumcraft_reborn:vitreus": 15,
@@ -735,6 +1011,22 @@
       }
     },
     {
+      "item": "minecraft:dispenser",
+      "aspects": {
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:permutatio": 10,
+        "thaumcraft_reborn:vacuos": 5,
+        "thaumcraft_reborn:terra": 26,
+        "thaumcraft_reborn:perditio": 5,
+        "thaumcraft_reborn:herba": 1,
+        "thaumcraft_reborn:bestia": 8,
+        "thaumcraft_reborn:fabrico": 1,
+        "thaumcraft_reborn:aversio": 7,
+        "thaumcraft_reborn:volatus": 3,
+        "thaumcraft_reborn:potentia": 7
+      }
+    },
+    {
       "item": "minecraft:dragon_breath",
       "aspects": {
         "thaumcraft_reborn:tenebrae": 10,
@@ -760,6 +1052,17 @@
         "thaumcraft_reborn:spiritus": 10,
         "thaumcraft_reborn:ignis": 10,
         "thaumcraft_reborn:tenebrae": 10
+      }
+    },
+    {
+      "item": "minecraft:dropper",
+      "aspects": {
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:permutatio": 10,
+        "thaumcraft_reborn:vacuos": 5,
+        "thaumcraft_reborn:terra": 26,
+        "thaumcraft_reborn:perditio": 5,
+        "thaumcraft_reborn:potentia": 7
       }
     },
     {
@@ -792,6 +1095,43 @@
       }
     },
     {
+      "item": "minecraft:enchanted_book",
+      "aspects": {
+        "thaumcraft_reborn:cognitio": 4,
+        "thaumcraft_reborn:herba": 6,
+        "thaumcraft_reborn:aqua": 4,
+        "thaumcraft_reborn:aer": 2,
+        "thaumcraft_reborn:bestia": 3,
+        "thaumcraft_reborn:praemunio": 3
+      }
+    },
+    {
+      "item": "minecraft:enchanted_golden_apple",
+      "aspects": {
+        "thaumcraft_reborn:praecantatio": 5,
+        "thaumcraft_reborn:victus": 15,
+        "thaumcraft_reborn:praemunio": 15
+      }
+    },
+    {
+      "item": "minecraft:enchanting_table",
+      "aspects": {
+        "thaumcraft_reborn:praecantatio": 25,
+        "thaumcraft_reborn:fabrico": 15,
+        "thaumcraft_reborn:cognitio": 3,
+        "thaumcraft_reborn:herba": 4,
+        "thaumcraft_reborn:aqua": 3,
+        "thaumcraft_reborn:aer": 1,
+        "thaumcraft_reborn:bestia": 2,
+        "thaumcraft_reborn:praemunio": 2,
+        "thaumcraft_reborn:vitreus": 22,
+        "thaumcraft_reborn:desiderium": 22,
+        "thaumcraft_reborn:terra": 15,
+        "thaumcraft_reborn:ignis": 15,
+        "thaumcraft_reborn:tenebrae": 15
+      }
+    },
+    {
       "item": "minecraft:end_portal_frame",
       "aspects": {
         "thaumcraft_reborn:alienis": 10,
@@ -812,6 +1152,32 @@
       "aspects": {
         "thaumcraft_reborn:terra": 5,
         "thaumcraft_reborn:tenebrae": 5
+      }
+    },
+    {
+      "item": "minecraft:ender_chest",
+      "aspects": {
+        "thaumcraft_reborn:permutatio": 10,
+        "thaumcraft_reborn:motus": 18,
+        "thaumcraft_reborn:vacuos": 20,
+        "thaumcraft_reborn:terra": 30,
+        "thaumcraft_reborn:ignis": 32,
+        "thaumcraft_reborn:tenebrae": 30,
+        "thaumcraft_reborn:sensus": 7,
+        "thaumcraft_reborn:praecantatio": 3,
+        "thaumcraft_reborn:alienis": 5,
+        "thaumcraft_reborn:alkimia": 2
+      }
+    },
+    {
+      "item": "minecraft:ender_eye",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 10,
+        "thaumcraft_reborn:praecantatio": 5,
+        "thaumcraft_reborn:alienis": 7,
+        "thaumcraft_reborn:motus": 11,
+        "thaumcraft_reborn:alkimia": 3,
+        "thaumcraft_reborn:ignis": 3
       }
     },
     {
@@ -843,6 +1209,19 @@
       }
     },
     {
+      "item": "minecraft:fermented_spider_eye",
+      "aspects": {
+        "thaumcraft_reborn:alkimia": 5,
+        "thaumcraft_reborn:sensus": 3,
+        "thaumcraft_reborn:bestia": 3,
+        "thaumcraft_reborn:mortuus": 3,
+        "thaumcraft_reborn:herba": 6,
+        "thaumcraft_reborn:tenebrae": 1,
+        "thaumcraft_reborn:terra": 1,
+        "thaumcraft_reborn:aqua": 1
+      }
+    },
+    {
       "item": "minecraft:fern",
       "aspects": {
         "thaumcraft_reborn:herba": 5,
@@ -850,10 +1229,39 @@
       }
     },
     {
+      "item": "minecraft:fishing_rod",
+      "aspects": {
+        "thaumcraft_reborn:aqua": 10,
+        "thaumcraft_reborn:instrumentum": 5,
+        "thaumcraft_reborn:herba": 2,
+        "thaumcraft_reborn:bestia": 7,
+        "thaumcraft_reborn:fabrico": 1
+      }
+    },
+    {
       "item": "minecraft:flint",
       "aspects": {
         "thaumcraft_reborn:terra": 5,
         "thaumcraft_reborn:instrumentum": 5
+      }
+    },
+    {
+      "item": "minecraft:flint_and_steel",
+      "aspects": {
+        "thaumcraft_reborn:ignis": 10,
+        "thaumcraft_reborn:instrumentum": 8,
+        "thaumcraft_reborn:metallum": 11,
+        "thaumcraft_reborn:terra": 3
+      }
+    },
+    {
+      "item": "minecraft:flower_pot",
+      "aspects": {
+        "thaumcraft_reborn:vacuos": 5,
+        "thaumcraft_reborn:herba": 5,
+        "thaumcraft_reborn:aqua": 11,
+        "thaumcraft_reborn:terra": 11,
+        "thaumcraft_reborn:ignis": 2
       }
     },
     {
@@ -870,6 +1278,14 @@
       }
     },
     {
+      "item": "minecraft:furnace",
+      "aspects": {
+        "thaumcraft_reborn:ignis": 10,
+        "thaumcraft_reborn:terra": 30,
+        "thaumcraft_reborn:perditio": 6
+      }
+    },
+    {
       "item": "minecraft:ghast_tear",
       "aspects": {
         "thaumcraft_reborn:exanimis": 5,
@@ -881,6 +1297,21 @@
       "item": "minecraft:glass",
       "aspects": {
         "thaumcraft_reborn:vitreus": 5
+      }
+    },
+    {
+      "item": "minecraft:glass_bottle",
+      "aspects": {
+        "thaumcraft_reborn:vacuos": 5,
+        "thaumcraft_reborn:vitreus": 3
+      }
+    },
+    {
+      "item": "minecraft:glistering_melon_slice",
+      "aspects": {
+        "thaumcraft_reborn:alkimia": 5,
+        "thaumcraft_reborn:metallum": 6,
+        "thaumcraft_reborn:desiderium": 6
       }
     },
     {
@@ -907,6 +1338,27 @@
         "thaumcraft_reborn:terra": 5,
         "thaumcraft_reborn:metallum": 10,
         "thaumcraft_reborn:desiderium": 10
+      }
+    },
+    {
+      "item": "minecraft:golden_apple",
+      "aspects": {
+        "thaumcraft_reborn:praecantatio": 5,
+        "thaumcraft_reborn:victus": 13,
+        "thaumcraft_reborn:metallum": 60,
+        "thaumcraft_reborn:desiderium": 60,
+        "thaumcraft_reborn:herba": 3
+      }
+    },
+    {
+      "item": "minecraft:golden_carrot",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 13,
+        "thaumcraft_reborn:alkimia": 5,
+        "thaumcraft_reborn:metallum": 6,
+        "thaumcraft_reborn:desiderium": 6,
+        "thaumcraft_reborn:herba": 3,
+        "thaumcraft_reborn:victus": 3
       }
     },
     {
@@ -938,6 +1390,15 @@
       }
     },
     {
+      "item": "minecraft:gray_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
+      }
+    },
+    {
       "item": "minecraft:gray_glazed_terracotta",
       "aspects": {
         "thaumcraft_reborn:ignis": 2,
@@ -959,6 +1420,15 @@
       "aspects": {
         "thaumcraft_reborn:ignis": 1,
         "thaumcraft_reborn:sensus": 1
+      }
+    },
+    {
+      "item": "minecraft:green_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
       }
     },
     {
@@ -1003,6 +1473,24 @@
       }
     },
     {
+      "item": "minecraft:heavy_weighted_pressure_plate",
+      "aspects": {
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:sensus": 5,
+        "thaumcraft_reborn:metallum": 22
+      }
+    },
+    {
+      "item": "minecraft:hopper",
+      "aspects": {
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:permutatio": 10,
+        "thaumcraft_reborn:vacuos": 5,
+        "thaumcraft_reborn:metallum": 56,
+        "thaumcraft_reborn:herba": 13
+      }
+    },
+    {
       "item": "minecraft:ice",
       "aspects": {
         "thaumcraft_reborn:gelum": 20
@@ -1020,6 +1508,14 @@
       "aspects": {
         "thaumcraft_reborn:aqua": 2,
         "thaumcraft_reborn:bestia": 2
+      }
+    },
+    {
+      "item": "minecraft:iron_door",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 5,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:metallum": 22
       }
     },
     {
@@ -1041,6 +1537,41 @@
       "aspects": {
         "thaumcraft_reborn:terra": 5,
         "thaumcraft_reborn:metallum": 15
+      }
+    },
+    {
+      "item": "minecraft:jukebox",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 20,
+        "thaumcraft_reborn:machina": 10,
+        "thaumcraft_reborn:aer": 15,
+        "thaumcraft_reborn:herba": 18,
+        "thaumcraft_reborn:vitreus": 11,
+        "thaumcraft_reborn:desiderium": 11
+      }
+    },
+    {
+      "item": "minecraft:jungle_boat",
+      "aspects": {
+        "thaumcraft_reborn:aqua": 10,
+        "thaumcraft_reborn:motus": 15,
+        "thaumcraft_reborn:herba": 11
+      }
+    },
+    {
+      "item": "minecraft:jungle_door",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 5,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:herba": 4
+      }
+    },
+    {
+      "item": "minecraft:jungle_fence_gate",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 5,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:herba": 7
       }
     },
     {
@@ -1104,6 +1635,22 @@
       }
     },
     {
+      "item": "minecraft:lever",
+      "aspects": {
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:terra": 3
+      }
+    },
+    {
+      "item": "minecraft:light_blue_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
+      }
+    },
+    {
       "item": "minecraft:light_blue_glazed_terracotta",
       "aspects": {
         "thaumcraft_reborn:ignis": 2,
@@ -1125,6 +1672,15 @@
       "aspects": {
         "thaumcraft_reborn:ignis": 1,
         "thaumcraft_reborn:sensus": 1
+      }
+    },
+    {
+      "item": "minecraft:light_gray_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
       }
     },
     {
@@ -1152,6 +1708,15 @@
       }
     },
     {
+      "item": "minecraft:light_weighted_pressure_plate",
+      "aspects": {
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:sensus": 5,
+        "thaumcraft_reborn:metallum": 15,
+        "thaumcraft_reborn:desiderium": 15
+      }
+    },
+    {
       "item": "minecraft:lilac",
       "aspects": {
         "thaumcraft_reborn:herba": 5,
@@ -1165,6 +1730,15 @@
       "aspects": {
         "thaumcraft_reborn:herba": 5,
         "thaumcraft_reborn:aqua": 1
+      }
+    },
+    {
+      "item": "minecraft:lime_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
       }
     },
     {
@@ -1189,6 +1763,15 @@
       "aspects": {
         "thaumcraft_reborn:ignis": 1,
         "thaumcraft_reborn:sensus": 1
+      }
+    },
+    {
+      "item": "minecraft:magenta_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
       }
     },
     {
@@ -1223,6 +1806,15 @@
       }
     },
     {
+      "item": "minecraft:magma_cream",
+      "aspects": {
+        "thaumcraft_reborn:alkimia": 9,
+        "thaumcraft_reborn:ignis": 3,
+        "thaumcraft_reborn:aqua": 3,
+        "thaumcraft_reborn:victus": 3
+      }
+    },
+    {
       "item": "minecraft:mangrove_leaves",
       "aspects": {
         "thaumcraft_reborn:herba": 5
@@ -1248,6 +1840,12 @@
       }
     },
     {
+      "item": "minecraft:melon",
+      "aspects": {
+        "thaumcraft_reborn:herba": 10
+      }
+    },
+    {
       "item": "minecraft:melon_seeds",
       "aspects": {
         "thaumcraft_reborn:herba": 5,
@@ -1269,6 +1867,13 @@
       }
     },
     {
+      "item": "minecraft:minecart",
+      "aspects": {
+        "thaumcraft_reborn:motus": 15,
+        "thaumcraft_reborn:metallum": 56
+      }
+    },
+    {
       "item": "minecraft:mossy_cobblestone",
       "aspects": {
         "thaumcraft_reborn:terra": 5,
@@ -1280,6 +1885,17 @@
       "item": "minecraft:mossy_stone_bricks",
       "aspects": {
         "thaumcraft_reborn:herba": 1
+      }
+    },
+    {
+      "item": "minecraft:mushroom_stew",
+      "aspects": {
+        "thaumcraft_reborn:victus": 5,
+        "thaumcraft_reborn:herba": 8,
+        "thaumcraft_reborn:tenebrae": 3,
+        "thaumcraft_reborn:terra": 1,
+        "thaumcraft_reborn:ignis": 1,
+        "thaumcraft_reborn:vacuos": 3
       }
     },
     {
@@ -1460,6 +2076,31 @@
       }
     },
     {
+      "item": "minecraft:note_block",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 20,
+        "thaumcraft_reborn:machina": 10,
+        "thaumcraft_reborn:aer": 15,
+        "thaumcraft_reborn:herba": 18,
+        "thaumcraft_reborn:potentia": 7
+      }
+    },
+    {
+      "item": "minecraft:oak_boat",
+      "aspects": {
+        "thaumcraft_reborn:aqua": 10,
+        "thaumcraft_reborn:motus": 15,
+        "thaumcraft_reborn:herba": 11
+      }
+    },
+    {
+      "item": "minecraft:oak_button",
+      "aspects": {
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:herba": 2
+      }
+    },
+    {
       "item": "minecraft:oak_leaves",
       "aspects": {
         "thaumcraft_reborn:herba": 5
@@ -1472,10 +2113,25 @@
       }
     },
     {
+      "item": "minecraft:oak_pressure_plate",
+      "aspects": {
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:sensus": 5,
+        "thaumcraft_reborn:herba": 4
+      }
+    },
+    {
       "item": "minecraft:oak_sapling",
       "aspects": {
         "thaumcraft_reborn:herba": 15,
         "thaumcraft_reborn:victus": 5
+      }
+    },
+    {
+      "item": "minecraft:oak_trapdoor",
+      "aspects": {
+        "thaumcraft_reborn:motus": 5,
+        "thaumcraft_reborn:herba": 6
       }
     },
     {
@@ -1490,6 +2146,15 @@
         "thaumcraft_reborn:terra": 5,
         "thaumcraft_reborn:ignis": 5,
         "thaumcraft_reborn:tenebrae": 5
+      }
+    },
+    {
+      "item": "minecraft:orange_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
       }
     },
     {
@@ -1571,12 +2236,30 @@
       }
     },
     {
+      "item": "minecraft:paper",
+      "aspects": {
+        "thaumcraft_reborn:cognitio": 2,
+        "thaumcraft_reborn:herba": 3,
+        "thaumcraft_reborn:aqua": 2,
+        "thaumcraft_reborn:aer": 1
+      }
+    },
+    {
       "item": "minecraft:peony",
       "aspects": {
         "thaumcraft_reborn:herba": 5,
         "thaumcraft_reborn:aer": 1,
         "thaumcraft_reborn:sensus": 5,
         "thaumcraft_reborn:victus": 1
+      }
+    },
+    {
+      "item": "minecraft:pink_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
       }
     },
     {
@@ -1609,6 +2292,18 @@
         "thaumcraft_reborn:herba": 5,
         "thaumcraft_reborn:victus": 1,
         "thaumcraft_reborn:sensus": 5
+      }
+    },
+    {
+      "item": "minecraft:piston",
+      "aspects": {
+        "thaumcraft_reborn:machina": 10,
+        "thaumcraft_reborn:motus": 10,
+        "thaumcraft_reborn:herba": 6,
+        "thaumcraft_reborn:terra": 15,
+        "thaumcraft_reborn:perditio": 3,
+        "thaumcraft_reborn:metallum": 11,
+        "thaumcraft_reborn:potentia": 7
       }
     },
     {
@@ -1686,6 +2381,15 @@
       }
     },
     {
+      "item": "minecraft:powered_rail",
+      "aspects": {
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:potentia": 2,
+        "thaumcraft_reborn:metallum": 7,
+        "thaumcraft_reborn:desiderium": 7
+      }
+    },
+    {
       "item": "minecraft:prismarine_crystals",
       "aspects": {
         "thaumcraft_reborn:aqua": 5,
@@ -1709,10 +2413,28 @@
       }
     },
     {
+      "item": "minecraft:pumpkin_pie",
+      "aspects": {
+        "thaumcraft_reborn:desiderium": 1,
+        "thaumcraft_reborn:victus": 2,
+        "thaumcraft_reborn:herba": 9,
+        "thaumcraft_reborn:aqua": 1
+      }
+    },
+    {
       "item": "minecraft:pumpkin_seeds",
       "aspects": {
         "thaumcraft_reborn:herba": 5,
         "thaumcraft_reborn:victus": 1
+      }
+    },
+    {
+      "item": "minecraft:purple_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
       }
     },
     {
@@ -1763,6 +2485,22 @@
       "aspects": {
         "thaumcraft_reborn:bestia": 5,
         "thaumcraft_reborn:praemunio": 2
+      }
+    },
+    {
+      "item": "minecraft:rail",
+      "aspects": {
+        "thaumcraft_reborn:motus": 10,
+        "thaumcraft_reborn:metallum": 4
+      }
+    },
+    {
+      "item": "minecraft:red_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
       }
     },
     {
@@ -1840,6 +2578,14 @@
       }
     },
     {
+      "item": "minecraft:repeater",
+      "aspects": {
+        "thaumcraft_reborn:machina": 15,
+        "thaumcraft_reborn:potentia": 28,
+        "thaumcraft_reborn:terra": 11
+      }
+    },
+    {
       "item": "minecraft:rooted_dirt",
       "aspects": {
         "thaumcraft_reborn:terra": 5
@@ -1883,6 +2629,14 @@
       "aspects": {
         "thaumcraft_reborn:terra": 5,
         "thaumcraft_reborn:perditio": 5
+      }
+    },
+    {
+      "item": "minecraft:shield",
+      "aspects": {
+        "thaumcraft_reborn:praemunio": 20,
+        "thaumcraft_reborn:herba": 13,
+        "thaumcraft_reborn:metallum": 11
       }
     },
     {
@@ -1941,6 +2695,15 @@
       }
     },
     {
+      "item": "minecraft:spectral_arrow",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 17,
+        "thaumcraft_reborn:praecantatio": 5,
+        "thaumcraft_reborn:lux": 15,
+        "thaumcraft_reborn:aversio": 1
+      }
+    },
+    {
       "item": "minecraft:spider_eye",
       "aspects": {
         "thaumcraft_reborn:sensus": 5,
@@ -1954,6 +2717,30 @@
         "thaumcraft_reborn:terra": 5,
         "thaumcraft_reborn:vinculum": 5,
         "thaumcraft_reborn:vacuos": 5
+      }
+    },
+    {
+      "item": "minecraft:spruce_boat",
+      "aspects": {
+        "thaumcraft_reborn:aqua": 10,
+        "thaumcraft_reborn:motus": 15,
+        "thaumcraft_reborn:herba": 11
+      }
+    },
+    {
+      "item": "minecraft:spruce_door",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 5,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:herba": 4
+      }
+    },
+    {
+      "item": "minecraft:spruce_fence_gate",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 5,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:herba": 7
       }
     },
     {
@@ -1982,9 +2769,36 @@
       }
     },
     {
+      "item": "minecraft:sticky_piston",
+      "aspects": {
+        "thaumcraft_reborn:machina": 17,
+        "thaumcraft_reborn:motus": 17,
+        "thaumcraft_reborn:aqua": 3,
+        "thaumcraft_reborn:victus": 3,
+        "thaumcraft_reborn:herba": 4,
+        "thaumcraft_reborn:terra": 11,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:metallum": 8,
+        "thaumcraft_reborn:potentia": 5
+      }
+    },
+    {
       "item": "minecraft:stone",
       "aspects": {
         "thaumcraft_reborn:terra": 5
+      }
+    },
+    {
+      "item": "minecraft:stone_button",
+      "aspects": {
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:terra": 3
+      }
+    },
+    {
+      "item": "minecraft:stone_pressure_plate",
+      "aspects": {
+        "thaumcraft_reborn:terra": 7
       }
     },
     {
@@ -2139,6 +2953,16 @@
       }
     },
     {
+      "item": "minecraft:sugar",
+      "aspects": {
+        "thaumcraft_reborn:desiderium": 1,
+        "thaumcraft_reborn:potentia": 1,
+        "thaumcraft_reborn:herba": 3,
+        "thaumcraft_reborn:aqua": 2,
+        "thaumcraft_reborn:aer": 1
+      }
+    },
+    {
       "item": "minecraft:sugar_cane",
       "aspects": {
         "thaumcraft_reborn:herba": 5,
@@ -2175,12 +2999,28 @@
       }
     },
     {
+      "item": "minecraft:torch",
+      "aspects": {
+        "thaumcraft_reborn:lux": 5,
+        "thaumcraft_reborn:potentia": 1,
+        "thaumcraft_reborn:ignis": 1
+      }
+    },
+    {
       "item": "minecraft:totem_of_undying",
       "aspects": {
         "thaumcraft_reborn:ordo": 10,
         "thaumcraft_reborn:perditio": 10,
         "thaumcraft_reborn:victus": 25,
         "thaumcraft_reborn:exanimis": 10
+      }
+    },
+    {
+      "item": "minecraft:trapped_chest",
+      "aspects": {
+        "thaumcraft_reborn:vinculum": 10,
+        "thaumcraft_reborn:herba": 14,
+        "thaumcraft_reborn:metallum": 3
       }
     },
     {
@@ -2252,6 +3092,15 @@
       }
     },
     {
+      "item": "minecraft:white_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
+      }
+    },
+    {
       "item": "minecraft:white_glazed_terracotta",
       "aspects": {
         "thaumcraft_reborn:ignis": 2,
@@ -2296,6 +3145,15 @@
         "thaumcraft_reborn:mortuus": 10,
         "thaumcraft_reborn:spiritus": 10,
         "thaumcraft_reborn:exanimis": 10
+      }
+    },
+    {
+      "item": "minecraft:yellow_concrete",
+      "aspects": {
+        "thaumcraft_reborn:terra": 3,
+        "thaumcraft_reborn:perditio": 2,
+        "thaumcraft_reborn:aqua": 1,
+        "thaumcraft_reborn:ordo": 1
       }
     },
     {
