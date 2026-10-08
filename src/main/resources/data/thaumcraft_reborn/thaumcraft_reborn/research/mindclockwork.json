@@ -1,0 +1,87 @@
+{
+  "name": "research.thaumcraft_reborn.mindclockwork.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:mind_clockwork",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:basegolemancy",
+    "thaumcraft_reborn:essentiasmelter",
+    "thaumcraft_reborn:hedgealchemy"
+  ],
+  "siblings": [
+    "thaumcraft_reborn:controlseals",
+    "thaumcraft_reborn:matstudwood"
+  ],
+  "meta": [
+    "reverse"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.mindclockwork.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/cognitio"
+        },
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/victus"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.mindclockwork.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:mind_clockwork"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:artifice"
+        },
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.mindclockwork.stage.3",
+      "recipes": [
+        "thaumcraft_reborn:mind_clockwork",
+        "thaumcraft_reborn:golem_press"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    3
+  ],
+  "addenda": []
+}

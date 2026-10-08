@@ -1,0 +1,65 @@
+{
+  "name": "research.thaumcraft_reborn.essentiasmelterthaumium.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:smelter_thaumium",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:tubes",
+    "thaumcraft_reborn:metallurgy@3"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.essentiasmelterthaumium.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:plate_thaumium",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:metal",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.essentiasmelterthaumium.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:essentia_smelter_thaumium"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    8,
+    0
+  ],
+  "addenda": []
+}

@@ -1,0 +1,40 @@
+{
+  "name": "research.thaumcraft_reborn.basealchemy.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/cat_alchemy"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:unlockalchemy"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.basealchemy.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:nitor",
+        "thaumcraft_reborn:nitorgroup",
+        "thaumcraft_reborn:viscrystalgroup",
+        "thaumcraft_reborn:phial",
+        "thaumcraft_reborn:filter",
+        "thaumcraft_reborn:morphic_resonator"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    0
+  ],
+  "addenda": []
+}

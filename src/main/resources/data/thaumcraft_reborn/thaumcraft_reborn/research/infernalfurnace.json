@@ -1,0 +1,87 @@
+{
+  "name": "research.thaumcraft_reborn.infernalfurnace.title",
+  "category": "thaumcraft_reborn:artifice",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:infernal_furnace",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:baseartifice"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.infernalfurnace.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "minecraft:obsidian",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "minecraft:nether_brick",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "minecraft:blaze_rod",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:artifice"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/ignis"
+        },
+        {
+          "reference": "thaumcraft_reborn:m_hellandback"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.infernalfurnace.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:infernalfurnace",
+        "thaumcraft_reborn:triplemeattreatfake"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    3,
+    -1
+  ],
+  "addenda": [
+    {
+      "text": "research.thaumcraft_reborn.infernalfurnace.bellows",
+      "recipes": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:bellows"
+        }
+      ]
+    }
+  ]
+}

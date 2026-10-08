@@ -1,0 +1,65 @@
+{
+  "name": "research.thaumcraft_reborn.golemcombatadv.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/misc/golem/addon_fighter"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:sealguard"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.golemcombatadv.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "minecraft:arrow",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "minecraft:shears",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/aversio"
+        },
+        {
+          "reference": "thaumcraft_reborn:f_dispenser"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.golemcombatadv.stage.2",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -12,
+    2
+  ],
+  "addenda": []
+}

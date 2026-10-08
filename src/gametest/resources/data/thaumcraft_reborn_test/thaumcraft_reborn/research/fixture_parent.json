@@ -1,0 +1,10 @@
+{
+  "name": "research.thaumcraft_reborn_test.fixture_parent",
+  "category": "thaumcraft_reborn_test:fixture",
+  "location": [3, -2],
+  "stages": [
+    {
+      "text": "stage.thaumcraft_reborn_test.fixture_parent"
+    }
+  ]
+}

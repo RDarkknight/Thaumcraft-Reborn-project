@@ -3,7 +3,9 @@ package io.github.rdarkknight.thaumcraftreborn.client.datagen;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.github.rdarkknight.thaumcraftreborn.ThaumcraftReborn;
+import io.github.rdarkknight.thaumcraftreborn.api.aspect.Aspect;
 import io.github.rdarkknight.thaumcraftreborn.content.debug.DebugContent;
+import io.github.rdarkknight.thaumcraftreborn.systems.aspect.AspectDefinitions;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -25,6 +27,8 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 		pack.addProvider((output, lookup) -> new EnglishLanguageProvider(output, lookup));
 		pack.addProvider((output, lookup) -> new SpanishLanguageProvider(output, lookup));
 		pack.addProvider(ModBlockLootProvider::new);
+		pack.addProvider(BiomeAuraDataProvider::new);
+		pack.addProvider((output, lookup) -> new BiomeAuraTagsProvider(output, lookup));
 	}
 
 	private static final class ModModelProvider implements DataProvider {
@@ -117,6 +121,7 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 		@Override
 		public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translations) {
 			addTranslations(translations, "Test Probe", "Test Render Block", "Debug Container");
+			addAspectTranslations(translations);
 		}
 	}
 
@@ -128,6 +133,7 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 		@Override
 		public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translations) {
 			addTranslations(translations, "Sonda de prueba", "Bloque de prueba de renderizado", "Contenedor de depuración");
+			addAspectTranslations(translations);
 		}
 	}
 
@@ -141,6 +147,13 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 		translations.add("block.thaumcraft_reborn.test_render_block", blockName);
 		translations.add("block.thaumcraft_reborn.debug_container", debugContainerName);
 		translations.add("container.thaumcraft_reborn.debug_container", debugContainerName);
+	}
+
+	private static void addAspectTranslations(FabricLanguageProvider.TranslationBuilder translations) {
+		for (Aspect aspect : AspectDefinitions.ALL) {
+			String tag = aspect.tag();
+			translations.add(aspect.translationKey(), Character.toUpperCase(tag.charAt(0)) + tag.substring(1));
+		}
 	}
 
 	private static final class ModBlockLootProvider extends FabricBlockLootSubProvider {

@@ -1,0 +1,62 @@
+{
+  "name": "research.thaumcraft_reborn.ore.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "item": {
+        "item": "minecraft:iron_pickaxe",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.ore.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -4,
+    0
+  ],
+  "addenda": [
+    {
+      "text": "research.thaumcraft_reborn.ore.amber",
+      "recipes": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/ore_amber"
+        }
+      ]
+    },
+    {
+      "text": "research.thaumcraft_reborn.ore.cinnabar",
+      "recipes": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/ore_cinnabar"
+        }
+      ]
+    },
+    {
+      "text": "research.thaumcraft_reborn.ore.crystal",
+      "recipes": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/ore_crystal"
+        }
+      ]
+    }
+  ]
+}

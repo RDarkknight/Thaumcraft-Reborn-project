@@ -1,0 +1,31 @@
+{
+  "name": "research.thaumcraft_reborn.scan.eldritch_crab.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/r_crab"
+    }
+  ],
+  "parents": [],
+  "siblings": [],
+  "meta": [
+    "hex",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.scan.eldritch_crab.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -10,
+    2
+  ],
+  "addenda": []
+}

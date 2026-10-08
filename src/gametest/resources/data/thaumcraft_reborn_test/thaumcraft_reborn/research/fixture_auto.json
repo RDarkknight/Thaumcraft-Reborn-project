@@ -1,0 +1,11 @@
+{
+  "name": "research.thaumcraft_reborn_test.fixture_auto",
+  "category": "thaumcraft_reborn_test:fixture",
+  "meta": ["autounlock"],
+  "location": [0, 0],
+  "stages": [
+    {
+      "text": "stage.thaumcraft_reborn_test.fixture_auto"
+    }
+  ]
+}

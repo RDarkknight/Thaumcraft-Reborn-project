@@ -1,0 +1,15 @@
+{
+  "sort_order": 1,
+  "formula": {
+    "thaumcraft_reborn:auram": 20,
+    "thaumcraft_reborn:praecantatio": 20,
+    "thaumcraft_reborn:vitium": 15,
+    "thaumcraft_reborn:vitreus": 5,
+    "thaumcraft_reborn:gelum": 5,
+    "thaumcraft_reborn:aer": 5
+  },
+  "icon": "thaumcraft_reborn:textures/research/cat_auromancy",
+  "background": "thaumcraft_reborn:textures/gui/gui_research_back_2",
+  "background2": "thaumcraft_reborn:textures/gui/gui_research_back_over",
+  "research_key": "thaumcraft_reborn:unlockauromancy"
+}

@@ -1,0 +1,36 @@
+{
+  "name": "research.thaumcraft_reborn.baseinfusion.title",
+  "category": "thaumcraft_reborn:infusion",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/cat_infusion"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:unlockinfusion"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.baseinfusion.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:banners",
+        "thaumcraft_reborn:baubles_stuff"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    0
+  ],
+  "addenda": []
+}

@@ -1,0 +1,79 @@
+{
+  "name": "research.thaumcraft_reborn.unlockalchemy.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/cat_alchemy"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:firststeps"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "spiky"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.unlockalchemy.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:basics"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.unlockalchemy.stage.2",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:crucible",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.unlockalchemy.stage.3",
+      "recipes": [
+        "thaumcraft_reborn:nitor",
+        "thaumcraft_reborn:nitorcolor"
+      ],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:nitor",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    2
+  ],
+  "addenda": []
+}

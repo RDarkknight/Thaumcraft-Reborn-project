@@ -1,0 +1,96 @@
+{
+  "name": "research.thaumcraft_reborn.infusion.title",
+  "category": "thaumcraft_reborn:infusion",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:infusion_matrix",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:baseinfusion"
+  ],
+  "siblings": [],
+  "meta": [
+    "spiky"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.infusion.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "minecraft:stone",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "minecraft:feather",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:phial_filled",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:infusion"
+        },
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:infusion"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.infusion.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:infusion_matrix"
+      ],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:infusion_matrix",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.infusion.stage.3",
+      "recipes": [
+        "thaumcraft_reborn:infusion_matrix",
+        "thaumcraft_reborn:arcane_pedestal",
+        "thaumcraft_reborn:infusionaltar"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    2
+  ],
+  "addenda": []
+}

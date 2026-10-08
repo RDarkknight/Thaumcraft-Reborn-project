@@ -53,6 +53,7 @@ Siguen vigentes las de `fabric-26.3-architecture.md` § *Confirmed architectural
 ## AD-07 — Knowledge / Research / Theory
 
 - El modelo de conocimiento del jugador se diseña desde la Etapa B para el sistema definitivo de TC6: stages de research, puntos de conocimiento por categoría y tipo (OBSERVATION / THEORY), flags y warp.
+- Los campos de ítems de research usan `ItemReference` (ID, count y patch de componentes) y se resuelven sólo al usarlos. En Minecraft 26.3 el registro enlaza componentes después de terminar los reload listeners, así que `ItemStack.CODEC` no puede decodificar esos campos durante el reload; los IDs aún no registrados deben preservar la entrada de research.
 - **No existen fuentes temporales de THEORY.** THEORY sólo se obtiene por theorycrafting, como en TC6.
 - Para el primer milestone (Etapa D) se puede implementar una Research Table / theorycrafting **simplificada**: un subconjunto de cartas y aids sobre las mismas abstracciones, datos y codecs que usará el sistema completo (Etapa H), sin un modelo paralelo. Cierra §6.2 del roadmap (opción 1).
 
@@ -79,7 +80,11 @@ Siguen vigentes las de `fabric-26.3-architecture.md` § *Confirmed architectural
 
 | Simplificación | Motivo | Aislada detrás de | Se elimina en |
 |---|---|---|---|
-| Aura mínima: sólo regeneración hacia `base`, sin difusión | Desbloquea consumidores de la Etapa B/C | `AuraAccess` | Etapa D |
+| Aura mínima: regeneración de vis por fase lunar cada 20 ticks; sin difusión, decaimiento, comportamiento de vis bajo, propagación de flux ni rifts | Desbloquea consumidores de la Etapa B/C | `AuraAccess` | Etapa D |
+| El attachment de aura no se sincroniza al cliente | HUD/thaumometer aún no existen | `AuraAccess` | Etapa C |
+| `addFlux(..., showEffect)` no emite efectos | La política de FX pertenece a la simulación completa | `AuraAccess` | Etapa D |
+| Sin packets de ganancia de conocimiento ni popups de interfaz | No hay UI de investigación | `KnowledgeAccess` | Etapa C |
+| Sin aspectos de bonificación por encantamientos, pociones o contenedores | Aún no existen esos consumidores | `AspectLookup` | Etapa C |
 | Research Table simplificada (subconjunto de cartas) | Primer milestone | Abstracciones de theorycrafting (AD-07) | Etapa H |
 
 ## Conflictos detectados y corregidos

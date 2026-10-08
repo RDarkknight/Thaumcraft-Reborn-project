@@ -16,5 +16,6 @@ public final class ContentBootstrap {
 		DebugData.init();
 		DebugFx.init();
 		DebugCommands.init();
+		ResearchCommands.init();
 	}
 }

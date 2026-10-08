@@ -1,0 +1,47 @@
+{
+  "name": "research.thaumcraft_reborn.alumentum.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/item/alumentum"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:basealchemy"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.alumentum.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:basics"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.alumentum.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:alumentum"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    2,
+    -1
+  ],
+  "addenda": []
+}

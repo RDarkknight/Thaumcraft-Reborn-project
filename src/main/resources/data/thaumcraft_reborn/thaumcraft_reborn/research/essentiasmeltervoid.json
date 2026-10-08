@@ -1,0 +1,73 @@
+{
+  "name": "research.thaumcraft_reborn.essentiasmeltervoid.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:smelter_void",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:essentiasmelterthaumium",
+    "thaumcraft_reborn:baseeldritch"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.essentiasmeltervoid.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:adv_alchemy_construct"
+      ],
+      "required_item": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:plate_void",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:metal",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        },
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:eldritch"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.essentiasmeltervoid.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:adv_alchemy_construct",
+        "thaumcraft_reborn:essentia_smelter_void"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    12,
+    0
+  ],
+  "addenda": []
+}

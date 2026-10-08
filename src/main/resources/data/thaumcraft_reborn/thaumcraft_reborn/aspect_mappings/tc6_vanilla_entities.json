@@ -1,0 +1,421 @@
+{
+  "entries": [
+    {
+      "entity": "minecraft:bat",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 5,
+        "thaumcraft_reborn:volatus": 5,
+        "thaumcraft_reborn:tenebrae": 5
+      }
+    },
+    {
+      "entity": "minecraft:blaze",
+      "aspects": {
+        "thaumcraft_reborn:alienis": 5,
+        "thaumcraft_reborn:ignis": 15,
+        "thaumcraft_reborn:volatus": 5
+      }
+    },
+    {
+      "entity": "minecraft:cave_spider",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 5,
+        "thaumcraft_reborn:mortuus": 10,
+        "thaumcraft_reborn:vinculum": 10
+      }
+    },
+    {
+      "entity": "minecraft:chicken",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 5,
+        "thaumcraft_reborn:volatus": 5,
+        "thaumcraft_reborn:aer": 5
+      }
+    },
+    {
+      "entity": "minecraft:cow",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 15,
+        "thaumcraft_reborn:terra": 15
+      }
+    },
+    {
+      "entity": "minecraft:creeper",
+      "aspects": {
+        "thaumcraft_reborn:herba": 15,
+        "thaumcraft_reborn:ignis": 15
+      }
+    },
+    {
+      "entity": "minecraft:creeper",
+      "nbt": "{powered:1b}",
+      "aspects": {
+        "thaumcraft_reborn:herba": 15,
+        "thaumcraft_reborn:ignis": 15,
+        "thaumcraft_reborn:potentia": 15
+      }
+    },
+    {
+      "entity": "minecraft:donkey",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 15,
+        "thaumcraft_reborn:terra": 5,
+        "thaumcraft_reborn:aer": 5
+      }
+    },
+    {
+      "entity": "minecraft:elder_guardian",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 10,
+        "thaumcraft_reborn:alienis": 15,
+        "thaumcraft_reborn:aqua": 15
+      }
+    },
+    {
+      "entity": "minecraft:end_crystal",
+      "aspects": {
+        "thaumcraft_reborn:alienis": 15,
+        "thaumcraft_reborn:auram": 15,
+        "thaumcraft_reborn:victus": 15
+      }
+    },
+    {
+      "entity": "minecraft:ender_dragon",
+      "aspects": {
+        "thaumcraft_reborn:alienis": 50,
+        "thaumcraft_reborn:bestia": 30,
+        "thaumcraft_reborn:perditio": 50,
+        "thaumcraft_reborn:volatus": 10
+      }
+    },
+    {
+      "entity": "minecraft:enderman",
+      "aspects": {
+        "thaumcraft_reborn:alienis": 10,
+        "thaumcraft_reborn:motus": 15,
+        "thaumcraft_reborn:desiderium": 5
+      }
+    },
+    {
+      "entity": "minecraft:endermite",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 5,
+        "thaumcraft_reborn:alienis": 5,
+        "thaumcraft_reborn:motus": 5
+      }
+    },
+    {
+      "entity": "minecraft:evoker",
+      "aspects": {
+        "thaumcraft_reborn:alienis": 5,
+        "thaumcraft_reborn:praecantatio": 5,
+        "thaumcraft_reborn:humanus": 10
+      }
+    },
+    {
+      "entity": "minecraft:experience_orb",
+      "aspects": {
+        "thaumcraft_reborn:cognitio": 10
+      }
+    },
+    {
+      "entity": "minecraft:ghast",
+      "aspects": {
+        "thaumcraft_reborn:exanimis": 15,
+        "thaumcraft_reborn:ignis": 15
+      }
+    },
+    {
+      "entity": "minecraft:giant",
+      "aspects": {
+        "thaumcraft_reborn:exanimis": 25,
+        "thaumcraft_reborn:humanus": 15,
+        "thaumcraft_reborn:terra": 10
+      }
+    },
+    {
+      "entity": "minecraft:guardian",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 10,
+        "thaumcraft_reborn:alienis": 10,
+        "thaumcraft_reborn:aqua": 10
+      }
+    },
+    {
+      "entity": "minecraft:horse",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 15,
+        "thaumcraft_reborn:terra": 5,
+        "thaumcraft_reborn:aer": 5
+      }
+    },
+    {
+      "entity": "minecraft:husk",
+      "aspects": {
+        "thaumcraft_reborn:exanimis": 20,
+        "thaumcraft_reborn:humanus": 10,
+        "thaumcraft_reborn:ignis": 5
+      }
+    },
+    {
+      "entity": "minecraft:illusioner",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 5,
+        "thaumcraft_reborn:praecantatio": 5,
+        "thaumcraft_reborn:humanus": 10
+      }
+    },
+    {
+      "entity": "minecraft:iron_golem",
+      "aspects": {
+        "thaumcraft_reborn:metallum": 15,
+        "thaumcraft_reborn:humanus": 5,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:praecantatio": 5
+      }
+    },
+    {
+      "entity": "minecraft:item_frame",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 5,
+        "thaumcraft_reborn:fabrico": 5
+      }
+    },
+    {
+      "entity": "minecraft:llama",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 15,
+        "thaumcraft_reborn:aqua": 5
+      }
+    },
+    {
+      "entity": "minecraft:magma_cube",
+      "aspects": {
+        "thaumcraft_reborn:aqua": 5,
+        "thaumcraft_reborn:ignis": 10,
+        "thaumcraft_reborn:alkimia": 5
+      }
+    },
+    {
+      "entity": "minecraft:mooshroom",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 15,
+        "thaumcraft_reborn:herba": 15,
+        "thaumcraft_reborn:terra": 15
+      }
+    },
+    {
+      "entity": "minecraft:mule",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 15,
+        "thaumcraft_reborn:terra": 5,
+        "thaumcraft_reborn:aer": 5
+      }
+    },
+    {
+      "entity": "minecraft:ocelot",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 10,
+        "thaumcraft_reborn:perditio": 10
+      }
+    },
+    {
+      "entity": "minecraft:painting",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 10,
+        "thaumcraft_reborn:fabrico": 5
+      }
+    },
+    {
+      "entity": "minecraft:parrot",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 5,
+        "thaumcraft_reborn:volatus": 5,
+        "thaumcraft_reborn:sensus": 5
+      }
+    },
+    {
+      "entity": "minecraft:pig",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 10,
+        "thaumcraft_reborn:terra": 10,
+        "thaumcraft_reborn:desiderium": 5
+      }
+    },
+    {
+      "entity": "minecraft:polar_bear",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 15,
+        "thaumcraft_reborn:gelum": 10
+      }
+    },
+    {
+      "entity": "minecraft:rabbit",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 5,
+        "thaumcraft_reborn:terra": 5,
+        "thaumcraft_reborn:motus": 5
+      }
+    },
+    {
+      "entity": "minecraft:sheep",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 10,
+        "thaumcraft_reborn:terra": 10
+      }
+    },
+    {
+      "entity": "minecraft:shulker",
+      "aspects": {
+        "thaumcraft_reborn:alienis": 10,
+        "thaumcraft_reborn:vinculum": 5,
+        "thaumcraft_reborn:volatus": 5,
+        "thaumcraft_reborn:praemunio": 5
+      }
+    },
+    {
+      "entity": "minecraft:silverfish",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 5,
+        "thaumcraft_reborn:terra": 10
+      }
+    },
+    {
+      "entity": "minecraft:skeleton",
+      "aspects": {
+        "thaumcraft_reborn:exanimis": 20,
+        "thaumcraft_reborn:humanus": 5,
+        "thaumcraft_reborn:terra": 5
+      }
+    },
+    {
+      "entity": "minecraft:skeleton_horse",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 5,
+        "thaumcraft_reborn:exanimis": 10,
+        "thaumcraft_reborn:terra": 5,
+        "thaumcraft_reborn:aer": 5
+      }
+    },
+    {
+      "entity": "minecraft:slime",
+      "aspects": {
+        "thaumcraft_reborn:victus": 10,
+        "thaumcraft_reborn:aqua": 10,
+        "thaumcraft_reborn:alkimia": 5
+      }
+    },
+    {
+      "entity": "minecraft:snow_golem",
+      "aspects": {
+        "thaumcraft_reborn:gelum": 10,
+        "thaumcraft_reborn:humanus": 5,
+        "thaumcraft_reborn:machina": 5,
+        "thaumcraft_reborn:praecantatio": 5
+      }
+    },
+    {
+      "entity": "minecraft:spider",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 10,
+        "thaumcraft_reborn:perditio": 10,
+        "thaumcraft_reborn:vinculum": 10
+      }
+    },
+    {
+      "entity": "minecraft:squid",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 5,
+        "thaumcraft_reborn:aqua": 10
+      }
+    },
+    {
+      "entity": "minecraft:stray",
+      "aspects": {
+        "thaumcraft_reborn:exanimis": 20,
+        "thaumcraft_reborn:humanus": 5,
+        "thaumcraft_reborn:vinculum": 5
+      }
+    },
+    {
+      "entity": "minecraft:vex",
+      "aspects": {
+        "thaumcraft_reborn:alienis": 5,
+        "thaumcraft_reborn:volatus": 5,
+        "thaumcraft_reborn:praecantatio": 5,
+        "thaumcraft_reborn:humanus": 5
+      }
+    },
+    {
+      "entity": "minecraft:villager",
+      "aspects": {
+        "thaumcraft_reborn:humanus": 15
+      }
+    },
+    {
+      "entity": "minecraft:vindicator",
+      "aspects": {
+        "thaumcraft_reborn:aversio": 5,
+        "thaumcraft_reborn:praecantatio": 5,
+        "thaumcraft_reborn:humanus": 10
+      }
+    },
+    {
+      "entity": "minecraft:witch",
+      "aspects": {
+        "thaumcraft_reborn:humanus": 15,
+        "thaumcraft_reborn:praecantatio": 5,
+        "thaumcraft_reborn:alkimia": 10
+      }
+    },
+    {
+      "entity": "minecraft:wither",
+      "aspects": {
+        "thaumcraft_reborn:exanimis": 50,
+        "thaumcraft_reborn:perditio": 25,
+        "thaumcraft_reborn:ignis": 25
+      }
+    },
+    {
+      "entity": "minecraft:wither_skeleton",
+      "aspects": {
+        "thaumcraft_reborn:exanimis": 25,
+        "thaumcraft_reborn:humanus": 5,
+        "thaumcraft_reborn:perditio": 10
+      }
+    },
+    {
+      "entity": "minecraft:wolf",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 15,
+        "thaumcraft_reborn:terra": 10,
+        "thaumcraft_reborn:aversio": 5
+      }
+    },
+    {
+      "entity": "minecraft:zombie",
+      "aspects": {
+        "thaumcraft_reborn:exanimis": 20,
+        "thaumcraft_reborn:humanus": 10,
+        "thaumcraft_reborn:terra": 5
+      }
+    },
+    {
+      "entity": "minecraft:zombie_horse",
+      "aspects": {
+        "thaumcraft_reborn:bestia": 10,
+        "thaumcraft_reborn:exanimis": 5,
+        "thaumcraft_reborn:terra": 5,
+        "thaumcraft_reborn:aer": 5
+      }
+    },
+    {
+      "entity": "minecraft:zombified_piglin",
+      "aspects": {
+        "thaumcraft_reborn:exanimis": 15,
+        "thaumcraft_reborn:ignis": 15,
+        "thaumcraft_reborn:bestia": 10
+      }
+    }
+  ]
+}

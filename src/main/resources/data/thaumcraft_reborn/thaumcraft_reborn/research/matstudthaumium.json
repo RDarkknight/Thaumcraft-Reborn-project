@@ -1,0 +1,41 @@
+{
+  "name": "research.thaumcraft_reborn.matstudthaumium.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:plate_thaumium",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:matstudbrass",
+    "thaumcraft_reborn:metallurgy@3"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.matstudthaumium.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:f_matthaumium"
+        }
+      ],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -5,
+    -1
+  ],
+  "addenda": []
+}

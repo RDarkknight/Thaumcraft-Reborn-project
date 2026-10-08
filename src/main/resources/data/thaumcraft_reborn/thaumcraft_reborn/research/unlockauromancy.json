@@ -1,0 +1,77 @@
+{
+  "name": "research.thaumcraft_reborn.unlockauromancy.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/cat_auromancy"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:unlockalchemy"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "spiky"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.unlockauromancy.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:m_deepdown"
+        },
+        {
+          "reference": "thaumcraft_reborn:m_uphigh"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.unlockauromancy.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:vis_resonator",
+        "thaumcraft_reborn:caster_basic"
+      ],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:vis_resonator",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:caster_basic",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.unlockauromancy.stage.3",
+      "recipes": [
+        "thaumcraft_reborn:vis_resonator",
+        "thaumcraft_reborn:caster_basic"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -2,
+    4
+  ],
+  "addenda": []
+}

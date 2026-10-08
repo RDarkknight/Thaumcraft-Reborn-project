@@ -1,0 +1,75 @@
+{
+  "name": "research.thaumcraft_reborn.fluxcleanup.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:condenser",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:flux",
+    "thaumcraft_reborn:f_toomuchflux",
+    "thaumcraft_reborn:visbattery"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.fluxcleanup.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:phial_filled",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 2,
+          "category": "thaumcraft_reborn:auromancy"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:artifice"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:basics"
+        },
+        {
+          "type": "theory",
+          "amount": 2,
+          "category": "thaumcraft_reborn:auromancy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.fluxcleanup.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:condenser",
+        "thaumcraft_reborn:condenser_lattice"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -2,
+    -4
+  ],
+  "addenda": []
+}

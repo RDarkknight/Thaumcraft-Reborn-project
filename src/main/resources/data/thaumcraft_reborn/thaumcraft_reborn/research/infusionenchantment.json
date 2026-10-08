@@ -1,0 +1,61 @@
+{
+  "name": "research.thaumcraft_reborn.infusionenchantment.title",
+  "category": "thaumcraft_reborn:infusion",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/r_inf_enchant"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:elementaltools"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.infusionenchantment.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:enchanted_placeholder",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 2,
+          "category": "thaumcraft_reborn:infusion"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.infusionenchantment.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:ieburrowingfake",
+        "thaumcraft_reborn:iecollectorfake",
+        "thaumcraft_reborn:iedestructivefake",
+        "thaumcraft_reborn:ierefiningfake",
+        "thaumcraft_reborn:iesoundingfake",
+        "thaumcraft_reborn:iearcingfake",
+        "thaumcraft_reborn:ieessencefake",
+        "thaumcraft_reborn:ielamplightfake"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -6,
+    4
+  ],
+  "addenda": []
+}

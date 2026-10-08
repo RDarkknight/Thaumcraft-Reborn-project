@@ -1,0 +1,133 @@
+{
+  "name": "research.thaumcraft_reborn.crystalfarmer.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:crystal_aer",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "thaumcraft_reborn:crystal_ignis",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "thaumcraft_reborn:crystal_aqua",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "thaumcraft_reborn:crystal_terra",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "thaumcraft_reborn:crystal_ordo",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "thaumcraft_reborn:crystal_perditio",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:ore",
+    "thaumcraft_reborn:infusion",
+    "thaumcraft_reborn:scan/ore_crystal"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.crystalfarmer.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:crystal_essence",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:crystal_essence",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:crystal_essence",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:crystal_essence",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:crystal_essence",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:crystal_essence",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:auromancy"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:basics"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.crystalfarmer.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:crystal_cluster_air",
+        "thaumcraft_reborn:crystal_cluster_fire",
+        "thaumcraft_reborn:crystal_cluster_water",
+        "thaumcraft_reborn:crystal_cluster_earth",
+        "thaumcraft_reborn:crystal_cluster_order",
+        "thaumcraft_reborn:crystal_cluster_entropy",
+        "thaumcraft_reborn:crystal_cluster_flux"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -5,
+    1
+  ],
+  "addenda": []
+}

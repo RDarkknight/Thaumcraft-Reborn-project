@@ -1,0 +1,64 @@
+{
+  "name": "research.thaumcraft_reborn.baseeldritch.title",
+  "category": "thaumcraft_reborn:eldritch",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:void_seed",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:metallurgy",
+    "thaumcraft_reborn:unlockeldritch"
+  ],
+  "siblings": [],
+  "meta": [
+    "round"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.baseeldritch.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:basics"
+        },
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        },
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:eldritch"
+        }
+      ],
+      "required_research": [],
+      "warp": 2
+    },
+    {
+      "text": "research.thaumcraft_reborn.baseeldritch.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:voidingot",
+        "thaumcraft_reborn:void_stuff"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    0
+  ],
+  "addenda": []
+}

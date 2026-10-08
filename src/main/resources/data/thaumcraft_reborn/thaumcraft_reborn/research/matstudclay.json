@@ -1,0 +1,39 @@
+{
+  "name": "research.thaumcraft_reborn.matstudclay.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "item": {
+        "item": "minecraft:hardened_clay",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:matstudiron"
+  ],
+  "siblings": [],
+  "meta": [
+    "round"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.matstudclay.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:f_matclay"
+        }
+      ],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -4,
+    0
+  ],
+  "addenda": []
+}

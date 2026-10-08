@@ -1,0 +1,56 @@
+{
+  "name": "research.thaumcraft_reborn.primalcrusher.title",
+  "category": "thaumcraft_reborn:eldritch",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:primal_crusher",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:baseeldritch",
+    "thaumcraft_reborn:elementaltools"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.primalcrusher.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:eldritch"
+        },
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:eldritch"
+        }
+      ],
+      "required_research": [],
+      "warp": 1
+    },
+    {
+      "text": "research.thaumcraft_reborn.primalcrusher.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:primal_crusher"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    -3
+  ],
+  "addenda": []
+}

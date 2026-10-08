@@ -1,0 +1,47 @@
+{
+  "entries": [
+    {
+      "item": "minecraft:barrier",
+      "aspects": {
+        "thaumcraft_reborn:terra": 2
+      }
+    },
+    {
+      "tag": "thaumcraft_reborn_test:aspect_samples/a",
+      "aspects": {
+        "thaumcraft_reborn:aer": 3
+      }
+    },
+    {
+      "tag": "thaumcraft_reborn_test:aspect_samples/b",
+      "aspects": {
+        "thaumcraft_reborn:terra": 9
+      }
+    },
+    {
+      "item": "minecraft:command_block",
+      "aspects": {
+        "thaumcraft_reborn:terra": 2
+      }
+    },
+    {
+      "item": "minecraft:iron_ingot",
+      "aspects": {
+        "thaumcraft_reborn:terra": 2
+      }
+    },
+    {
+      "entity": "minecraft:armor_stand",
+      "aspects": {
+        "thaumcraft_reborn:terra": 1
+      }
+    },
+    {
+      "entity": "minecraft:armor_stand",
+      "nbt": "{Tags:[\"stage_b_powered\"]}",
+      "aspects": {
+        "thaumcraft_reborn:aer": 4
+      }
+    }
+  ]
+}

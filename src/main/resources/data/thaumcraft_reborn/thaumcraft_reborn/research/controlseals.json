@@ -1,0 +1,41 @@
+{
+  "name": "research.thaumcraft_reborn.controlseals.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:seal_blank",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:mindclockwork"
+  ],
+  "siblings": [
+    "thaumcraft_reborn:sealcollect"
+  ],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.controlseals.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:golem_bell",
+        "thaumcraft_reborn:seal_blank"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -2,
+    5
+  ],
+  "addenda": []
+}

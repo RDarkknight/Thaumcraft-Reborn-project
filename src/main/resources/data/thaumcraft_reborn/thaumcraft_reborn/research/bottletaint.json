@@ -1,0 +1,47 @@
+{
+  "name": "research.thaumcraft_reborn.bottletaint.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:bottle_taint",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:hedgealchemy",
+    "thaumcraft_reborn:f_toomuchflux"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.bottletaint.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:bottle_taint"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        },
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        }
+      ],
+      "required_research": [],
+      "warp": 2
+    }
+  ],
+  "location": [
+    -6,
+    0
+  ],
+  "addenda": []
+}

@@ -1,0 +1,53 @@
+{
+  "name": "research.thaumcraft_reborn.crimson_rites.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:curio_rites",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:scan/crimson_cultist"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden",
+    "reverse"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.crimson_rites.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:curio_rites",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.crimson_rites.stage.2",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -6,
+    4
+  ],
+  "addenda": []
+}

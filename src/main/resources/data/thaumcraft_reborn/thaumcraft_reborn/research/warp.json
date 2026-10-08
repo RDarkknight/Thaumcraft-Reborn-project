@@ -1,0 +1,33 @@
+{
+  "name": "research.thaumcraft_reborn.warp.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/r_warp"
+    }
+  ],
+  "parents": [],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.warp.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:sanitychecker"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -4,
+    -2
+  ],
+  "addenda": []
+}

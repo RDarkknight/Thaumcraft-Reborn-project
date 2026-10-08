@@ -1,0 +1,60 @@
+{
+  "name": "research.thaumcraft_reborn.unlockinfusion.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/cat_infusion"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:unlockalchemy"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "spiky"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.unlockinfusion.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:infusion"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/auram"
+        },
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/praecantatio"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.unlockinfusion.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:enchanted_fabric",
+        "thaumcraft_reborn:robe_chest",
+        "thaumcraft_reborn:robe_legs",
+        "thaumcraft_reborn:robe_boots"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    4
+  ],
+  "addenda": []
+}

@@ -1,0 +1,94 @@
+{
+  "name": "research.thaumcraft_reborn_test.fixture_main",
+  "category": "thaumcraft_reborn_test:fixture",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn_test:textures/research/fixture"
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond",
+        "count": 1,
+        "components": {}
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn_test:fixture_parent@1",
+    "thaumcraft_reborn_test:missing_parent"
+  ],
+  "siblings": [
+    "thaumcraft_reborn_test:fixture_sibling"
+  ],
+  "location": [7, 4],
+  "meta": ["hex"],
+  "reward_item": [
+    {
+      "item": "minecraft:diamond",
+      "count": 2,
+      "components": {}
+    }
+  ],
+  "reward_knowledge": [
+    {
+      "type": "theory",
+      "category": "thaumcraft_reborn_test:fixture",
+      "amount": 2
+    }
+  ],
+  "stages": [
+    {
+      "text": "stage.thaumcraft_reborn_test.fixture_main",
+      "recipes": ["minecraft:crafting_table"],
+      "required_item": [
+        {
+          "item": {
+            "item": "minecraft:diamond",
+            "count": 1,
+            "components": {}
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn_test:not_registered"
+          }
+        }
+      ],
+      "required_craft": [
+        {
+          "tag": "c:ingots/iron",
+          "count": 2
+        }
+      ],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumcraft_reborn_test:fixture",
+          "amount": 1
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn_test:fixture_parent@1",
+          "icon": "thaumcraft_reborn_test:textures/research/parent"
+        }
+      ],
+      "warp": 3
+    },
+    {
+      "text": "stage.thaumcraft_reborn_test.fixture_main_2",
+      "warp": 1
+    }
+  ],
+  "addenda": [
+    {
+      "text": "addendum.thaumcraft_reborn_test.fixture_main",
+      "recipes": ["minecraft:anvil"],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn_test:fixture_main@1"
+        }
+      ]
+    }
+  ]
+}

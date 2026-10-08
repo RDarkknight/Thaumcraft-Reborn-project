@@ -1,0 +1,48 @@
+{
+  "name": "research.thaumcraft_reborn.celestialscanning.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/r_celestial"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:theoryresearch"
+  ],
+  "siblings": [],
+  "meta": [
+    "round"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.celestialscanning.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:basics"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:artifice"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:auromancy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    4,
+    1
+  ],
+  "addenda": []
+}

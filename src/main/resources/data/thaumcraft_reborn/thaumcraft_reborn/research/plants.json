@@ -1,0 +1,86 @@
+{
+  "name": "research.thaumcraft_reborn.plants.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:sapling_greatwood",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "thaumcraft_reborn:sapling_silverwood",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.plants.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -3,
+    0
+  ],
+  "addenda": [
+    {
+      "text": "research.thaumcraft_reborn.plants.greatwood",
+      "recipes": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/plant_wood"
+        }
+      ]
+    },
+    {
+      "text": "research.thaumcraft_reborn.plants.silverwood",
+      "recipes": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/plant_wood"
+        }
+      ]
+    },
+    {
+      "text": "research.thaumcraft_reborn.plants.cinderpearl",
+      "recipes": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/plant_cinder_pearl"
+        }
+      ]
+    },
+    {
+      "text": "research.thaumcraft_reborn.plants.shimmerleaf",
+      "recipes": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/plant_shimmerleaf"
+        }
+      ]
+    },
+    {
+      "text": "research.thaumcraft_reborn.plants.vishroom",
+      "recipes": [],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/plant_vishroom"
+        }
+      ]
+    }
+  ]
+}

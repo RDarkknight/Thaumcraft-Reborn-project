@@ -1,0 +1,59 @@
+{
+  "name": "research.thaumcraft_reborn.unlockeldritch.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/cat_eldritch"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:crimson_rites",
+    "thaumcraft_reborn:unlockauromancy"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "spiky",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.unlockeldritch.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:basics"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:eldritch"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:f_voidseed"
+        }
+      ],
+      "warp": 5
+    },
+    {
+      "text": "research.thaumcraft_reborn.unlockeldritch.stage.2",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -4,
+    6
+  ],
+  "addenda": []
+}

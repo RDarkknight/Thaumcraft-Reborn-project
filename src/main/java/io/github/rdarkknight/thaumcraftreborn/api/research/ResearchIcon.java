@@ -1,0 +1,30 @@
+package io.github.rdarkknight.thaumcraftreborn.api.research;
+
+import com.mojang.datafixers.util.Either;
+import com.mojang.serialization.Codec;
+import io.github.rdarkknight.thaumcraftreborn.api.item.ItemReference;
+import io.netty.buffer.ByteBuf;
+import java.util.function.Function;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
+
+public sealed interface ResearchIcon permits ResearchIcon.Texture, ResearchIcon.Item {
+	Codec<ResearchIcon> CODEC = Codec.either(
+			Identifier.CODEC.fieldOf("texture").codec(),
+			ItemReference.CODEC.fieldOf("item").codec()
+	).xmap(
+			value -> value.map(Texture::new, Item::new),
+			icon -> icon instanceof Texture texture
+					? Either.left(texture.texture())
+					: Either.right(((Item) icon).item())
+	);
+	StreamCodec<RegistryFriendlyByteBuf, ResearchIcon> STREAM_CODEC = ByteBufCodecs.fromCodecWithRegistries(CODEC);
+
+	record Texture(Identifier texture) implements ResearchIcon {
+	}
+
+	record Item(ItemReference item) implements ResearchIcon {
+	}
+}

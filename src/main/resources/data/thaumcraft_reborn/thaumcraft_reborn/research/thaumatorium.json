@@ -1,0 +1,59 @@
+{
+  "name": "research.thaumcraft_reborn.thaumatorium.title",
+  "category": "thaumcraft_reborn:alchemy",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:thaumatorium",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:centrifuge",
+    "thaumcraft_reborn:essentiasmelterthaumium"
+  ],
+  "siblings": [],
+  "meta": [
+    "spiky"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.thaumatorium.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:alchemy"
+        },
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:artifice"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.thaumatorium.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:thaumatorium",
+        "thaumcraft_reborn:mnemonic_matrix"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    10,
+    -2
+  ],
+  "addenda": []
+}

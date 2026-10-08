@@ -1,0 +1,9 @@
+{
+  "name": "research.thaumcraft_reborn_test.fixture_unknown_category",
+  "category": "thaumcraft_reborn_test:missing_category",
+  "stages": [
+    {
+      "text": "stage.thaumcraft_reborn_test.fixture_unknown_category"
+    }
+  ]
+}

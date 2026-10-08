@@ -1,0 +1,48 @@
+{
+  "name": "research.thaumcraft_reborn.sealcollect.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/item/seals/seal_pickup"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:controlseals"
+  ],
+  "siblings": [
+    "thaumcraft_reborn:sealstore"
+  ],
+  "meta": [
+    "round"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.sealcollect.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:seal_collect"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -4,
+    4
+  ],
+  "addenda": [
+    {
+      "text": "research.thaumcraft_reborn.sealcollect.adv",
+      "recipes": [
+        "thaumcraft_reborn:seal_collect_adv"
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:mindbiothaumic"
+        }
+      ]
+    }
+  ]
+}

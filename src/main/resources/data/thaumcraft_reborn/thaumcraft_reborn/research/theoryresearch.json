@@ -1,0 +1,61 @@
+{
+  "name": "research.thaumcraft_reborn.theoryresearch.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/knowledge_theory"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:knowledgetypes"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.theoryresearch.stage.1",
+      "recipes": [
+        "thaumcraft_reborn:tablewood",
+        "thaumcraft_reborn:inkwell"
+      ],
+      "required_item": [],
+      "required_craft": [
+        {
+          "item": {
+            "item": "thaumcraft_reborn:scribing_tools",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "thaumcraft_reborn:research_table",
+            "count": 1
+          }
+        }
+      ],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.theoryresearch.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:tablewood",
+        "thaumcraft_reborn:inkwell"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    4,
+    -1
+  ],
+  "addenda": []
+}

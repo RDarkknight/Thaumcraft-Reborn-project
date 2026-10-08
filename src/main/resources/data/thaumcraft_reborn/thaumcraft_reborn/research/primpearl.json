@@ -1,0 +1,34 @@
+{
+  "name": "research.thaumcraft_reborn.primpearl.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "item": {
+        "item": "thaumcraft_reborn:primordial_pearl",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.primpearl.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -8,
+    4
+  ],
+  "addenda": []
+}

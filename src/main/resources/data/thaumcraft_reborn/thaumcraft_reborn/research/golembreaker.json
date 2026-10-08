@@ -1,0 +1,58 @@
+{
+  "name": "research.thaumcraft_reborn.golembreaker.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/misc/golem/arms_breakers"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:mindclockwork"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.golembreaker.stage.1",
+      "recipes": [],
+      "required_item": [
+        {
+          "item": {
+            "item": "minecraft:diamond",
+            "count": 1
+          }
+        },
+        {
+          "item": {
+            "item": "minecraft:piston",
+            "count": 1
+          }
+        }
+      ],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.golembreaker.stage.2",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -8,
+    2
+  ],
+  "addenda": []
+}

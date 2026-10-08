@@ -1,0 +1,34 @@
+{
+  "name": "research.thaumcraft_reborn.fluxrift.title",
+  "category": "thaumcraft_reborn:basics",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/research/r_fluxrift"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:flux",
+    "thaumcraft_reborn:scan/flux_rift"
+  ],
+  "siblings": [],
+  "meta": [
+    "round",
+    "hidden"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.fluxrift.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    -3
+  ],
+  "addenda": []
+}

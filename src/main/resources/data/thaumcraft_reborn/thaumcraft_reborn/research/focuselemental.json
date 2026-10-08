@@ -1,0 +1,70 @@
+{
+  "name": "research.thaumcraft_reborn.focuselemental.title",
+  "category": "thaumcraft_reborn:auromancy",
+  "icons": [
+    {
+      "item": {
+        "item": "focus:thaumcraft.air",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "focus:thaumcraft.frost",
+        "count": 1
+      }
+    },
+    {
+      "item": {
+        "item": "focus:thaumcraft.earth",
+        "count": 1
+      }
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:baseauromancy"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.focuselemental.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "amount": 1,
+          "category": "thaumcraft_reborn:auromancy"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/aer"
+        },
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/gelum"
+        },
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/terra"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.focuselemental.stage.2",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    0,
+    2
+  ],
+  "addenda": []
+}

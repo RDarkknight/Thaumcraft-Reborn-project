@@ -1,0 +1,64 @@
+{
+  "name": "research.thaumcraft_reborn.sealguard.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/item/seals/seal_guard"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:controlseals"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.sealguard.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/mortuus"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.sealguard.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:seal_guard",
+        "thaumcraft_reborn:modaggression"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 1
+    }
+  ],
+  "location": [
+    -12,
+    4
+  ],
+  "addenda": [
+    {
+      "text": "research.thaumcraft_reborn.sealguard.adv",
+      "recipes": [
+        "thaumcraft_reborn:seal_guard_adv"
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:mindbiothaumic"
+        }
+      ]
+    }
+  ]
+}

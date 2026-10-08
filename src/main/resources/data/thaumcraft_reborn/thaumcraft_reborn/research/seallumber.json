@@ -1,0 +1,52 @@
+{
+  "name": "research.thaumcraft_reborn.seallumber.title",
+  "category": "thaumcraft_reborn:golemancy",
+  "icons": [
+    {
+      "texture": "thaumcraft_reborn:textures/item/seals/seal_lumber"
+    }
+  ],
+  "parents": [
+    "thaumcraft_reborn:sealbreak",
+    "thaumcraft_reborn:mindbiothaumic"
+  ],
+  "siblings": [],
+  "meta": [],
+  "stages": [
+    {
+      "text": "research.thaumcraft_reborn.seallumber.stage.1",
+      "recipes": [],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "amount": 1,
+          "category": "thaumcraft_reborn:golemancy"
+        }
+      ],
+      "required_research": [
+        {
+          "reference": "thaumcraft_reborn:scan/aspect/herba"
+        }
+      ],
+      "warp": 0
+    },
+    {
+      "text": "research.thaumcraft_reborn.seallumber.stage.2",
+      "recipes": [
+        "thaumcraft_reborn:seal_lumber"
+      ],
+      "required_item": [],
+      "required_craft": [],
+      "required_knowledge": [],
+      "required_research": [],
+      "warp": 0
+    }
+  ],
+  "location": [
+    -9,
+    6
+  ],
+  "addenda": []
+}

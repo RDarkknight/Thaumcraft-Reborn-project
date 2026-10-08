@@ -1,0 +1,11 @@
+{
+  "entries": [
+    {
+      "item": "minecraft:diamond_sword",
+      "replace": true,
+      "aspects": {
+        "thaumcraft_reborn:terra": 7
+      }
+    }
+  ]
+}
