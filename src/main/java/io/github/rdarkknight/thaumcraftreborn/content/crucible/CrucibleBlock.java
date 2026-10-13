@@ -95,10 +95,13 @@ public final class CrucibleBlock extends ThaumcraftEntityBlock {
 			}
 			return InteractionResult.SUCCESS;
 		}
-		if (!player.isShiftKeyDown() && hit.getDirection() == net.minecraft.core.Direction.UP && !stack.isEmpty()
-				&& crucible.processItem(stack.copyWithCount(1), player instanceof net.minecraft.server.level.ServerPlayer sp ? sp : null)) {
-			stack.shrink(1);
-			return InteractionResult.SUCCESS;
+		if (!player.isShiftKeyDown() && hit.getDirection() == net.minecraft.core.Direction.UP && !stack.isEmpty()) {
+			ItemStack remaining = crucible.processItem(stack.copyWithCount(1),
+					player instanceof net.minecraft.server.level.ServerPlayer sp ? sp : null);
+			if (remaining.isEmpty()) {
+				stack.shrink(1);
+				return InteractionResult.SUCCESS;
+			}
 		}
 		return InteractionResult.PASS;
 	}
