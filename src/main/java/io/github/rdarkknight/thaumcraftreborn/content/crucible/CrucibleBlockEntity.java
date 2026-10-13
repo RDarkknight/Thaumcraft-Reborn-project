@@ -15,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -109,32 +110,38 @@ public final class CrucibleBlockEntity extends ThaumcraftBlockEntity {
 		return heat > 150;
 	}
 
-	public boolean processItem(ItemStack input, ServerPlayer player) {
+	public ItemStack processItem(ItemStack input, ServerPlayer player) {
 		if (level == null || level.isClientSide() || !isHot() || waterMb <= 0 || input.isEmpty()) {
-			return false;
+			return input;
 		}
-		ThaumcraftRecipe recipe = findRecipe(input, player);
-		if (recipe != null) {
-			ItemStack result = recipe.result().create();
-			aspects = aspects.remove(recipe.aspects());
-			waterMb -= 50;
-			counter = -250L;
-			spawnResult(result);
-			if (player != null) {
-				CraftEventRecorder.record(player, result);
+		ItemStack remaining = input.copy();
+		int stackSize = input.getCount();
+		for (int index = 0; index < stackSize; index++) {
+			ThaumcraftRecipe recipe = findRecipe(input, player);
+			if (recipe != null && waterMb > 0) {
+				ItemStack result = recipe.result().create();
+				aspects = aspects.remove(recipe.aspects());
+				waterMb -= 50;
+				counter = -250L;
+				if (player != null) {
+					CraftEventRecorder.record(player, result);
+				}
+				ejectItem(result);
+				remaining.shrink(1);
+				markDirtyAndSync();
+				continue;
 			}
+			AspectList dissolved = io.github.rdarkknight.thaumcraftreborn.api.aspect.AspectLookup.get()
+					.getAspects(level, input);
+			if (dissolved.isEmpty()) {
+				break;
+			}
+			aspects = aspects.add(dissolved);
+			counter = -150L;
+			remaining.shrink(1);
 			markDirtyAndSync();
-			return true;
 		}
-		AspectList dissolved = io.github.rdarkknight.thaumcraftreborn.api.aspect.AspectLookup.get()
-				.getAspects(level, input);
-		if (dissolved.isEmpty()) {
-			return false;
-		}
-		aspects = aspects.add(dissolved);
-		counter = -150L;
-		markDirtyAndSync();
-		return true;
+		return remaining;
 	}
 
 	private ThaumcraftRecipe findRecipe(ItemStack input, ServerPlayer player) {
@@ -152,10 +159,20 @@ public final class CrucibleBlockEntity extends ThaumcraftBlockEntity {
 				.orElse(null);
 	}
 
-	private void spawnResult(ItemStack result) {
-		if (level instanceof ServerLevel serverLevel && !result.isEmpty()) {
-			serverLevel.addFreshEntity(new ItemEntity(serverLevel, getBlockPos().getX() + 0.5,
-					getBlockPos().getY() + 1.1, getBlockPos().getZ() + 0.5, result));
+	private void ejectItem(ItemStack result) {
+		if (!(level instanceof ServerLevel serverLevel) || result.isEmpty()) {
+			return;
+		}
+		boolean first = true;
+		while (!result.isEmpty()) {
+			ItemStack split = result.split(result.getMaxStackSize());
+			CrucibleEjectedItemEntity entity = new CrucibleEjectedItemEntity(serverLevel,
+					getBlockPos().getX() + 0.5, getBlockPos().getY() + 0.71, getBlockPos().getZ() + 0.5, split);
+			double x = first ? 0.0 : (serverLevel.getRandom().nextDouble() - 0.5) * 0.1;
+			double z = first ? 0.0 : (serverLevel.getRandom().nextDouble() - 0.5) * 0.1;
+			entity.setDeltaMovement(x, 0.075, z);
+			serverLevel.addFreshEntity(entity);
+			first = false;
 		}
 	}
 
@@ -164,15 +181,16 @@ public final class CrucibleBlockEntity extends ThaumcraftBlockEntity {
 			return;
 		}
 		if (entity instanceof ItemEntity itemEntity) {
+			if (itemEntity instanceof CrucibleEjectedItemEntity) {
+				return;
+			}
 			ItemStack item = itemEntity.getItem();
 			ServerPlayer player = itemEntity.getOwner() instanceof ServerPlayer serverPlayer ? serverPlayer : null;
-			if (processItem(item.copyWithCount(1), player)) {
-				item.shrink(1);
-				if (item.isEmpty()) {
-					itemEntity.discard();
-				} else {
-					itemEntity.setItem(item);
-				}
+			ItemStack remaining = processItem(item, player);
+			if (remaining.isEmpty()) {
+				itemEntity.discard();
+			} else if (remaining.getCount() != item.getCount()) {
+				itemEntity.setItem(remaining);
 			}
 			return;
 		}

@@ -52,12 +52,12 @@ public final class StageDCrucibleGameTests {
 		CrucibleBlockEntity.serverTick(context.getLevel(), pos, context.getLevel().getBlockState(pos), crucible);
 		context.assertTrue(crucible.heat() == 0, "crucible cools by one without a heater");
 		crucible.setHeat(150);
-		context.assertTrue(!crucible.processItem(new ItemStack(Items.STONE), null), "heat 150 does not process");
+		context.assertTrue(!crucible.processItem(new ItemStack(Items.STONE), null).isEmpty(), "heat 150 does not process");
 		crucible.setHeat(151);
-		context.assertTrue(crucible.processItem(new ItemStack(Items.STONE), null), "heat 151 processes");
+		context.assertTrue(crucible.processItem(new ItemStack(Items.STONE), null).isEmpty(), "heat 151 processes");
 		context.assertTrue(crucible.aspects().amount(aspect(Aspects.EARTH)) > 0, "stone dissolves into its aspects");
 		crucible.setWaterMb(0);
-		context.assertTrue(!crucible.processItem(new ItemStack(Items.STONE), null), "an empty tank prevents processing");
+		context.assertTrue(!crucible.processItem(new ItemStack(Items.STONE), null).isEmpty(), "an empty tank prevents processing");
 		context.succeed();
 	}
 
@@ -91,16 +91,90 @@ public final class StageDCrucibleGameTests {
 				.add(aspect(Aspects.MAGIC), 5)
 				.add(aspect(Aspects.EARTH), 7)
 				.build());
-		context.assertTrue(crucible.processItem(new ItemStack(Items.IRON_INGOT), player),
+		context.assertTrue(context.getLevel().getServer().getRecipeManager().getRecipes().stream()
+						.map(holder -> holder.value())
+						.filter(io.github.rdarkknight.thaumcraftreborn.systems.recipe.ThaumcraftRecipe.class::isInstance)
+						.map(io.github.rdarkknight.thaumcraftreborn.systems.recipe.ThaumcraftRecipe.class::cast)
+						.anyMatch(recipe -> recipe.getType()
+								== io.github.rdarkknight.thaumcraftreborn.systems.recipe.ThaumcraftRecipe.crucibleType()
+								&& recipe.result().create().is(ThaumcraftContent.INGOT_THAUMIUM)
+								&& recipe.matchesCrucible(new ItemStack(Items.IRON_INGOT), crucible.aspects())),
+				"loaded Thaumium recipe matches the iron catalyst and required aspect list");
+		context.assertTrue(crucible.processItem(new ItemStack(Items.IRON_INGOT), player).isEmpty(),
 				"known Thaumium recipe processes iron");
 		List<ItemEntity> output = context.getLevel().getEntitiesOfClass(ItemEntity.class,
 				new AABB(crucible.getBlockPos()).inflate(3.0),
 				entity -> entity.getItem().is(ThaumcraftContent.INGOT_THAUMIUM));
+		String state = "output=" + output.size() + ", water=" + crucible.waterMb()
+				+ ", praecantatio=" + crucible.aspects().amount(aspect(Aspects.MAGIC))
+				+ ", terra=" + crucible.aspects().amount(aspect(Aspects.EARTH))
+				+ ", crafts=" + CraftEventRecorder.count(player, ThaumcraftRebornApi.id("ingot_thaumium"));
 		context.assertTrue(output.size() == 1 && crucible.waterMb() == 950
 						&& crucible.aspects().amount(aspect(Aspects.MAGIC)) == 0
 						&& crucible.aspects().amount(aspect(Aspects.EARTH)) == 2
 						&& CraftEventRecorder.count(player, ThaumcraftRebornApi.id("ingot_thaumium")) == 1,
-				"recipe consumes 50 mB and required aspects only, preserves extras, and records output");
+				"recipe consumes 50 mB and required aspects only, preserves extras, and records output: " + state);
+		context.succeed();
+	}
+
+	@GameTest
+	public void thrownFiveIronIngotsAreProcessedInOneCrucibleCollision(GameTestHelper context) {
+		CrucibleBlockEntity crucible = placeCrucible(context);
+		ServerPlayer player = context.makeMockServerPlayerInLevel();
+		unlock(player, "metallurgy", 2);
+		crucible.setHeat(151);
+		crucible.setWaterMb(1000);
+		crucible.setAspects(AspectList.builder()
+				.add(aspect(Aspects.MAGIC), 25)
+				.add(aspect(Aspects.EARTH), 25)
+				.build());
+		BlockPos pos = crucible.getBlockPos();
+		ItemEntity thrown = new ItemEntity(context.getLevel(), pos.getX() + 0.5, pos.getY() + 0.5,
+				pos.getZ() + 0.5, new ItemStack(Items.IRON_INGOT, 5));
+		thrown.setThrower(player);
+		context.getLevel().addFreshEntity(thrown);
+
+		crucible.entityInside(thrown);
+
+		List<ItemEntity> output = context.getLevel().getEntitiesOfClass(ItemEntity.class,
+				new AABB(pos).inflate(3.0), entity -> entity.getItem().is(ThaumcraftContent.INGOT_THAUMIUM));
+		context.assertTrue(!thrown.isAlive() && output.size() == 5 && crucible.waterMb() == 750
+						&& CraftEventRecorder.count(player, ThaumcraftRebornApi.id("ingot_thaumium")) == 5,
+				"one collision processes five recipes, ejects five ingots, and spends 250 mB");
+		ItemEntity first = output.getFirst();
+		context.assertTrue(first.getDeltaMovement().x == 0.0 && first.getDeltaMovement().y == 0.075
+						&& first.getDeltaMovement().z == 0.0,
+				"the first ejected item uses TC6's centered upward motion");
+		context.succeed();
+	}
+
+	@GameTest
+	public void thrownIronStackDissolvesUnitsWithoutRecipeAspects(GameTestHelper context) {
+		CrucibleBlockEntity crucible = placeCrucible(context);
+		ServerPlayer player = context.makeMockServerPlayerInLevel();
+		unlock(player, "metallurgy", 2);
+		crucible.setHeat(151);
+		crucible.setWaterMb(1000);
+		crucible.setAspects(AspectList.builder()
+				.add(aspect(Aspects.MAGIC), 10)
+				.add(aspect(Aspects.EARTH), 10)
+				.build());
+		AspectList dissolvedIron = AspectLookup.get().getAspects(context.getLevel(), new ItemStack(Items.IRON_INGOT));
+		BlockPos pos = crucible.getBlockPos();
+		ItemEntity thrown = new ItemEntity(context.getLevel(), pos.getX() + 0.5, pos.getY() + 0.5,
+				pos.getZ() + 0.5, new ItemStack(Items.IRON_INGOT, 5));
+		thrown.setThrower(player);
+		context.getLevel().addFreshEntity(thrown);
+
+		crucible.entityInside(thrown);
+
+		List<ItemEntity> output = context.getLevel().getEntitiesOfClass(ItemEntity.class,
+				new AABB(pos).inflate(3.0), entity -> entity.getItem().is(ThaumcraftContent.INGOT_THAUMIUM));
+		context.assertTrue(!thrown.isAlive() && output.size() == 2 && crucible.waterMb() == 900,
+				"two units craft and the remaining three dissolve without additional water");
+		context.assertTrue(crucible.aspects().visSize() == dissolvedIron.visSize() * 3
+						&& CraftEventRecorder.count(player, ThaumcraftRebornApi.id("ingot_thaumium")) == 2,
+				"the dissolved remainder contributes three iron aspect lists and records two crafts");
 		context.succeed();
 	}
 
@@ -110,7 +184,7 @@ public final class StageDCrucibleGameTests {
 		ServerPlayer player = context.makeMockServerPlayerInLevel();
 		crucible.setHeat(151);
 		crucible.setWaterMb(1000);
-		context.assertTrue(crucible.processItem(new ItemStack(Items.IRON_INGOT), player),
+		context.assertTrue(crucible.processItem(new ItemStack(Items.IRON_INGOT), player).isEmpty(),
 				"locked iron dissolves rather than crafting Thaumium");
 		context.assertTrue(crucible.waterMb() == 1000 && crucible.aspects().visSize() > 0
 						&& context.getLevel().getEntitiesOfClass(ItemEntity.class,
@@ -134,7 +208,7 @@ public final class StageDCrucibleGameTests {
 				.add(aspect(Aspects.LIGHT), 10)
 				.add(aspect(Aspects.SENSES), 5)
 				.build());
-		context.assertTrue(crucible.processItem(new ItemStack(Items.GLOWSTONE_DUST), player),
+		context.assertTrue(crucible.processItem(new ItemStack(Items.GLOWSTONE_DUST), player).isEmpty(),
 				"matching glowstone recipes process");
 		context.assertTrue(context.getLevel().getEntitiesOfClass(ItemEntity.class,
 						new AABB(crucible.getBlockPos()).inflate(3.0),
@@ -157,7 +231,7 @@ public final class StageDCrucibleGameTests {
 				.findFirst()
 				.orElse(ItemStack.EMPTY);
 		context.assertTrue(!aspectless.isEmpty(), "test fixture contains an item without aspects");
-		context.assertTrue(!crucible.processItem(aspectless, null), "an item with no aspects is not consumed");
+		context.assertTrue(!crucible.processItem(aspectless, null).isEmpty(), "an item with no aspects is not consumed");
 		Aspect earth = aspect(Aspects.EARTH);
 		crucible.setAspects(AspectList.of(earth, 501));
 		CrucibleBlockEntity.serverTick(context.getLevel(), crucible.getBlockPos(),

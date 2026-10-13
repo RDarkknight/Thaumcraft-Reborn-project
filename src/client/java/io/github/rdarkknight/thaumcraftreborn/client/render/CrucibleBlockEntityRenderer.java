@@ -33,7 +33,8 @@ public final class CrucibleBlockEntityRenderer
 		BlockEntityRenderer.super.extractRenderState(blockEntity, state, tickProgress, cameraPos, crumblingOverlay);
 		state.level = blockEntity.waterMb() / (float) CrucibleBlockEntity.CAPACITY;
 		context.itemModelResolver().updateForTopItem(state.water,
-				new ItemStack(Items.WATER_BUCKET), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, 0);
+				new ItemStack(Items.BLUE_ICE), ItemDisplayContext.FIXED,
+				blockEntity.getLevel(), null, 0);
 	}
 
 	@Override
@@ -43,8 +44,8 @@ public final class CrucibleBlockEntityRenderer
 			return;
 		}
 		poseStack.pushPose();
-		poseStack.translate(0.5, 0.25 + state.level * 0.35, 0.5);
-		poseStack.scale(0.32F, 0.08F + state.level * 0.08F, 0.32F);
+		poseStack.translate(0.5, 0.22 + state.level * 0.76, 0.5);
+		poseStack.scale(0.72F, 0.035F, 0.72F);
 		state.water.submit(poseStack, collector, LightCoordsUtil.FULL_BRIGHT, 0, 0);
 		poseStack.popPose();
 	}
