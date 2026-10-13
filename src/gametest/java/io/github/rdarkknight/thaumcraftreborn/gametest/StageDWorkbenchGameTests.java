@@ -206,6 +206,33 @@ public final class StageDWorkbenchGameTests {
 	}
 
 	@GameTest
+	public void brassGogglesRecipeProducesGogglesAtTheWorkbench(GameTestHelper context) {
+		ServerPlayer player = context.makeMockServerPlayerInLevel();
+		ArcaneWorkbenchBlockEntity blockEntity = prepareWorkbench(context, player, 100.0F, false);
+		for (int slot : new int[] {0, 2, 3, 5}) {
+			blockEntity.setItem(slot, new ItemStack(Items.LEATHER));
+		}
+		blockEntity.setItem(1, new ItemStack(ThaumcraftContent.INGOT_BRASS));
+		blockEntity.setItem(4, ItemStack.EMPTY);
+		blockEntity.setItem(6, new ItemStack(ThaumcraftContent.THAUMOMETER));
+		blockEntity.setItem(7, new ItemStack(ThaumcraftContent.INGOT_BRASS));
+		blockEntity.setItem(8, new ItemStack(ThaumcraftContent.THAUMOMETER));
+		var unlockArtifice = ThaumcraftRebornApi.id("unlockartifice");
+		KnowledgeAccess.get().addResearch(player, unlockArtifice);
+		KnowledgeAccess.get().setResearchStage(player, unlockArtifice, 3);
+
+		ArcaneWorkbenchMenu menu = new ArcaneWorkbenchMenu(1, player.getInventory(), blockEntity.getBlockPos());
+		context.assertTrue(menu.getSlot(15).getItem().is(ThaumcraftContent.GOGGLES),
+				"Goggles preview should match; actual=" + menu.getSlot(15).getItem()
+						+ ", research=" + KnowledgeAccess.get().knowledge(player).getResearchStatus(unlockArtifice));
+		ItemStack crafted = menu.getSlot(15).safeTake(1, 1, player);
+		context.assertTrue(crafted.is(ThaumcraftContent.GOGGLES)
+						&& AuraAccess.get().getVis(player.level(), blockEntity.getBlockPos()) == 50.0F,
+				"brass-tag inputs and UNLOCKARTIFICE craft Goggles for 50 vis");
+		context.succeed();
+	}
+
+	@GameTest
 	public void unknownGateFallsBackToVanillaAndInsufficientVisHidesArcaneOutput(GameTestHelper context) {
 		ServerPlayer player = context.makeMockServerPlayerInLevel();
 		ArcaneWorkbenchBlockEntity blockEntity = prepareWorkbench(context, player, 19.0F, false);

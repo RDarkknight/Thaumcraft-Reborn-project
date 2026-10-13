@@ -5,6 +5,7 @@ import io.github.rdarkknight.thaumcraftreborn.api.aspect.Aspect;
 import io.github.rdarkknight.thaumcraftreborn.api.knowledge.KnowledgeAccess;
 import io.github.rdarkknight.thaumcraftreborn.content.SalisMundusItem;
 import io.github.rdarkknight.thaumcraftreborn.content.ThaumcraftContent;
+import io.github.rdarkknight.thaumcraftreborn.content.crucible.CrucibleBlockEntity;
 import io.github.rdarkknight.thaumcraftreborn.core.component.ModDataComponents;
 import io.github.rdarkknight.thaumcraftreborn.core.registry.ThaumcraftRegistries;
 import io.github.rdarkknight.thaumcraftreborn.systems.recipe.CraftEventRecorder;
@@ -161,18 +162,37 @@ public final class StageDDustGameTests {
 			context.assertTrue(dust.useOn(useOnContext(player, pos)) == InteractionResult.PASS
 							&& player.getItemInHand(InteractionHand.MAIN_HAND).getCount() == 1,
 					"the empty position cannot trigger a second bookshelf transformation");
+			context.succeed();
+		});
+	}
 
-			player.setPos(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5);
-			context.getLevel().setBlock(pos, Blocks.CAULDRON.defaultBlockState(), 3);
-			InteractionResult lockedCauldron = dust.useOn(useOnContext(player, pos));
-			context.assertTrue(lockedCauldron == InteractionResult.PASS,
-					"cauldron trigger requires UNLOCKALCHEMY@1");
-			var alchemy = ThaumcraftRebornApi.id("unlockalchemy");
-			KnowledgeAccess.get().addResearch(player, alchemy);
-			KnowledgeAccess.get().setResearchStage(player, alchemy, 1);
-			context.assertTrue(dust.useOn(useOnContext(player, pos)) == InteractionResult.SUCCESS
-							&& CraftEventRecorder.count(player, ThaumcraftRebornApi.id("crucible")) == 1,
-					"unlocked cauldron trigger records the Crucible result");
+	@GameTest(maxTicks = 100)
+	public void salisMundusCauldronCreatesCrucibleBlockEntity(GameTestHelper context) {
+		ServerPlayer player = context.makeMockServerPlayerInLevel();
+		player.getAbilities().instabuild = false;
+		BlockPos pos = context.absolutePos(new BlockPos(1, 1, 1));
+		player.setPos(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5);
+		context.getLevel().setBlock(pos, Blocks.CAULDRON.defaultBlockState(), 3);
+		SalisMundusItem dust = (SalisMundusItem) ThaumcraftContent.SALIS_MUNDUS;
+		player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(dust, 2));
+		context.assertTrue(dust.useOn(useOnContext(player, pos)) == InteractionResult.PASS
+						&& player.getItemInHand(InteractionHand.MAIN_HAND).getCount() == 2,
+				"cauldron trigger requires UNLOCKALCHEMY@1");
+		var alchemy = ThaumcraftRebornApi.id("unlockalchemy");
+		KnowledgeAccess.get().addResearch(player, alchemy);
+		KnowledgeAccess.get().setResearchStage(player, alchemy, 1);
+
+		InteractionResult accepted = dust.useOn(useOnContext(player, pos));
+		context.assertTrue(accepted == InteractionResult.SUCCESS,
+				"cauldron use result=" + accepted + ", research stage="
+						+ KnowledgeAccess.get().knowledge(player).getResearchStage(alchemy));
+		context.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND).getCount() == 1
+						&& CraftEventRecorder.count(player, ThaumcraftRebornApi.id("crucible")) == 1,
+				"UNLOCKALCHEMY@1 consumes one dust and records one Crucible craft");
+		context.runAfterDelay(51, () -> {
+			context.assertTrue(context.getLevel().getBlockState(pos).is(ThaumcraftContent.CRUCIBLE)
+							&& context.getLevel().getBlockEntity(pos) instanceof CrucibleBlockEntity,
+					"the cauldron transformation places the Crucible block entity");
 			context.succeed();
 		});
 	}
