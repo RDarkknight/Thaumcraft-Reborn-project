@@ -78,12 +78,52 @@ Fabric Convention Tags no define `c:ingots/brass` y Stage C no registra brass. S
 Los GameTests verifican coste de 20 vis y de 19 con Goggles, slot de cristal, fallback con Thaumometer y research desconocido, vis insuficiente entre preview y take, consumo normal y shift-craft, y persistencia del inventario del block entity sin duplicación al cerrar. El client GameTest abre la pantalla y guarda una captura.
 
 ## Crucible (D4)
+### D4 pila arrojada y salida
+
+La colisión de una `ItemEntity` procesa la pila completa: cada unidad intenta primero una receta y, si no hay receta aplicable, se disuelve sólo cuando existe una resolución de aspectos. La pila devuelta reemplaza el contenido de la entidad; se elimina cuando queda vacía. La interacción manual sigue pasando una sola unidad. La eyección mantiene la posición y velocidad de `TileCrucible.ejectItem`. [TileCrucible.java:211–263,300–317]
+
+## Research Table (D5)
+
+La mesa de madera se transforma en Research Table al usar herramientas de escritura; la receta es la de TC6 con tags modernos de tablones y losas. Las herramientas apilan a uno, tienen durabilidad 100, y se fabrican con botella, pluma y `#thaumcraft_reborn:dyes/black`; su recarga sigue la receta TC6. La variante con phial queda diferida. [ConfigRecipes.java:160–177; BlockTable.java:47–64; ItemScribingTools.java:6–12]
+
+El estado completo de sesión vive en `ResearchTableBlockEntity` mediante `ResearchTableData`; registros extensibles `TheorycraftCard`/`TheorycraftAid` viven en `api`. La sesión parte de `round(5 + 0.5 × SPIKY + 0.1 × HIDDEN)`, con research estrictamente conocido, límite 15 y resta de un punto por ayuda detectada. BASICS siempre está disponible; ALCHEMY requiere `UNLOCKALCHEMY` estrictamente conocido. En D5 sólo se ofrecen esas dos categorías, aun cuando haya más categorías registradas. Cada draw consume un papel, ofrece dos cartas (tres con bonus), y filtra por coste y categoría. Un aid puede entrar con probabilidad `<= 0.25`. Los aids recorren x,z `-4..4`, y `-1..1`; bookshelf aporta Balance, dos Notation y tres Study; Crucible aporta Concentrate, Reactions y Synthesis. El BE persiste inspiración inicial/actual, totales por categoría, bonus draws, ofertas, ayudas detectadas/cartas de ayuda, penalización y las semillas guardadas de cartas elegidas. [TheorycraftSystem.java:74–126,146–175,267–300; ResearchTableData.java:14–48,87–118,220–285,342–389; AidBookshelf.java:5–14; AidBasicAlchemy.java:7–16]
+
+El servidor recibe start/draw/pick por `clickMenuButton`, valida propietario, estado, materiales, papel y requisitos/coste de las cartas. A diferencia de TC6, start también valida en servidor las herramientas y el papel. Se conserva el quirk de TC6: fallar el consumo de tinta no bloquea la elección de una carta. Al terminar se concede THEORY por Knowledge API con `round(c / 100F * 32)` y penalización `(int) max(1, tot * 0.666666667)` desde `penaltyStart`. [ContainerResearchTable.java:48–111; TileResearchTable.java:78–100,141–160]
+
+Cartas incluidas, con todos los costes y efectos del subconjunto BASICS/ALCHEMY:
+
+| Carta | Coste / requisitos y consumos | Efecto |
+|---|---|---|
+| Study (sólo aid) | 1 | +15..25 a categoría disponible aleatoria. [CardStudy.java:27–80] |
+| Analyze | 2; requiere y consume un nivel OBSERVATION de la categoría elegida | +5 BASICS y +25..50 a esa categoría. [CardAnalyze.java:35–82] |
+| Balance | 1; sólo aid | iguala totales activos, +5 BASICS y `penaltyStart +1`. [CardBalance.java:27–69] |
+| Notation (sólo aid) | 1 | transfiere un total positivo entre dos categorías: quita todo del origen y entrega entre la mitad y todo al destino. [CardNotation.java:27–77] |
+| Ponder | 2 | distribuye 25 puntos entre categorías activas, +5 BASICS y un draw bonus. [CardPonder.java:27–64] |
+| Rethink | 2 | quita hasta 10 puntos repartidos de totales, +1 draw bonus y +1..10 BASICS. [CardRethink.java:27–69] |
+| Reject | 0 | bloquea una categoría para la sesión y +5 BASICS. [CardReject.java:27–55] |
+| Experimentation | 2 | +15..30 a una categoría registrada y +1..10 BASICS. [CardExperimentation.java:27–57] |
+| Inspired | 2 | añade la cantidad del offer a una categoría activa. [CardInspired.java:27–59] |
+| Concentrate | 1; requiere un cristal de aspecto, no consumido | +15 ALCHEMY, draw bonus y probabilidad 0.33 de +1 inspiración. [CardConcentrate.java:38–73] |
+| Reactions | 1; requiere dos cristales de aspectos compuestos distintos, no consumidos | +25 ALCHEMY y probabilidad 0.33 de +1 inspiración. [CardReactions.java:34–88] |
+| Synthesis | 1; requiere y consume los dos cristales componentes | crea el cristal compuesto, +40 ALCHEMY y probabilidad 0.33 de +1 inspiración. [CardSynthesis.java:37–95] |
+
+Se omiten las restantes cartas de `ConfigResearch.initTheorycraft`: Curio y las cartas de encantamiento, beacon, celestialidad, calibración, tinkering/foci/infusión/golems/portales/eldritch requieren entidades, bloques o sistemas posteriores que no están en D; sus requisitos/efectos no se sustituyen por no-ops. [ConfigResearch.java:357–405]
+
+## Progresión de research (D6)
+
+El botón «Advance stage» de la pantalla mínima envía un payload C2S; el servidor vuelve a resolver la entrada y prevalida research padre, `required_knowledge`, `required_item`, `required_craft` y `required_research`. Knowledge se descuenta y los ítems requeridos se consumen sólo tras validar todos los costes; después se ejecuta el avance existente. Es una ruta server-side equivalente para este esquema a `PacketSyncProgressToServer.checkRequisites` → `ResearchManager.progressResearch`; TC6 valida crafts como flags `[ # ]`, consume `obtain` y descuenta knowledge bruto según la progresión del tipo. [ResearchProgression.java:69–101,153–209; PacketSyncProgressToServer.java:76–155; ResearchManager.java:98–155]
+
+Los flags de pickup se otorgan al adquirir un cristal y Thaumonomicon; `got_dream` se otorga al despertar después de `got_crystals`. El Thaumometer añade OBSERVATION al escanear por primera vez y registra claves de scan. `FIRSTSTEPS` exige en orden el flag Thaumonomicon y crafting de Workbench; después requiere el craft de Thaumometer más OBSERVATION BASICS. `UNLOCKALCHEMY` exige OBSERVATION ALCHEMY y BASICS, luego craft de Crucible y Nitor. `METALLURGY` requiere OBSERVATION ALCHEMY/craft de brass, y THEORY ALCHEMY/craft de thaumium. [PickupResearchFlags.java:23–47; ThaumometerSystem.java:186–242; firststeps.json:9–57; unlockalchemy.json:9–65; metallurgy.json:9–64]
+
+El GameTest E2E «Aprendiz de taumaturgo» recorrió la secuencia completa hasta completar METALLURGY y producir Thaumium: pickup de cristal/despertar, crafting recipe de Salis, transformaciones con `useOn`, pickup del Thaumonomicon, avances validados de FIRSTSTEPS/UNLOCKALCHEMY/METALLURGY, Arcane Workbench, escaneos, Crucible, Research Table vía `clickMenuButton` y Thaumium. Usó materias primas vanilla y cristales; la perla y el polvo de blaze se combinaron con la receta vanilla de Eye of Ender, y la caña de azúcar se crafteó a papel. La teoría usa una fuente aleatoria sembrada por UUID sólo durante el GameTest, limpiada al terminar; no cambia selección ni reglas de producción. [ApprenticeEndToEndGameTest.java; firststeps.json:9–57; unlockalchemy.json:9–65; basealchemy.json:9–33; metallurgy.json:9–64]
+
+El Client GameTest abre las pantallas de Research Table y Thaumonomicon con el botón de avance visible; cambia el aura en el servidor, ejecuta la ruta `AuraSyncPayload` y comprueba en la caché usada por el HUD los valores `base=100`, `vis=321`, `flux=12`. [ThaumometerSystem.java:46–52,91–109; ThaumometerClient.java:34–45]
 
 El Crucible usa un bloque no opaco con block entity propio. El estado persistido conserva calor `0..200`, agua de capacidad `1000 mB` y `AspectList`; el cliente sincroniza agua, aspectos y cruces de `heat > 150`, no cada tick. [TileCrucible.java:40–54; BlockCrucible.java:100–140]
 
 Cada tick calienta `+1` hasta `200` con agua y lava, fuego, soul fire, magma block o nitor amarillo debajo; en otro caso enfría `-1` hasta `0`. El contador empieza en `-100`, con derrame al superar `500` de vis o llegar a `100`; procesar disolución lo fija a `-150` y receta a `-250`. Campfire queda fuera. [TileCrucible.java:41–50,75–110,217–241]
 
-Con `heat > 150` y agua, una receta exige jugador online, research estricto, catalizador y aspectos; se escoge el mayor `visSize`. Consume una entrada, `50 mB` y sólo aspectos requeridos, conserva sobrantes y registra el craft. Sin receta, `AspectLookup` final disuelve y consume sólo si hay aspectos, sin agua. El cap `500/aspecto` queda para Etapa E. [TileCrucible.java:217–276; ThaumcraftCraftingManager.java:50–69; CrucibleRecipe.java:49–78]
+Con `heat > 150` y agua, cada unidad de la pila arrojada intenta una receta que exige jugador online, research estricto, catalizador y aspectos; se escoge el mayor `visSize`. Cada resultado consume `50 mB` y sólo los aspectos requeridos, conserva sobrantes, registra el craft y se eyecta; sin receta, `AspectLookup` final disuelve la unidad sólo si hay aspectos, sin gastar agua. La `ItemEntity` se actualiza con el resto o se descarta vacía. La entrega manual sigue procesando una unidad. La eyección mantiene la posición y velocidad de TC6. El cap `500/aspecto` queda para Etapa E. [TileCrucible.java:211–276,300–317; ThaumcraftCraftingManager.java:50–69; CrucibleRecipe.java:49–78]
 
 `spillRandom` elimina una unidad y añade `1.0F` de flux para vitium o `0.25F` para otro aspecto. `spillRemnants` vacía agua/aspectos y añade `visSize * 0.25F + vitium * 0.75F`; agacharse con mano vacía y romper usan ese camino. El cubo llena `1000 mB` y devuelve cubo salvo creativo; extracción con cubo vacío es **UNKNOWN**. [TileCrucible.java:293–318; BlockCrucible.java:100–107,152–158]
 
