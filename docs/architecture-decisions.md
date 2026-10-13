@@ -101,11 +101,17 @@ Siguen vigentes las de `fabric-26.3-architecture.md` § *Confirmed architectural
 - La Etapa H añadirá un dataset de compatibilidad moderna separado, en archivos claramente nombrados (por ejemplo, `modern_*`), sin mezclarlo con `tc6_*`. Así se distingue siempre un aspecto original TC6 de uno de compatibilidad moderna. Es trabajo diferido, no descartado.
 - Los `{}` de override existentes para 74 ids exclusivos de 26.3 en la capa generada significan «sin valor TC6». La capa moderna podrá reemplazarlos explícitamente con `replace`, según AD-04.
 
+## AD-15 — Triggers de Salis Mundus y eventos de crafteo
+
+- `DustTrigger` y su registro ordenado viven en `api`; cada trigger expresa gate, coincidencia y transformaciones (una posición por defecto, extensible a multibloques). Las implementaciones y el scheduling de ticks viven en `systems.dust`.
+- `CraftEventRecorder` centraliza el registro persistente de resultados de crafting: el slot vanilla adapta su evento con un mixin delegador, mientras Workbench y triggers llaman al servicio y Crucible podrá reutilizarlo. Las fuentes no mantienen contadores paralelos.
+- La simulación de aura en tick de servidor ya está decidida en AD-05; D1 no crea un hilo de simulación adicional.
+
 ## Simplificaciones registradas
 
 | Simplificación | Motivo | Aislada detrás de | Se elimina en |
 |---|---|---|---|
-| Aura mínima: regeneración de vis por fase lunar cada 20 ticks; sin difusión, decaimiento, comportamiento de vis bajo, propagación de flux ni rifts | Desbloquea consumidores de la Etapa B/C | `AuraAccess` | Etapa D |
+| Simulación de aura mínima: regeneración simple sin difusión ni conversión de vis en flux | Desbloqueaba consumidores de B/C | `AuraAccess`; sustituida por la simulación TC6 en D1 | Resuelta en D1; rifts y Flux Goo en Etapa E |
 | El attachment de aura no se sincroniza al cliente | HUD/thaumometer aún no existen | `AuraAccess` | Etapa C |
 | `addFlux(..., showEffect)` no emite efectos | La política de FX pertenece a la simulación completa | `AuraAccess` | Etapa D |
 | Sin packets de ganancia de conocimiento ni popups de interfaz | No hay UI de investigación | `KnowledgeAccess` | Etapa C |
