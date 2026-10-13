@@ -10,6 +10,7 @@ import io.github.rdarkknight.thaumcraftreborn.core.network.ScanSlotPayload;
 import io.github.rdarkknight.thaumcraftreborn.client.mixin.ContainerScreenAccessor;
 import io.github.rdarkknight.thaumcraftreborn.systems.RevealingEquipment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.minecraft.client.Minecraft;
@@ -34,8 +35,13 @@ public final class ThaumometerClient {
 		ResearchScreenAccess.install(() -> Minecraft.getInstance().gui.setScreen(new ThaumonomiconScreen()));
 		ClientPlayNetworking.registerGlobalReceiver(AuraSyncPayload.TYPE, (payload, context) ->
 				context.client().execute(() -> aura = payload));
+		ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> aura = null);
 		ClientTickEvents.END_CLIENT_TICK.register(ThaumometerClient::scanHoveredSlot);
 		HudElementRegistry.addLast(ThaumcraftRebornApi.id("thaumometer_hud"), ThaumometerClient::renderHud);
+	}
+
+	public static AuraSyncPayload cachedAura() {
+		return aura;
 	}
 
 	private static void scanHoveredSlot(Minecraft client) {

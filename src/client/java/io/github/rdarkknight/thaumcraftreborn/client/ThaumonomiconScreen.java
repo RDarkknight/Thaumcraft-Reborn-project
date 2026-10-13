@@ -7,10 +7,13 @@ import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchAccess;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchCategory;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchEntry;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchStatus;
+import io.github.rdarkknight.thaumcraftreborn.core.network.ProgressResearchPayload;
 import java.util.List;
 import java.util.Map;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
@@ -23,6 +26,7 @@ public final class ThaumonomiconScreen extends Screen {
 	private List<Identifier> visibleEntries = List.of();
 	private Identifier selectedCategory;
 	private Identifier selectedEntry;
+	private Button progressButton;
 
 	public ThaumonomiconScreen() {
 		super(Component.translatable("item.thaumcraft_reborn.thaumonomicon_normal"));
@@ -31,6 +35,15 @@ public final class ThaumonomiconScreen extends Screen {
 	@Override
 	protected void init() {
 		refreshCategories();
+		progressButton = addRenderableWidget(Button.builder(
+				Component.translatable("gui.thaumcraft_reborn.research.advance"),
+				button -> {
+					if (selectedEntry != null) {
+						ClientPlayNetworking.send(new ProgressResearchPayload(selectedEntry));
+					}
+				}
+		).bounds(width * 2 / 3 + 8, height - 40, 88, 20).build());
+		progressButton.active = selectedEntry != null;
 	}
 
 	@Override
@@ -66,6 +79,10 @@ public final class ThaumonomiconScreen extends Screen {
 		}
 
 		ResearchEntry selected = selectedEntry == null ? null : ResearchAccess.get().entry(selectedEntry, true).orElse(null);
+		if (progressButton != null) {
+			progressButton.active = selected != null && Minecraft.getInstance().player != null
+					&& KnowledgeAccess.get().knowledge(Minecraft.getInstance().player).getResearchStage(selectedEntry) <= selected.stages().size();
+		}
 		if (selected != null && Minecraft.getInstance().player != null) {
 			PlayerKnowledge knowledge = KnowledgeAccess.get().knowledge(Minecraft.getInstance().player);
 			int reached = Math.min(selected.stages().size(), Math.max(0, knowledge.getResearchStage(selectedEntry) + 1));
@@ -82,6 +99,7 @@ public final class ThaumonomiconScreen extends Screen {
 				) + 8;
 			}
 		}
+		super.extractRenderState(graphics, mouseX, mouseY, partialTick);
 	}
 
 	@Override

@@ -29,7 +29,9 @@ public final class ModAttachments {
 	);
 	public static final AttachmentType<AuraChunkData> AURA = AttachmentRegistry.create(
 			ThaumcraftRebornApi.id("aura"),
-			builder -> builder.persistent(AuraChunkData.CODEC)
+			builder -> builder
+					.persistent(AuraChunkData.CODEC)
+					.syncWith(AuraChunkData.STREAM_CODEC, AttachmentSyncPredicate.all())
 	);
 	public static final AttachmentType<PlayerKnowledgeData> KNOWLEDGE = AttachmentRegistry.create(
 			ThaumcraftRebornApi.id("knowledge"),

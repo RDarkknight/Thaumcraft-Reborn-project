@@ -4,6 +4,8 @@ import io.github.rdarkknight.thaumcraftreborn.api.item.ItemReference;
 import io.github.rdarkknight.thaumcraftreborn.api.knowledge.KnowledgeAccess;
 import io.github.rdarkknight.thaumcraftreborn.api.knowledge.PlayerKnowledge;
 import io.github.rdarkknight.thaumcraftreborn.api.research.KnowledgeAmount;
+import io.github.rdarkknight.thaumcraftreborn.api.research.KnowledgeType;
+import io.github.rdarkknight.thaumcraftreborn.api.research.ItemRequirement;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchAccess;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchAddendum;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchEntry;
@@ -11,13 +13,16 @@ import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchFlag;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchMeta;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchReference;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchRequirement;
-import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchReference;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchStage;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchStatus;
 import io.github.rdarkknight.thaumcraftreborn.api.research.WarpType;
 import io.github.rdarkknight.thaumcraftreborn.core.config.ThaumcraftConfig;
+import io.github.rdarkknight.thaumcraftreborn.systems.recipe.CraftEventRecorder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
@@ -27,7 +32,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Prediction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public final class ResearchProgression {
@@ -55,6 +64,41 @@ public final class ResearchProgression {
 		Set<Identifier> path = new HashSet<>();
 		path.add(key);
 		return progressOne(player, key, sync, path);
+	}
+
+	public static boolean progressStage(ServerPlayer player, Identifier key) {
+		ResearchEntry entry = ResearchAccess.get().entry(key, false).orElse(null);
+		PlayerKnowledge knowledge = KnowledgeAccess.get().knowledge(player);
+		if (entry == null || !knowledge.isResearchKnown(key) || !doesPlayerHaveRequisites(player, key)) {
+			return false;
+		}
+		int stageIndex = knowledge.getResearchStage(key) - 1;
+		if (stageIndex < 0 || stageIndex >= entry.stages().size()) {
+			return false;
+		}
+		ResearchStage stage = entry.stages().get(stageIndex);
+		int[] itemCosts = itemCosts(player.getInventory(), stage.requiredItem());
+		if (itemCosts == null || !hasStageRequirements(player, knowledge, stage)) {
+			return false;
+		}
+		Map<KnowledgeKey, Long> knowledgeCosts = knowledgeCosts(knowledge, stage.requiredKnowledge());
+		if (knowledgeCosts == null) {
+			return false;
+		}
+		List<KnowledgeCost> deducted = new ArrayList<>();
+		for (Map.Entry<KnowledgeKey, Long> cost : knowledgeCosts.entrySet()) {
+			int amount = Math.toIntExact(cost.getValue());
+			KnowledgeKey keyCost = cost.getKey();
+			if (!KnowledgeAccess.get().addKnowledge(player, keyCost.type(), keyCost.category(), -amount)) {
+				for (KnowledgeCost previous : deducted) {
+					KnowledgeAccess.get().addKnowledge(player, previous.key().type(), previous.key().category(), previous.amount());
+				}
+				return false;
+			}
+			deducted.add(new KnowledgeCost(keyCost, amount));
+		}
+		consumeItems(player.getInventory(), itemCosts);
+		return progressResearch(player, key, true);
 	}
 
 	public static boolean completeResearch(ServerPlayer player, Identifier key, boolean sync) {
@@ -172,6 +216,95 @@ public final class ResearchProgression {
 				&& stage.requiredCraft().isEmpty()
 				&& stage.requiredKnowledge().isEmpty()
 				&& stage.requiredResearch().isEmpty();
+	}
+
+	private static boolean hasStageRequirements(ServerPlayer player, PlayerKnowledge knowledge, ResearchStage stage) {
+		for (KnowledgeAmount requirement : stage.requiredKnowledge()) {
+			if (knowledge.getKnowledge(requirement.type(), requirement.category()) < requirement.amount()) {
+				return false;
+			}
+		}
+		for (ItemRequirement requirement : stage.requiredCraft()) {
+			if (!CraftEventRecorder.hasCrafted(player, requirement)) {
+				return false;
+			}
+		}
+		for (ResearchRequirement requirement : stage.requiredResearch()) {
+			ResearchReference reference = requirement.reference();
+			if (!isUnlocked(player, reference.key(), reference.stage())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static Map<KnowledgeKey, Long> knowledgeCosts(PlayerKnowledge knowledge, List<KnowledgeAmount> requirements) {
+		Map<KnowledgeKey, Long> levelsByKey = new HashMap<>();
+		for (KnowledgeAmount requirement : requirements) {
+			KnowledgeKey key = new KnowledgeKey(requirement.type(), requirement.category());
+			long levels = levelsByKey.getOrDefault(key, 0L) + requirement.amount();
+			long raw = levels * requirement.type().progression();
+			if (raw > Integer.MAX_VALUE || knowledge.getKnowledgeRaw(key.type(), key.category()) < raw) {
+				return null;
+			}
+			levelsByKey.put(key, levels);
+		}
+		Map<KnowledgeKey, Long> rawCosts = new HashMap<>();
+		levelsByKey.forEach((key, levels) -> rawCosts.put(key, levels * key.type().progression()));
+		return rawCosts;
+	}
+
+	private static int[] itemCosts(Inventory inventory, List<ItemRequirement> requirements) {
+		int[] remaining = new int[inventory.getContainerSize()];
+		int[] costs = new int[inventory.getContainerSize()];
+		for (int slot = 0; slot < remaining.length; slot++) {
+			remaining[slot] = inventory.getItem(slot).getCount();
+		}
+		for (ItemRequirement requirement : requirements) {
+			int missing = requirement.count();
+			for (int slot = 0; slot < remaining.length && missing > 0; slot++) {
+				ItemStack stack = inventory.getItem(slot);
+				if (remaining[slot] == 0 || !matches(requirement, stack)) {
+					continue;
+				}
+				int consumed = Math.min(missing, remaining[slot]);
+				remaining[slot] -= consumed;
+				costs[slot] += consumed;
+				missing -= consumed;
+			}
+			if (missing > 0) {
+				return null;
+			}
+		}
+		return costs;
+	}
+
+	private static boolean matches(ItemRequirement requirement, ItemStack stack) {
+		if (stack.isEmpty()) {
+			return false;
+		}
+		if (requirement.item().isPresent()) {
+			return requirement.item().orElseThrow().resolve()
+					.map(required -> ItemStack.isSameItemSameComponents(stack, required))
+					.orElse(false);
+		}
+		TagKey<Item> tag = TagKey.create(Registries.ITEM, requirement.tag().orElseThrow());
+		return stack.is(tag);
+	}
+
+	private static void consumeItems(Inventory inventory, int[] costs) {
+		for (int slot = 0; slot < costs.length; slot++) {
+			if (costs[slot] > 0) {
+				inventory.getItem(slot).shrink(costs[slot]);
+			}
+		}
+		inventory.setChanged();
+	}
+
+	private record KnowledgeKey(KnowledgeType type, Optional<Identifier> category) {
+	}
+
+	private record KnowledgeCost(KnowledgeKey key, int amount) {
 	}
 
 	private static void addResearchWarp(ServerPlayer player, int warp) {

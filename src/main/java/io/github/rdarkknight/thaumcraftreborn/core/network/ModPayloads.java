@@ -2,6 +2,7 @@ package io.github.rdarkknight.thaumcraftreborn.core.network;
 
 import io.github.rdarkknight.thaumcraftreborn.core.attachment.ModAttachments;
 import io.github.rdarkknight.thaumcraftreborn.core.fx.FxPayload;
+import io.github.rdarkknight.thaumcraftreborn.systems.research.ResearchProgression;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
@@ -12,6 +13,7 @@ public final class ModPayloads {
 	public static void init() {
 		PayloadTypeRegistry.serverboundPlay().register(ProbePingPayload.TYPE, ProbePingPayload.STREAM_CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(ScanSlotPayload.TYPE, ScanSlotPayload.STREAM_CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(ProgressResearchPayload.TYPE, ProgressResearchPayload.STREAM_CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(ProbePongPayload.TYPE, ProbePongPayload.STREAM_CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(ConfigSyncPayload.TYPE, ConfigSyncPayload.STREAM_CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(FxPayload.TYPE, FxPayload.STREAM_CODEC);
@@ -20,5 +22,7 @@ public final class ModPayloads {
 			int interactions = context.player().getAttachedOrCreate(ModAttachments.PROBE_INTERACTIONS);
 			ServerPlayNetworking.send(context.player(), new ProbePongPayload(payload.nonce(), interactions));
 		});
+		ServerPlayNetworking.registerGlobalReceiver(ProgressResearchPayload.TYPE, (payload, context) ->
+				context.server().execute(() -> ResearchProgression.progressStage(context.player(), payload.research())));
 	}
 }

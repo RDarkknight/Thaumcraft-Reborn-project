@@ -2,6 +2,9 @@ package io.github.rdarkknight.thaumcraftreborn.core.aura;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 
 public record AuraChunkData(short base, float vis, float flux) {
 	public static final Codec<AuraChunkData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -9,7 +12,18 @@ public record AuraChunkData(short base, float vis, float flux) {
 			Codec.FLOAT.fieldOf("vis").forGetter(AuraChunkData::vis),
 			Codec.FLOAT.fieldOf("flux").forGetter(AuraChunkData::flux)
 	).apply(instance, AuraChunkData::new));
-
+	public static final StreamCodec<RegistryFriendlyByteBuf, AuraChunkData> STREAM_CODEC = StreamCodec.of(
+			(buffer, data) -> {
+				ByteBufCodecs.SHORT.encode(buffer, data.base());
+				ByteBufCodecs.FLOAT.encode(buffer, data.vis());
+				ByteBufCodecs.FLOAT.encode(buffer, data.flux());
+			},
+			buffer -> new AuraChunkData(
+					ByteBufCodecs.SHORT.decode(buffer),
+					ByteBufCodecs.FLOAT.decode(buffer),
+					ByteBufCodecs.FLOAT.decode(buffer)
+			)
+	);
 	public AuraChunkData {
 		vis = clamp(vis);
 		flux = clamp(flux);

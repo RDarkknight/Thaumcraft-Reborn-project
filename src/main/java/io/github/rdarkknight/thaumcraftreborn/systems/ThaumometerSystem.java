@@ -88,7 +88,7 @@ public final class ThaumometerSystem {
 		report(player, ScanningAccess.get().scanItem(player, current.copy()));
 	}
 
-	private static void syncAura(ServerPlayer player) {
+	public static void syncAura(ServerPlayer player) {
 		BlockPos pos = player.blockPosition();
 		AuraAccess aura = AuraAccess.get();
 		int base = aura.getBase(player.level(), pos);
