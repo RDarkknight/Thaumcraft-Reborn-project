@@ -76,3 +76,17 @@ Fabric Convention Tags no define `c:ingots/brass` y Stage C no registra brass. S
 | Las Goggles requieren `ingotBrass`. [ConfigRecipes.java:674–692] | La receta usa `c:ingots/brass`, declarado vacío hasta que se añada el ítem. | El codec de Minecraft 26.3 rechaza referencias a tags inexistentes; no se inventa ni sustituye brass. | D4 |
 
 Los GameTests verifican coste de 20 vis y de 19 con Goggles, slot de cristal, fallback con Thaumometer y research desconocido, vis insuficiente entre preview y take, consumo normal y shift-craft, y persistencia del inventario del block entity sin duplicación al cerrar. El client GameTest abre la pantalla y guarda una captura.
+
+## Crucible (D4)
+
+El Crucible usa un bloque no opaco con block entity propio. El estado persistido conserva calor `0..200`, agua de capacidad `1000 mB` y `AspectList`; el cliente sincroniza agua, aspectos y cruces de `heat > 150`, no cada tick. [TileCrucible.java:40–54; BlockCrucible.java:100–140]
+
+Cada tick calienta `+1` hasta `200` con agua y lava, fuego, soul fire, magma block o nitor amarillo debajo; en otro caso enfría `-1` hasta `0`. El contador empieza en `-100`, con derrame al superar `500` de vis o llegar a `100`; procesar disolución lo fija a `-150` y receta a `-250`. Campfire queda fuera. [TileCrucible.java:41–50,75–110,217–241]
+
+Con `heat > 150` y agua, una receta exige jugador online, research estricto, catalizador y aspectos; se escoge el mayor `visSize`. Consume una entrada, `50 mB` y sólo aspectos requeridos, conserva sobrantes y registra el craft. Sin receta, `AspectLookup` final disuelve y consume sólo si hay aspectos, sin agua. El cap `500/aspecto` queda para Etapa E. [TileCrucible.java:217–276; ThaumcraftCraftingManager.java:50–69; CrucibleRecipe.java:49–78]
+
+`spillRandom` elimina una unidad y añade `1.0F` de flux para vitium o `0.25F` para otro aspecto. `spillRemnants` vacía agua/aspectos y añade `visSize * 0.25F + vitium * 0.75F`; agacharse con mano vacía y romper usan ese camino. El cubo llena `1000 mB` y devuelve cubo salvo creativo; extracción con cubo vacío es **UNKNOWN**. [TileCrucible.java:293–318; BlockCrucible.java:100–107,152–158]
+
+Los ítems usan el owner/thrower para resolver `ServerPlayer`; las entidades vivas reciben `1.0F` in-fire tras diez callbacks. Se añadieron nitor, brass, alumentum, tallow y clusters; la fundición usa 2 lingotes y `1.0 XP`. La receta de cobre es una desviación moderna documentada: el smelting TC6 comprobado no contiene metadata 2. [BlockCrucible.java:35,47–75; TileCrucible.java:266–276; ConfigRecipes.java:2723–2760]
+
+Se excluyen `focus_1`, `LiquidDeath`, `BottleTaint`, `BathSalts`, `SaneSoap` y `EverfullUrn`; mostrar aspectos apuntados por Goggles/Thaumometer queda diferido.

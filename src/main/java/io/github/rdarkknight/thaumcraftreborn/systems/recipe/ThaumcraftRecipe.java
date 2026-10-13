@@ -197,6 +197,17 @@ public record ThaumcraftRecipe(
 		return ThaumcraftRecipeSerializers.type(Kind.ARCANE_SHAPELESS);
 	}
 
+	public static RecipeType<ThaumcraftRecipe> crucibleType() {
+		return ThaumcraftRecipeSerializers.type(Kind.CRUCIBLE);
+	}
+
+	public boolean matchesCrucible(ItemStack input, AspectList present) {
+		if (kind != Kind.CRUCIBLE || catalyst.isEmpty() || !catalyst.get().test(input)) {
+			return false;
+		}
+		return aspects.aspects().stream().allMatch(aspect -> present.amount(aspect) >= aspects.amount(aspect));
+	}
+
 	enum Kind {
 		ARCANE_SHAPED,
 		ARCANE_SHAPELESS,

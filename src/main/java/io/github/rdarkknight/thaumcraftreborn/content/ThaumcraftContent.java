@@ -7,6 +7,8 @@ import io.github.rdarkknight.thaumcraftreborn.core.component.ModDataComponents;
 import io.github.rdarkknight.thaumcraftreborn.core.registry.ThaumcraftRegistries;
 import io.github.rdarkknight.thaumcraftreborn.content.workbench.ArcaneWorkbenchBlock;
 import io.github.rdarkknight.thaumcraftreborn.content.workbench.ArcaneWorkbenchBlockEntity;
+import io.github.rdarkknight.thaumcraftreborn.content.crucible.CrucibleBlock;
+import io.github.rdarkknight.thaumcraftreborn.content.crucible.CrucibleBlockEntity;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -44,6 +46,13 @@ public final class ThaumcraftContent {
 	public static final Item NUGGET_THAUMIUM = registerItem("nugget_thaumium", new Item.Properties());
 	public static final Item NUGGET_QUARTZ = registerItem("nugget_quartz", new Item.Properties());
 	public static final Item NUGGET_QUICKSILVER = registerItem("nugget_quicksilver", new Item.Properties());
+	public static final Item INGOT_BRASS = registerItem("ingot_brass", new Item.Properties());
+	public static final Item ALUMENTUM = registerItem("alumentum", new Item.Properties());
+	public static final Item TALLOW = registerItem("tallow", new Item.Properties());
+	public static final Item CLUSTER_IRON = registerItem("cluster_iron", new Item.Properties());
+	public static final Item CLUSTER_GOLD = registerItem("cluster_gold", new Item.Properties());
+	public static final Item CLUSTER_COPPER = registerItem("cluster_copper", new Item.Properties());
+	public static final Item CLUSTER_CINNABAR = registerItem("cluster_cinnabar", new Item.Properties());
 	public static final Item CRYSTAL_ESSENCE = registerItem("crystal_essence", new Item.Properties());
 	public static final Item THAUMOMETER = registerCustomItem("thaumometer", ThaumometerItem::new,
 			new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
@@ -95,13 +104,22 @@ public final class ThaumcraftContent {
 	public static final Block METAL_THAUMIUM = registerBlock("metal_thaumium", Block::new, 4.0F, 10.0F, false);
 	public static final Block ARCANE_WORKBENCH = registerBlock("arcane_workbench",
 			properties -> new ArcaneWorkbenchBlock(properties), 2.5F, 5.0F, false);
-	public static final Block CRUCIBLE = registerBlock("crucible", Block::new, 2.0F, 5.0F, false);
+	public static final Block NITOR_YELLOW = registerBlock("nitor_yellow",
+			properties -> new Block(properties.noOcclusion().noCollision().lightLevel(state -> 15)), 0.0F, 0.0F, false);
+	public static final Block CRUCIBLE = registerBlock("crucible",
+			properties -> new CrucibleBlock(properties), 2.0F, 5.0F, false);
 	public static final net.minecraft.world.level.block.entity.BlockEntityType<ArcaneWorkbenchBlockEntity>
 			ARCANE_WORKBENCH_BLOCK_ENTITY = Registry.register(
 					BuiltInRegistries.BLOCK_ENTITY_TYPE,
 					ThaumcraftReborn.id("arcane_workbench"),
 					new net.minecraft.world.level.block.entity.BlockEntityType<>(
 							ArcaneWorkbenchBlockEntity::new, java.util.Set.of(ARCANE_WORKBENCH)));
+	public static final net.minecraft.world.level.block.entity.BlockEntityType<CrucibleBlockEntity>
+			CRUCIBLE_BLOCK_ENTITY = Registry.register(
+					BuiltInRegistries.BLOCK_ENTITY_TYPE,
+					ThaumcraftReborn.id("crucible"),
+					new net.minecraft.world.level.block.entity.BlockEntityType<>(
+							CrucibleBlockEntity::new, java.util.Set.of(CRUCIBLE)));
 
 	public static final Block LOG_GREATWOOD = registerBlock("log_greatwood",
 			properties -> new RotatedPillarBlock(properties), 2.0F, 5.0F, false);
@@ -135,11 +153,12 @@ public final class ThaumcraftContent {
 	public static final List<Block> BLOCKS = List.of(
 			ORE_AMBER, ORE_CINNABAR, ORE_QUARTZ, CRYSTAL_AER, CRYSTAL_TERRA, CRYSTAL_IGNIS, CRYSTAL_AQUA,
 			CRYSTAL_ORDO, CRYSTAL_PERDITIO, STONE_ARCANE, STONE_ARCANE_BRICK, AMBER_BLOCK, AMBER_BRICK,
-			METAL_THAUMIUM, ARCANE_WORKBENCH, CRUCIBLE, LOG_GREATWOOD, LOG_SILVERWOOD, PLANK_GREATWOOD, PLANK_SILVERWOOD,
+			METAL_THAUMIUM, ARCANE_WORKBENCH, NITOR_YELLOW, CRUCIBLE, LOG_GREATWOOD, LOG_SILVERWOOD, PLANK_GREATWOOD, PLANK_SILVERWOOD,
 			LEAVES_GREATWOOD, LEAVES_SILVERWOOD, SAPLING_GREATWOOD, SAPLING_SILVERWOOD
 	);
 	public static final List<Item> ITEMS = List.of(
-			AMBER, QUICKSILVER, INGOT_THAUMIUM, NUGGET_THAUMIUM, NUGGET_QUARTZ, NUGGET_QUICKSILVER,
+			AMBER, QUICKSILVER, INGOT_THAUMIUM, NUGGET_THAUMIUM, NUGGET_QUARTZ, NUGGET_QUICKSILVER, INGOT_BRASS,
+			ALUMENTUM, TALLOW, CLUSTER_IRON, CLUSTER_GOLD, CLUSTER_COPPER, CLUSTER_CINNABAR,
 			THAUMIUM_SWORD, THAUMIUM_AXE, THAUMIUM_PICK, THAUMIUM_SHOVEL, THAUMIUM_HOE, CRYSTAL_ESSENCE,
 			THAUMOMETER, GOGGLES, THAUMONOMICON, SALIS_MUNDUS
 	);

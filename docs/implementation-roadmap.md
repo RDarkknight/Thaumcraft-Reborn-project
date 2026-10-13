@@ -250,7 +250,7 @@ Resumen (las letras no son la Fase 2; la numeración de fases la decidirá el pr
 - **Objetivo:** primera progresión jugable de Thaumcraft (§6).
 - **Sistemas incluidos:**
   - **Salis Mundus** y transformaciones de multibloque básicas (estantería → Thaumonomicon, mesa → Arcane Workbench, caldero → Crucible).
-  - **Arcane Workbench** con recetas arcanas (vis del chunk + cristales) y flux generado al craftear.
+  - **Arcane Workbench** con recetas arcanas (vis del chunk + cristales), sin flux generado por el crafteo.
   - **Crucible** con calor/agua, disolución de ítems a aspectos y recetas de crisol.
   - **Simulación de aura completa:** difusión, fase lunar, conversión de exceso en flux, presupuesto por tick, política de chunks no cargados, perfilado (R4).
   - Progresión **BASICS → ALCHEMY** con el Thaumonomicon mínimo y una Research Table/theorycrafting simplificada sobre las abstracciones definitivas (AD-07).

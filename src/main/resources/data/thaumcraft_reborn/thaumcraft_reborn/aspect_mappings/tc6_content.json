@@ -271,6 +271,75 @@
         "thaumcraft_reborn:praemunio": 6,
         "thaumcraft_reborn:praecantatio": 10
       }
+    },
+    {
+      "item": "thaumcraft_reborn:alumentum",
+      "aspects": {
+        "thaumcraft_reborn:potentia": 13,
+        "thaumcraft_reborn:ignis": 13,
+        "thaumcraft_reborn:perditio": 2
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:tallow",
+      "aspects": {
+        "thaumcraft_reborn:humanus": 5,
+        "thaumcraft_reborn:victus": 5,
+        "thaumcraft_reborn:perditio": 5,
+        "thaumcraft_reborn:ignis": 1
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:ingot_brass",
+      "aspects": {
+        "thaumcraft_reborn:metallum": 67,
+        "thaumcraft_reborn:instrumentum": 33
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:nitor_yellow",
+      "aspects": {
+        "thaumcraft_reborn:sensus": 5,
+        "thaumcraft_reborn:lux": 13,
+        "thaumcraft_reborn:potentia": 3,
+        "thaumcraft_reborn:ignis": 3
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:cluster_iron",
+      "aspects": {
+        "thaumcraft_reborn:ordo": 5,
+        "thaumcraft_reborn:metallum": 15,
+        "thaumcraft_reborn:terra": 5
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:cluster_gold",
+      "aspects": {
+        "thaumcraft_reborn:ordo": 5,
+        "thaumcraft_reborn:metallum": 15,
+        "thaumcraft_reborn:terra": 5,
+        "thaumcraft_reborn:desiderium": 10
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:cluster_copper",
+      "aspects": {
+        "thaumcraft_reborn:ordo": 5,
+        "thaumcraft_reborn:metallum": 15,
+        "thaumcraft_reborn:terra": 5,
+        "thaumcraft_reborn:permutatio": 10
+      }
+    },
+    {
+      "item": "thaumcraft_reborn:cluster_cinnabar",
+      "aspects": {
+        "thaumcraft_reborn:ordo": 5,
+        "thaumcraft_reborn:metallum": 15,
+        "thaumcraft_reborn:terra": 5,
+        "thaumcraft_reborn:alkimia": 5,
+        "thaumcraft_reborn:mortuus": 5
+      }
     }
   ]
 }

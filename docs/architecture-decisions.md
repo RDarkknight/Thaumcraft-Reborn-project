@@ -118,6 +118,7 @@ Siguen vigentes las de `fabric-26.3-architecture.md` § *Confirmed architectural
 | Sin aspectos de bonificación por armadura, herramientas, encantamientos, pociones o contenedores | Se conserva la resolución base durante C | `AspectBonusProvider` / `AspectLimiter` (AD-13) | Etapa E |
 | Las Goggles no se renderizan al llevarlas en un slot de Trinkets | El renderizado equivalente a TC6 `IRenderBauble` queda separado del slot funcional | `AccessoryAccess` (AD-12) | Etapa H |
 | Research Table simplificada (subconjunto de cartas) | Primer milestone | Abstracciones de theorycrafting (AD-07) | Etapa H |
+| Crucible sincronizado sólo al cambiar agua/aspectos o cruzar el umbral caliente | El calor interno cambia cada tick y no necesita tráfico continuo | `ThaumcraftBlockEntity` | Etapa D |
 
 ## Conflictos detectados y corregidos
 

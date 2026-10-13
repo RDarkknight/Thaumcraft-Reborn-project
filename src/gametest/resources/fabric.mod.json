@@ -12,6 +12,7 @@
       "io.github.rdarkknight.thaumcraftreborn.gametest.StageCGameTests",
       "io.github.rdarkknight.thaumcraftreborn.gametest.StageDGameTests",
       "io.github.rdarkknight.thaumcraftreborn.gametest.StageDDustGameTests",
+      "io.github.rdarkknight.thaumcraftreborn.gametest.StageDCrucibleGameTests",
       "io.github.rdarkknight.thaumcraftreborn.gametest.StageDWorkbenchGameTests",
       "io.github.rdarkknight.thaumcraftreborn.gametest.ThaumometerGameTests"
     ],
