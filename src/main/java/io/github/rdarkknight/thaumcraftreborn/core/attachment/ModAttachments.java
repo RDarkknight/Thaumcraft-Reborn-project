@@ -5,10 +5,12 @@ import io.github.rdarkknight.thaumcraftreborn.api.ThaumcraftRebornApi;
 import io.github.rdarkknight.thaumcraftreborn.core.aura.AuraChunkData;
 import io.github.rdarkknight.thaumcraftreborn.core.knowledge.PlayerKnowledgeData;
 import io.github.rdarkknight.thaumcraftreborn.core.knowledge.PlayerWarpData;
+import java.util.Map;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.resources.Identifier;
 
 public final class ModAttachments {
 	public static final AttachmentType<Integer> PROBE_INTERACTIONS = AttachmentRegistry.create(
@@ -44,6 +46,10 @@ public final class ModAttachments {
 					.persistent(PlayerWarpData.CODEC)
 					.copyOnDeath()
 					.syncWith(PlayerWarpData.STREAM_CODEC, AttachmentSyncPredicate.targetOnly())
+	);
+	public static final AttachmentType<Map<Identifier, Integer>> CRAFTED_ITEMS = AttachmentRegistry.create(
+			ThaumcraftRebornApi.id("crafted_items"),
+			builder -> builder.initializer(Map::of).persistent(Codec.unboundedMap(Identifier.CODEC, Codec.INT))
 	);
 
 	private ModAttachments() {

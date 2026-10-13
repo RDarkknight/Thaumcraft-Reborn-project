@@ -225,6 +225,10 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 	}
 
 	private static void addC2Translations(FabricLanguageProvider.TranslationBuilder translations, boolean spanish) {
+		translations.add("container.thaumcraft_reborn.arcane_workbench",
+				spanish ? "Banco de trabajo arcano" : "Arcane Workbench");
+		translations.add("container.thaumcraft_reborn.arcane_crystals",
+				spanish ? "Cristales arcanos" : "Arcane Crystals");
 		translations.add("message.thaumcraft_reborn.scan_found", spanish ? "Nuevo descubrimiento" : "New discovery");
 		translations.add("message.thaumcraft_reborn.scan_known", spanish ? "Ya conocido" : "Already known");
 		translations.add("message.thaumcraft_reborn.scan_unknown", spanish ? "Sin aspectos que descubrir" : "Nothing to discover");
@@ -274,6 +278,9 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 	private static String displayName(String path, boolean spanish) {
 		if (spanish) {
 			return switch (path) {
+				case "salis_mundus" -> "Salis Mundus";
+				case "arcane_workbench" -> "Banco de trabajo arcano";
+				case "crucible" -> "Crisol";
 				case "ore_amber" -> "Mineral de ámbar";
 				case "ore_cinnabar" -> "Mineral de cinabrio";
 				case "ore_quartz" -> "Mineral de cuarzo";
@@ -310,6 +317,15 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 		}
 		if (path.equals("thaumonomicon_normal")) {
 			return "Thaumonomicon";
+		}
+		if (path.equals("salis_mundus")) {
+			return "Salis Mundus";
+		}
+		if (path.equals("arcane_workbench")) {
+			return "Arcane Workbench";
+		}
+		if (path.equals("crucible")) {
+			return "Crucible";
 		}
 		if (path.equals("thaumometer")) {
 			return "Thaumometer";

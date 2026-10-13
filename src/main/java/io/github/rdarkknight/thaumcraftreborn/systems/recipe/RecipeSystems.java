@@ -7,5 +7,6 @@ public final class RecipeSystems {
 	public static void init() {
 		RecipeGateSystem.init();
 		ThaumcraftRecipeSerializers.init();
+		SalisMundusRecipeSerializer.init();
 	}
 }

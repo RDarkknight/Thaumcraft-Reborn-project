@@ -5,6 +5,8 @@ import io.github.rdarkknight.thaumcraftreborn.api.aspect.Aspect;
 import io.github.rdarkknight.thaumcraftreborn.api.aspect.Aspects;
 import io.github.rdarkknight.thaumcraftreborn.core.component.ModDataComponents;
 import io.github.rdarkknight.thaumcraftreborn.core.registry.ThaumcraftRegistries;
+import io.github.rdarkknight.thaumcraftreborn.content.workbench.ArcaneWorkbenchBlock;
+import io.github.rdarkknight.thaumcraftreborn.content.workbench.ArcaneWorkbenchBlockEntity;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -68,6 +70,8 @@ public final class ThaumcraftContent {
 					.durability(350).rarity(Rarity.RARE).repairable(GOGGLES_REPAIR_ITEMS));
 	public static final Item THAUMONOMICON = registerCustomItem("thaumonomicon_normal", ThaumonomiconItem::new,
 			new Item.Properties().stacksTo(1));
+	public static final Item SALIS_MUNDUS = registerCustomItem("salis_mundus", SalisMundusItem::new,
+			new Item.Properties().rarity(Rarity.UNCOMMON));
 
 	public static final Block ORE_AMBER = registerBlock("ore_amber",
 			properties -> new DropExperienceBlock(net.minecraft.util.valueproviders.UniformInt.of(1, 4), properties),
@@ -89,6 +93,15 @@ public final class ThaumcraftContent {
 	public static final Block AMBER_BLOCK = registerBlock("amber_block", Block::new, 0.5F, 2.0F, false);
 	public static final Block AMBER_BRICK = registerBlock("amber_brick", Block::new, 0.5F, 2.0F, false);
 	public static final Block METAL_THAUMIUM = registerBlock("metal_thaumium", Block::new, 4.0F, 10.0F, false);
+	public static final Block ARCANE_WORKBENCH = registerBlock("arcane_workbench",
+			properties -> new ArcaneWorkbenchBlock(properties), 2.5F, 5.0F, false);
+	public static final Block CRUCIBLE = registerBlock("crucible", Block::new, 2.0F, 5.0F, false);
+	public static final net.minecraft.world.level.block.entity.BlockEntityType<ArcaneWorkbenchBlockEntity>
+			ARCANE_WORKBENCH_BLOCK_ENTITY = Registry.register(
+					BuiltInRegistries.BLOCK_ENTITY_TYPE,
+					ThaumcraftReborn.id("arcane_workbench"),
+					new net.minecraft.world.level.block.entity.BlockEntityType<>(
+							ArcaneWorkbenchBlockEntity::new, java.util.Set.of(ARCANE_WORKBENCH)));
 
 	public static final Block LOG_GREATWOOD = registerBlock("log_greatwood",
 			properties -> new RotatedPillarBlock(properties), 2.0F, 5.0F, false);
@@ -122,13 +135,13 @@ public final class ThaumcraftContent {
 	public static final List<Block> BLOCKS = List.of(
 			ORE_AMBER, ORE_CINNABAR, ORE_QUARTZ, CRYSTAL_AER, CRYSTAL_TERRA, CRYSTAL_IGNIS, CRYSTAL_AQUA,
 			CRYSTAL_ORDO, CRYSTAL_PERDITIO, STONE_ARCANE, STONE_ARCANE_BRICK, AMBER_BLOCK, AMBER_BRICK,
-			METAL_THAUMIUM, LOG_GREATWOOD, LOG_SILVERWOOD, PLANK_GREATWOOD, PLANK_SILVERWOOD,
+			METAL_THAUMIUM, ARCANE_WORKBENCH, CRUCIBLE, LOG_GREATWOOD, LOG_SILVERWOOD, PLANK_GREATWOOD, PLANK_SILVERWOOD,
 			LEAVES_GREATWOOD, LEAVES_SILVERWOOD, SAPLING_GREATWOOD, SAPLING_SILVERWOOD
 	);
 	public static final List<Item> ITEMS = List.of(
 			AMBER, QUICKSILVER, INGOT_THAUMIUM, NUGGET_THAUMIUM, NUGGET_QUARTZ, NUGGET_QUICKSILVER,
 			THAUMIUM_SWORD, THAUMIUM_AXE, THAUMIUM_PICK, THAUMIUM_SHOVEL, THAUMIUM_HOE, CRYSTAL_ESSENCE,
-			THAUMOMETER, GOGGLES, THAUMONOMICON
+			THAUMOMETER, GOGGLES, THAUMONOMICON, SALIS_MUNDUS
 	);
 	private static final List<ResourceKey<Aspect>> PRIMAL_ASPECTS =
 			List.of(Aspects.AIR, Aspects.EARTH, Aspects.FIRE, Aspects.WATER, Aspects.ORDER, Aspects.ENTROPY);

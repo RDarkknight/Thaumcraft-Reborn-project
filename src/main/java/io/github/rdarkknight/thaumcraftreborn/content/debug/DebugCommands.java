@@ -8,6 +8,7 @@ import io.github.rdarkknight.thaumcraftreborn.api.aura.AuraAccess;
 import io.github.rdarkknight.thaumcraftreborn.core.attachment.ModAttachments;
 import io.github.rdarkknight.thaumcraftreborn.core.config.ThaumcraftConfig;
 import io.github.rdarkknight.thaumcraftreborn.core.fx.FxDispatcher;
+import io.github.rdarkknight.thaumcraftreborn.systems.aura.AuraSystems;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -127,11 +128,17 @@ public final class DebugCommands {
 	private static int getAura(ServerPlayer player) {
 		var aura = AuraAccess.get();
 		var position = player.blockPosition();
+		AuraSystems.TickMetrics metrics = AuraSystems.lastTickMetrics(player.level());
 		player.sendSystemMessage(Component.literal("vis=" + aura.getVis(player.level(), position)
 				+ " flux=" + aura.getFlux(player.level(), position)
 				+ " base=" + aura.getBase(player.level(), position)
 				+ " total=" + aura.getTotalAura(player.level(), position)
-				+ " saturation=" + aura.getFluxSaturation(player.level(), position)));
+				+ " saturation=" + aura.getFluxSaturation(player.level(), position)
+				+ " phase=" + metrics.phase()
+				+ " tick_time=" + metrics.gameTime()
+				+ " tick_cost_ms=" + metrics.nanoseconds() / 1_000_000.0D
+				+ " tick_cost_ns=" + metrics.nanoseconds()
+				+ " chunks_processed=" + metrics.chunksProcessed()));
 		return 1;
 	}
 

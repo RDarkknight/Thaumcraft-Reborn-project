@@ -1,0 +1,21 @@
+{
+  "type": "thaumcraft_reborn:arcane_shaped",
+  "result": {
+    "id": "thaumcraft_reborn:goggles"
+  },
+  "ingredients": [
+    "#c:leathers",
+    "#c:ingots/brass",
+    "#c:leathers",
+    "#c:leathers",
+    [],
+    "#c:leathers",
+    "thaumcraft_reborn:thaumometer",
+    "#c:ingots/brass",
+    "thaumcraft_reborn:thaumometer"
+  ],
+  "width": 3,
+  "height": 3,
+  "research": "unlockartifice",
+  "vis_cost": 50
+}

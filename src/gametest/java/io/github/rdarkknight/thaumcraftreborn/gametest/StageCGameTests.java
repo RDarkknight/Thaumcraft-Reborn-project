@@ -182,7 +182,8 @@ public final class StageCGameTests {
 		long customRecipeCount = recipes.getRecipes().stream()
 				.filter(holder -> holder.value() instanceof ThaumcraftRecipe)
 				.count();
-		context.assertTrue(customRecipeCount == 11, "four recipe serializers plus seven shipped crucible recipes load");
+		context.assertTrue(customRecipeCount == 13,
+				"four fixture recipes, seven shipped crucible recipes, and two arcane recipes load");
 
 		ThaumcraftRecipe gated = (ThaumcraftRecipe) recipes.byKey(
 				recipeId("thaumcraft_reborn_test", "fixture_arcane_shaped")

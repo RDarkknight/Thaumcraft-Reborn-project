@@ -12,6 +12,10 @@ public abstract class ThaumcraftContainerScreen<M extends AbstractContainerMenu>
 		super(menu, inventory, title);
 	}
 
+	protected ThaumcraftContainerScreen(M menu, Inventory inventory, Component title, int imageWidth, int imageHeight) {
+		super(menu, inventory, title, imageWidth, imageHeight);
+	}
+
 	protected abstract Identifier backgroundTexture();
 
 	@Override

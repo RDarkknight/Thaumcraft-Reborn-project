@@ -3,7 +3,8 @@
   "package": "io.github.rdarkknight.thaumcraftreborn.systems.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "PlayerPickupFlagMixin"
+    "PlayerPickupFlagMixin",
+    "CraftedItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

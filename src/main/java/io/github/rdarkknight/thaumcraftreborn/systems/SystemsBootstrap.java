@@ -11,6 +11,7 @@ import io.github.rdarkknight.thaumcraftreborn.systems.knowledge.AttachedKnowledg
 import io.github.rdarkknight.thaumcraftreborn.systems.research.ResearchIndex;
 import io.github.rdarkknight.thaumcraftreborn.systems.research.ResearchProgression;
 import io.github.rdarkknight.thaumcraftreborn.systems.recipe.RecipeSystems;
+import io.github.rdarkknight.thaumcraftreborn.systems.dust.SalisMundusSystem;
 
 public final class SystemsBootstrap {
 	private SystemsBootstrap() {
@@ -30,5 +31,6 @@ public final class SystemsBootstrap {
 		ThaumcraftWorldgen.init();
 		ThaumometerSystem.init();
 		PickupResearchFlags.init();
+		SalisMundusSystem.init();
 	}
 }
