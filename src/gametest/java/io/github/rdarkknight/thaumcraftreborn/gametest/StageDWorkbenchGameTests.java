@@ -17,10 +17,14 @@ import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.AABB;
 
 public final class StageDWorkbenchGameTests {
 	@GameTest
@@ -67,6 +71,47 @@ public final class StageDWorkbenchGameTests {
 	}
 
 	@GameTest
+	public void swappingArcaneOutputPaysOnceAndLeavesOneResult(GameTestHelper context) {
+		ServerPlayer player = context.makeMockServerPlayerInLevel();
+		ArcaneWorkbenchBlockEntity blockEntity = prepareWorkbench(context, player, 100.0F, true);
+		ArcaneWorkbenchMenu menu = new ArcaneWorkbenchMenu(1, player.getInventory(), blockEntity.getBlockPos());
+
+		menu.clicked(15, 0, ContainerInput.SWAP, player);
+
+		context.assertTrue(player.getInventory().getItem(0).is(ThaumcraftContent.THAUMOMETER)
+						&& player.getInventory().getItem(0).getCount() == 1
+						&& menu.getSlot(15).getItem().isEmpty()
+						&& AuraAccess.get().getVis(player.level(), blockEntity.getBlockPos()) == 80.0F,
+				"number-key swap pays 20 vis and puts one Thaumometer in the hotbar");
+		assertWorkbenchInputsConsumed(context, blockEntity, player);
+		context.succeed();
+	}
+
+	@GameTest
+	public void throwingArcaneOutputPaysOnceAndLeavesOneResult(GameTestHelper context) {
+		ServerPlayer player = context.makeMockServerPlayerInLevel();
+		ArcaneWorkbenchBlockEntity blockEntity = prepareWorkbench(context, player, 100.0F, true);
+		ArcaneWorkbenchMenu menu = new ArcaneWorkbenchMenu(1, player.getInventory(), blockEntity.getBlockPos());
+
+		menu.clicked(15, 0, ContainerInput.THROW, player);
+
+		List<ItemEntity> drops = context.getLevel().getEntitiesOfClass(
+				ItemEntity.class,
+				player.getBoundingBox().inflate(4.0),
+				entity -> entity.getItem().is(ThaumcraftContent.THAUMOMETER)
+						&& entity.getOwner() != null && entity.getOwner().getUUID().equals(player.getUUID()));
+		context.assertTrue(menu.getSlot(15).getItem().isEmpty()
+						&& drops.size() == 1
+						&& drops.getFirst().getItem().getCount() == 1
+						&& AuraAccess.get().getVis(player.level(), blockEntity.getBlockPos()) == 80.0F,
+				"Q throws one paid Thaumometer; output=" + menu.getSlot(15).getItem()
+						+ ", drops=" + drops.size() + ", vis="
+						+ AuraAccess.get().getVis(player.level(), blockEntity.getBlockPos()));
+		assertWorkbenchInputsConsumed(context, blockEntity, player);
+		context.succeed();
+	}
+
+	@GameTest
 	public void visLossAfterPreviewReturnsTheDeliveredResultWithoutPayment(GameTestHelper context) {
 		ServerPlayer player = context.makeMockServerPlayerInLevel();
 		ArcaneWorkbenchBlockEntity blockEntity = prepareWorkbench(context, player, 100.0F, true);
@@ -92,6 +137,57 @@ public final class StageDWorkbenchGameTests {
 						&& java.util.stream.IntStream.range(9, 15).allMatch(slot -> blockEntity.getItem(slot).getCount() == 1)
 						&& CraftEventRecorder.count(player, ThaumcraftRebornApi.id("thaumometer")) == 0,
 				"failed payment consumes neither ingredients nor crystals and records no craft");
+		context.succeed();
+	}
+
+	@GameTest
+	public void failedPaymentReclaimsResultFromPlayerInventory(GameTestHelper context) {
+		ServerPlayer player = context.makeMockServerPlayerInLevel();
+		ArcaneWorkbenchBlockEntity blockEntity = prepareWorkbench(context, player, 100.0F, true);
+		ArcaneWorkbenchMenu menu = new ArcaneWorkbenchMenu(1, player.getInventory(), blockEntity.getBlockPos());
+		Slot output = menu.getSlot(15);
+		ItemStack delivered = output.remove(1);
+		player.getInventory().setItem(0, delivered.copy());
+		context.getLevel().getChunkAt(blockEntity.getBlockPos()).setAttached(
+				ModAttachments.AURA, new AuraChunkData((short) 100, 19.0F, 0.0F));
+
+		output.onTake(player, delivered);
+
+		context.assertTrue(player.getInventory().getItem(0).isEmpty()
+						&& menu.getSlot(15).getItem().isEmpty()
+						&& AuraAccess.get().getVis(player.level(), blockEntity.getBlockPos()) == 19.0F,
+				"failed payment removes the unpaid result from the hotbar without spending vis");
+		context.assertTrue(blockEntity.getItem(1).getCount() == 1 && blockEntity.getItem(3).getCount() == 1
+						&& blockEntity.getItem(4).getCount() == 1 && blockEntity.getItem(5).getCount() == 1
+						&& blockEntity.getItem(7).getCount() == 1
+						&& java.util.stream.IntStream.range(9, 15).allMatch(slot -> blockEntity.getItem(slot).getCount() == 1),
+				"failed payment preserves all ingredients and crystals");
+		context.succeed();
+	}
+
+	@GameTest
+	public void failedPaymentReclaimsResultFromNewlyThrownEntity(GameTestHelper context) {
+		ServerPlayer player = context.makeMockServerPlayerInLevel();
+		ArcaneWorkbenchBlockEntity blockEntity = prepareWorkbench(context, player, 100.0F, true);
+		ArcaneWorkbenchMenu menu = new ArcaneWorkbenchMenu(1, player.getInventory(), blockEntity.getBlockPos());
+		Slot output = menu.getSlot(15);
+		ItemStack delivered = output.remove(1);
+		ItemEntity dropped = player.drop(delivered.copy(), false, Prediction.SERVER_ONLY);
+		dropped.setThrower(player);
+		context.getLevel().getChunkAt(blockEntity.getBlockPos()).setAttached(
+				ModAttachments.AURA, new AuraChunkData((short) 100, 19.0F, 0.0F));
+
+		output.onTake(player, delivered);
+
+		context.assertTrue(dropped != null && !dropped.isAlive()
+						&& menu.getSlot(15).getItem().isEmpty()
+						&& AuraAccess.get().getVis(player.level(), blockEntity.getBlockPos()) == 19.0F,
+				"failed payment removes the unpaid newly thrown result without spending vis");
+		context.assertTrue(blockEntity.getItem(1).getCount() == 1 && blockEntity.getItem(3).getCount() == 1
+						&& blockEntity.getItem(4).getCount() == 1 && blockEntity.getItem(5).getCount() == 1
+						&& blockEntity.getItem(7).getCount() == 1
+						&& java.util.stream.IntStream.range(9, 15).allMatch(slot -> blockEntity.getItem(slot).getCount() == 1),
+				"failed payment preserves all ingredients and crystals");
 		context.succeed();
 	}
 
@@ -148,6 +244,7 @@ public final class StageDWorkbenchGameTests {
 			boolean unlock
 	) {
 		BlockPos pos = context.absolutePos(new BlockPos(1, 1, 1));
+		player.setPos(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5);
 		context.getLevel().setBlock(pos, ThaumcraftContent.ARCANE_WORKBENCH.defaultBlockState(), 3);
 		ArcaneWorkbenchBlockEntity blockEntity =
 				(ArcaneWorkbenchBlockEntity) context.getLevel().getBlockEntity(pos);
@@ -174,5 +271,18 @@ public final class StageDWorkbenchGameTests {
 		ItemStack stack = new ItemStack(ThaumcraftContent.CRYSTAL_ESSENCE);
 		stack.set(ModDataComponents.CRYSTAL_ASPECT, aspect);
 		return stack;
+	}
+
+	private static void assertWorkbenchInputsConsumed(
+			GameTestHelper context,
+			ArcaneWorkbenchBlockEntity blockEntity,
+			ServerPlayer player
+	) {
+		context.assertTrue(blockEntity.getItem(1).isEmpty() && blockEntity.getItem(3).isEmpty()
+						&& blockEntity.getItem(4).isEmpty() && blockEntity.getItem(5).isEmpty()
+						&& blockEntity.getItem(7).isEmpty()
+						&& java.util.stream.IntStream.range(9, 15).allMatch(slot -> blockEntity.getItem(slot).isEmpty())
+						&& CraftEventRecorder.count(player, ThaumcraftRebornApi.id("thaumometer")) == 1,
+				"paid output consumes the crafting inputs and crystals once");
 	}
 }

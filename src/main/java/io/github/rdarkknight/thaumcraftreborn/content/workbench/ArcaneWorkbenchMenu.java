@@ -1,5 +1,6 @@
 package io.github.rdarkknight.thaumcraftreborn.content.workbench;
 
+import com.mojang.logging.LogUtils;
 import io.github.rdarkknight.thaumcraftreborn.ThaumcraftReborn;
 import io.github.rdarkknight.thaumcraftreborn.api.aspect.Aspect;
 import io.github.rdarkknight.thaumcraftreborn.api.aspect.Aspects;
@@ -16,11 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuType;
+import net.minecraft.util.Prediction;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Prediction;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -33,8 +35,11 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import org.slf4j.Logger;
 
 public final class ArcaneWorkbenchMenu extends ThaumcraftMenu {
+	private static final Logger LOGGER = LogUtils.getLogger();
 	public static final ExtendedMenuType<ArcaneWorkbenchMenu, BlockPos> TYPE = Registry.register(
 			BuiltInRegistries.MENU,
 			ThaumcraftReborn.id("arcane_workbench"),
@@ -282,27 +287,53 @@ public final class ArcaneWorkbenchMenu extends ThaumcraftMenu {
 		return takeableMatch(player, expectedResult) != null;
 	}
 
-	private void restoreDelivered(Player player, ItemStack delivered) {
+	private void reclaimDelivered(Player player, ItemStack delivered) {
 		var menu = player.containerMenu;
 		ItemStack carried = menu.getCarried();
-		if (carried.isEmpty()) {
-			menu.setCarried(delivered.copy());
-		} else if (ItemStack.isSameItemSameComponents(carried, delivered)) {
-			ItemStack restored = carried.copy();
-			restored.shrink(Math.min(delivered.getCount(), restored.getCount()));
-			menu.setCarried(restored);
-			if (carried.getCount() < delivered.getCount()) {
-				placeBack(player, delivered.copyWithCount(delivered.getCount() - carried.getCount()));
-			}
-		} else {
-			placeBack(player, delivered.copy());
+		int remaining = delivered.getCount();
+		if (ItemStack.isSameItemSameComponents(carried, delivered)) {
+			int removed = Math.min(remaining, carried.getCount());
+			carried.shrink(removed);
+			remaining -= removed;
+			menu.setCarried(carried);
 		}
-	}
 
-	private void placeBack(Player player, ItemStack stack) {
-		if (!player.getInventory().add(stack)) {
-			player.drop(stack, false, Prediction.SERVER_ONLY);
+		Inventory inventory = player.getInventory();
+		for (int slot = 0; slot < inventory.getContainerSize() && remaining > 0; slot++) {
+			ItemStack stack = inventory.getItem(slot);
+			if (ItemStack.isSameItemSameComponents(stack, delivered)) {
+				int removed = Math.min(remaining, stack.getCount());
+				stack.shrink(removed);
+				remaining -= removed;
+			}
 		}
+		if (remaining > 0 && player.level() instanceof ServerLevel serverLevel) {
+			AABB nearby = player.getBoundingBox().inflate(2.0);
+			for (ItemEntity itemEntity : serverLevel.getEntitiesOfClass(
+					ItemEntity.class,
+					nearby,
+					entity -> entity.tickCount <= 1 && entity.getOwner() != null
+							&& entity.getOwner().getUUID().equals(player.getUUID())
+							&& ItemStack.isSameItemSameComponents(entity.getItem(), delivered))) {
+				ItemStack stack = itemEntity.getItem();
+				int removed = Math.min(remaining, stack.getCount());
+				stack.shrink(removed);
+				remaining -= removed;
+				if (stack.isEmpty()) {
+					itemEntity.discard();
+				} else {
+					itemEntity.setItem(stack);
+				}
+				if (remaining == 0) {
+					break;
+				}
+			}
+		}
+		if (remaining > 0) {
+			LOGGER.warn("Could not reclaim {} unpaid Arcane Workbench result item(s) for {}", remaining, player.getName().getString());
+		}
+		inventory.setChanged();
+		menu.broadcastChanges();
 	}
 
 	private void consumeCrystals(ThaumcraftRecipe recipe) {
@@ -423,7 +454,7 @@ public final class ArcaneWorkbenchMenu extends ThaumcraftMenu {
 		@Override
 		public void onTake(Player player, ItemStack stack) {
 			if (!menu.takeResult(player, stack)) {
-				menu.restoreDelivered(player, stack);
+				menu.reclaimDelivered(player, stack);
 			}
 		}
 	}
