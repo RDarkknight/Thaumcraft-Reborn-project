@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "thaumcraft_reborn:scribing_tools",
+    "#thaumcraft_reborn:dyes/black"
+  ],
+  "result": {
+    "id": "thaumcraft_reborn:scribing_tools"
+  }
+}

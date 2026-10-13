@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:glass_bottle",
+    "minecraft:feather",
+    "#thaumcraft_reborn:dyes/black"
+  ],
+  "result": {
+    "id": "thaumcraft_reborn:scribing_tools"
+  }
+}

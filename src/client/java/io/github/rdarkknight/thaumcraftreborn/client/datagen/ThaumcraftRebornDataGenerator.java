@@ -188,6 +188,10 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 
 		private static JsonObject blockModel(Identifier id) {
 			JsonObject model = new JsonObject();
+			if (id.getPath().equals("crucible")) {
+				model.addProperty("parent", "minecraft:block/cauldron");
+				return model;
+			}
 			model.addProperty("parent", "minecraft:block/cube_all");
 			JsonObject textures = new JsonObject();
 			textures.addProperty("all", ThaumcraftReborn.MOD_ID + ":block/" + id.getPath());
@@ -207,6 +211,7 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 			addContentTranslations(translations, false);
 			addAspectTranslations(translations);
 			addC2Translations(translations, false);
+			addTheorycraftTranslations(translations, false);
 		}
 	}
 
@@ -221,6 +226,7 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 			addContentTranslations(translations, true);
 			addAspectTranslations(translations);
 			addC2Translations(translations, true);
+			addTheorycraftTranslations(translations, true);
 		}
 	}
 
@@ -236,6 +242,7 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 		translations.add("gui.thaumcraft_reborn.research.categories", spanish ? "Categorías" : "Categories");
 		translations.add("gui.thaumcraft_reborn.research.entries", spanish ? "Investigaciones" : "Research");
 		translations.add("gui.thaumcraft_reborn.research.stages", spanish ? "Etapas conocidas" : "Known stages");
+		translations.add("gui.thaumcraft_reborn.research.advance", spanish ? "Avanzar etapa" : "Advance stage");
 		translations.add("research.thaumcraft_reborn.firststeps.title", spanish ? "Primeros pasos" : "First Steps");
 		translations.add("research.thaumcraft_reborn.firststeps.stage.1", spanish ? "El primer registro." : "The first entry.");
 		translations.add("research.thaumcraft_reborn.firststeps.stage.2", spanish ? "Observa el mundo." : "Observe the world.");
@@ -243,6 +250,36 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 		translations.add("hud.thaumcraft_reborn.revealing", spanish ? "Revelación" : "Revealing");
 		translations.add("hud.thaumcraft_reborn.vis", spanish ? "Vis" : "Vis");
 		translations.add("hud.thaumcraft_reborn.flux", spanish ? "Flujo" : "Flux");
+	}
+
+	private static void addTheorycraftTranslations(FabricLanguageProvider.TranslationBuilder translations, boolean spanish) {
+		translations.add("container.thaumcraft_reborn.research_table", spanish ? "Mesa de investigación" : "Research Table");
+		translations.add("gui.thaumcraft_reborn.theory.start", spanish ? "Iniciar" : "Start");
+		translations.add("gui.thaumcraft_reborn.theory.draw_two", spanish ? "Robar 2" : "Draw 2");
+		translations.add("gui.thaumcraft_reborn.theory.draw_three", spanish ? "Robar 3" : "Draw 3");
+		translations.add("gui.thaumcraft_reborn.theory.pick", spanish ? "Elegir %s" : "Pick %s");
+			translations.add("gui.thaumcraft_reborn.theory.inspiration",
+					spanish ? "Insp: %s/%s" : "Ins: %s/%s");
+		translations.add("gui.thaumcraft_reborn.theory.total", spanish ? "%s: %s" : "%s: %s");
+		String[][] cards = {
+				{"study", "Estudio", "Study"},
+				{"analyze", "Análisis", "Analyze"},
+				{"balance", "Equilibrio", "Balance"},
+				{"notation", "Notación", "Notation"},
+				{"ponder", "Reflexión", "Ponder"},
+				{"rethink", "Reconsiderar", "Rethink"},
+				{"reject", "Rechazo", "Reject"},
+				{"experimentation", "Experimentación", "Experimentation"},
+				{"inspired", "Inspiración", "Inspired"},
+				{"concentrate", "Concentración", "Concentrate"},
+				{"reactions", "Reacciones", "Reactions"},
+				{"synthesis", "Síntesis", "Synthesis"}
+		};
+		for (String[] card : cards) {
+			String prefix = "card.thaumcraft_reborn." + card[0];
+			translations.add(prefix + ".name", spanish ? card[1] : card[2]);
+			translations.add(prefix + ".description", spanish ? "Aporta teoría a la sesión." : "Adds theory to the session.");
+		}
 	}
 
 	private static void addTranslations(
@@ -281,6 +318,9 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 				case "salis_mundus" -> "Salis Mundus";
 				case "arcane_workbench" -> "Banco de trabajo arcano";
 				case "crucible" -> "Crisol";
+				case "table_wood" -> "Mesa de madera";
+				case "research_table" -> "Mesa de investigación";
+				case "scribing_tools" -> "Herramientas de escritura";
 				case "ore_amber" -> "Mineral de ámbar";
 				case "ore_cinnabar" -> "Mineral de cinabrio";
 				case "ore_quartz" -> "Mineral de cuarzo";
@@ -326,6 +366,15 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 		}
 		if (path.equals("crucible")) {
 			return "Crucible";
+		}
+		if (path.equals("table_wood")) {
+			return "Wooden Table";
+		}
+		if (path.equals("research_table")) {
+			return "Research Table";
+		}
+		if (path.equals("scribing_tools")) {
+			return "Scribing Tools";
 		}
 		if (path.equals("thaumometer")) {
 			return "Thaumometer";

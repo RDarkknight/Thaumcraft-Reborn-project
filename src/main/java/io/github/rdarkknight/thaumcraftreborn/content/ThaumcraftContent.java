@@ -9,6 +9,10 @@ import io.github.rdarkknight.thaumcraftreborn.content.workbench.ArcaneWorkbenchB
 import io.github.rdarkknight.thaumcraftreborn.content.workbench.ArcaneWorkbenchBlockEntity;
 import io.github.rdarkknight.thaumcraftreborn.content.crucible.CrucibleBlock;
 import io.github.rdarkknight.thaumcraftreborn.content.crucible.CrucibleBlockEntity;
+import io.github.rdarkknight.thaumcraftreborn.content.research.ResearchTableBlock;
+import io.github.rdarkknight.thaumcraftreborn.content.research.ResearchTableBlockEntity;
+import io.github.rdarkknight.thaumcraftreborn.content.research.ScribingToolsItem;
+import io.github.rdarkknight.thaumcraftreborn.content.research.TableWoodBlock;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -81,6 +85,8 @@ public final class ThaumcraftContent {
 			new Item.Properties().stacksTo(1));
 	public static final Item SALIS_MUNDUS = registerCustomItem("salis_mundus", SalisMundusItem::new,
 			new Item.Properties().rarity(Rarity.UNCOMMON));
+	public static final Item SCRIBING_TOOLS = registerCustomItem("scribing_tools", ScribingToolsItem::new,
+			new Item.Properties().stacksTo(1).durability(100));
 
 	public static final Block ORE_AMBER = registerBlock("ore_amber",
 			properties -> new DropExperienceBlock(net.minecraft.util.valueproviders.UniformInt.of(1, 4), properties),
@@ -108,6 +114,10 @@ public final class ThaumcraftContent {
 			properties -> new Block(properties.noOcclusion().noCollision().lightLevel(state -> 15)), 0.0F, 0.0F, false);
 	public static final Block CRUCIBLE = registerBlock("crucible",
 			properties -> new CrucibleBlock(properties), 2.0F, 5.0F, false);
+	public static final Block TABLE_WOOD = registerBlock("table_wood",
+			properties -> new TableWoodBlock(properties), 2.0F, 5.0F, false);
+	public static final Block RESEARCH_TABLE = registerBlock("research_table",
+			properties -> new ResearchTableBlock(properties), 2.0F, 5.0F, false);
 	public static final net.minecraft.world.level.block.entity.BlockEntityType<ArcaneWorkbenchBlockEntity>
 			ARCANE_WORKBENCH_BLOCK_ENTITY = Registry.register(
 					BuiltInRegistries.BLOCK_ENTITY_TYPE,
@@ -120,6 +130,12 @@ public final class ThaumcraftContent {
 					ThaumcraftReborn.id("crucible"),
 					new net.minecraft.world.level.block.entity.BlockEntityType<>(
 							CrucibleBlockEntity::new, java.util.Set.of(CRUCIBLE)));
+	public static final net.minecraft.world.level.block.entity.BlockEntityType<ResearchTableBlockEntity>
+			RESEARCH_TABLE_BLOCK_ENTITY = Registry.register(
+					BuiltInRegistries.BLOCK_ENTITY_TYPE,
+					ThaumcraftReborn.id("research_table"),
+					new net.minecraft.world.level.block.entity.BlockEntityType<>(
+							ResearchTableBlockEntity::new, java.util.Set.of(RESEARCH_TABLE)));
 
 	public static final Block LOG_GREATWOOD = registerBlock("log_greatwood",
 			properties -> new RotatedPillarBlock(properties), 2.0F, 5.0F, false);
@@ -153,14 +169,15 @@ public final class ThaumcraftContent {
 	public static final List<Block> BLOCKS = List.of(
 			ORE_AMBER, ORE_CINNABAR, ORE_QUARTZ, CRYSTAL_AER, CRYSTAL_TERRA, CRYSTAL_IGNIS, CRYSTAL_AQUA,
 			CRYSTAL_ORDO, CRYSTAL_PERDITIO, STONE_ARCANE, STONE_ARCANE_BRICK, AMBER_BLOCK, AMBER_BRICK,
-			METAL_THAUMIUM, ARCANE_WORKBENCH, NITOR_YELLOW, CRUCIBLE, LOG_GREATWOOD, LOG_SILVERWOOD, PLANK_GREATWOOD, PLANK_SILVERWOOD,
+			METAL_THAUMIUM, ARCANE_WORKBENCH, NITOR_YELLOW, CRUCIBLE, TABLE_WOOD, RESEARCH_TABLE,
+			LOG_GREATWOOD, LOG_SILVERWOOD, PLANK_GREATWOOD, PLANK_SILVERWOOD,
 			LEAVES_GREATWOOD, LEAVES_SILVERWOOD, SAPLING_GREATWOOD, SAPLING_SILVERWOOD
 	);
 	public static final List<Item> ITEMS = List.of(
 			AMBER, QUICKSILVER, INGOT_THAUMIUM, NUGGET_THAUMIUM, NUGGET_QUARTZ, NUGGET_QUICKSILVER, INGOT_BRASS,
 			ALUMENTUM, TALLOW, CLUSTER_IRON, CLUSTER_GOLD, CLUSTER_COPPER, CLUSTER_CINNABAR,
 			THAUMIUM_SWORD, THAUMIUM_AXE, THAUMIUM_PICK, THAUMIUM_SHOVEL, THAUMIUM_HOE, CRYSTAL_ESSENCE,
-			THAUMOMETER, GOGGLES, THAUMONOMICON, SALIS_MUNDUS
+			THAUMOMETER, GOGGLES, THAUMONOMICON, SALIS_MUNDUS, SCRIBING_TOOLS
 	);
 	private static final List<ResourceKey<Aspect>> PRIMAL_ASPECTS =
 			List.of(Aspects.AIR, Aspects.EARTH, Aspects.FIRE, Aspects.WATER, Aspects.ORDER, Aspects.ENTROPY);

@@ -10,9 +10,11 @@ import io.github.rdarkknight.thaumcraftreborn.client.render.TestRenderBlockEntit
 import io.github.rdarkknight.thaumcraftreborn.client.render.CrucibleBlockEntityRenderer;
 import io.github.rdarkknight.thaumcraftreborn.client.screen.DebugContainerScreen;
 import io.github.rdarkknight.thaumcraftreborn.client.screen.ArcaneWorkbenchScreen;
+import io.github.rdarkknight.thaumcraftreborn.client.screen.ResearchTableScreen;
 import io.github.rdarkknight.thaumcraftreborn.content.debug.DebugContent;
 import io.github.rdarkknight.thaumcraftreborn.content.debug.DebugContainerMenu;
 import io.github.rdarkknight.thaumcraftreborn.content.workbench.ArcaneWorkbenchMenu;
+import io.github.rdarkknight.thaumcraftreborn.content.research.ResearchTableMenu;
 import io.github.rdarkknight.thaumcraftreborn.content.ThaumcraftContent;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -29,6 +31,7 @@ public final class ThaumcraftRebornClient implements ClientModInitializer {
 		DebugParticles.register();
 		MenuScreens.register(DebugContainerMenu.TYPE, DebugContainerScreen::new);
 		MenuScreens.register(ArcaneWorkbenchMenu.TYPE, ArcaneWorkbenchScreen::new);
+		MenuScreens.register(ResearchTableMenu.TYPE, ResearchTableScreen::new);
 		BlockEntityRenderers.register(DebugContent.TEST_RENDER_BLOCK_ENTITY, TestRenderBlockEntityRenderer::new);
 		BlockEntityRenderers.register(ThaumcraftContent.CRUCIBLE_BLOCK_ENTITY, CrucibleBlockEntityRenderer::new);
 		ClientNetworkProbe.init();
