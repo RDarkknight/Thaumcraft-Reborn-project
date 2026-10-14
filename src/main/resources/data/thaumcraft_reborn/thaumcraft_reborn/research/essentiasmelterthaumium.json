@@ -27,14 +27,7 @@
           }
         }
       ],
-      "required_craft": [
-        {
-          "item": {
-            "item": "thaumcraft_reborn:metal",
-            "count": 1
-          }
-        }
-      ],
+      "required_craft": [],
       "required_knowledge": [
         {
           "type": "theory",

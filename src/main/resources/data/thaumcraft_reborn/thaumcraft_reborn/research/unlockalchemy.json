@@ -58,14 +58,7 @@
         "thaumcraft_reborn:nitorcolor"
       ],
       "required_item": [],
-      "required_craft": [
-        {
-          "item": {
-            "item": "thaumcraft_reborn:nitor",
-            "count": 1
-          }
-        }
-      ],
+      "required_craft": [],
       "required_knowledge": [],
       "required_research": [],
       "warp": 0

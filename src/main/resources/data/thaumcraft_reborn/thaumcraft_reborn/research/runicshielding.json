@@ -18,12 +18,6 @@
       "required_item": [
         {
           "item": {
-            "item": "thaumcraft_reborn:enchanted_placeholder",
-            "count": 1
-          }
-        },
-        {
-          "item": {
             "item": "thaumcraft_reborn:amber",
             "count": 1
           }
