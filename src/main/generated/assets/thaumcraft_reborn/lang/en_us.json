@@ -97,6 +97,7 @@
   "gui.thaumcraft_reborn.research.categories": "Categories",
   "gui.thaumcraft_reborn.research.entries": "Research",
   "gui.thaumcraft_reborn.research.stages": "Known stages",
+  "gui.thaumcraft_reborn.research.start": "Start research",
   "gui.thaumcraft_reborn.theory.draw_three": "Draw 3",
   "gui.thaumcraft_reborn.theory.draw_two": "Draw 2",
   "gui.thaumcraft_reborn.theory.inspiration": "Ins: %s/%s",

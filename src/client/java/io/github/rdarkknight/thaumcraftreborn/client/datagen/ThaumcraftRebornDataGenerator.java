@@ -243,6 +243,8 @@ public final class ThaumcraftRebornDataGenerator implements DataGeneratorEntrypo
 		translations.add("gui.thaumcraft_reborn.research.entries", spanish ? "Investigaciones" : "Research");
 		translations.add("gui.thaumcraft_reborn.research.stages", spanish ? "Etapas conocidas" : "Known stages");
 		translations.add("gui.thaumcraft_reborn.research.advance", spanish ? "Avanzar etapa" : "Advance stage");
+		translations.add("gui.thaumcraft_reborn.research.start",
+				spanish ? "Iniciar investigación" : "Start research");
 		translations.add("research.thaumcraft_reborn.firststeps.title", spanish ? "Primeros pasos" : "First Steps");
 		translations.add("research.thaumcraft_reborn.firststeps.stage.1", spanish ? "El primer registro." : "The first entry.");
 		translations.add("research.thaumcraft_reborn.firststeps.stage.2", spanish ? "Observa el mundo." : "Observe the world.");

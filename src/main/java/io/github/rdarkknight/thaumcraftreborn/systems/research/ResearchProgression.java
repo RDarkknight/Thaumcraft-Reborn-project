@@ -101,6 +101,80 @@ public final class ResearchProgression {
 		return progressResearch(player, key, true);
 	}
 
+	public static boolean handleProgressRequest(ServerPlayer player, Identifier key) {
+		ResearchEntry entry = ResearchAccess.get().entry(key, false).orElse(null);
+		if (entry == null) {
+			return false;
+		}
+		PlayerKnowledge knowledge = KnowledgeAccess.get().knowledge(player);
+		if (!knowledge.isResearchKnown(key)) {
+			if (!doesPlayerHaveRequisites(player, key)
+					|| entry.meta().contains(ResearchMeta.HIDDEN)
+							&& !isVisible(player, key, new HashSet<>())) {
+				return false;
+			}
+			return progressResearch(player, key, true);
+		}
+		return knowledge.getResearchStatus(key) != ResearchStatus.COMPLETE && progressStage(player, key);
+	}
+
+	public static void completeKnownSiblings(ServerPlayer player) {
+		PlayerKnowledge knowledge = KnowledgeAccess.get().knowledge(player);
+		ResearchAccess.get().entries(false).forEach((key, entry) -> {
+			if (knowledge.isResearchKnown(key)) {
+				entry.siblings().forEach(sibling -> {
+					if (!knowledge.isResearchKnown(sibling.key())) {
+						completeResearch(player, sibling.key(), true);
+					}
+				});
+			}
+		});
+	}
+
+	public static boolean isVisible(Player player, Identifier key, Set<Identifier> invisibleCache) {
+		return isVisible(player, key, invisibleCache, new HashSet<>());
+	}
+
+	private static boolean isVisible(
+			Player player,
+			Identifier key,
+			Set<Identifier> invisibleCache,
+			Set<Identifier> resolving
+	) {
+		ResearchEntry entry = ResearchAccess.get().entry(key, player.level().isClientSide()).orElse(null);
+		if (entry == null) {
+			return false;
+		}
+		PlayerKnowledge knowledge = KnowledgeAccess.get().knowledge(player);
+		if (knowledge.isResearchKnown(key)) {
+			return true;
+		}
+		if (invisibleCache.contains(key)) {
+			return false;
+		}
+		boolean hidden = entry.meta().contains(ResearchMeta.HIDDEN);
+		if (hidden && (!doesPlayerHaveRequisites(player, key) || entry.parents().isEmpty())) {
+			invisibleCache.add(key);
+			return false;
+		}
+		if (!resolving.add(key)) {
+			invisibleCache.add(key);
+			return false;
+		}
+		try {
+			for (ResearchReference parent : entry.parents()) {
+				if (ResearchAccess.get().entry(parent.key(), player.level().isClientSide()).isPresent()
+						&& !isVisible(player, parent.key(), invisibleCache, resolving)) {
+					invisibleCache.add(parent.key());
+					return false;
+				}
+			}
+		} finally {
+			resolving.remove(key);
+		}
+		return true;
+	}
+
 	public static boolean completeResearch(ServerPlayer player, Identifier key, boolean sync) {
 		return completeResearch(player, key, sync, new HashSet<>());
 	}
@@ -114,7 +188,7 @@ public final class ResearchProgression {
 	}
 
 	public static boolean doesPlayerHaveRequisites(Player player, Identifier key) {
-		Optional<ResearchEntry> entry = ResearchAccess.get().entry(key, false);
+		Optional<ResearchEntry> entry = ResearchAccess.get().entry(key, player.level().isClientSide());
 		if (entry.isEmpty()) {
 			return true;
 		}

@@ -97,6 +97,7 @@
   "gui.thaumcraft_reborn.research.categories": "Categorías",
   "gui.thaumcraft_reborn.research.entries": "Investigaciones",
   "gui.thaumcraft_reborn.research.stages": "Etapas conocidas",
+  "gui.thaumcraft_reborn.research.start": "Iniciar investigación",
   "gui.thaumcraft_reborn.theory.draw_three": "Robar 3",
   "gui.thaumcraft_reborn.theory.draw_two": "Robar 2",
   "gui.thaumcraft_reborn.theory.inspiration": "Insp: %s/%s",
