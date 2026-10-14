@@ -25,12 +25,6 @@
             "item": "thaumcraft_reborn:tallow",
             "count": 1
           }
-        },
-        {
-          "item": {
-            "item": "thaumcraft_reborn:leather",
-            "count": 1
-          }
         }
       ],
       "required_knowledge": [
@@ -70,7 +64,7 @@
         },
         {
           "item": {
-            "item": "minecraft:dye",
+            "item": "minecraft:ink_sac",
             "count": 1
           }
         },
@@ -122,7 +116,7 @@
         },
         {
           "item": {
-            "item": "minecraft:web",
+            "item": "minecraft:cobweb",
             "count": 1
           }
         },

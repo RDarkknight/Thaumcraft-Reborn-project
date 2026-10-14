@@ -21,7 +21,7 @@
       "required_item": [
         {
           "item": {
-            "item": "minecraft:noteblock",
+            "item": "minecraft:note_block",
             "count": 1
           }
         }

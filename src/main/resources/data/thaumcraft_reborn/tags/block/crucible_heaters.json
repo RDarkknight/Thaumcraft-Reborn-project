@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:lava",
+    "minecraft:fire",
+    "minecraft:soul_fire",
+    "minecraft:magma_block",
+    "thaumcraft_reborn:nitor_yellow"
+  ]
+}

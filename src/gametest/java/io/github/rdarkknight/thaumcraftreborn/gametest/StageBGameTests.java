@@ -37,7 +37,7 @@ import io.github.rdarkknight.thaumcraftreborn.core.registry.ThaumcraftRegistries
 import io.github.rdarkknight.thaumcraftreborn.systems.aura.AuraSystems;
 import io.github.rdarkknight.thaumcraftreborn.systems.aura.BiomeAuraType;
 import io.github.rdarkknight.thaumcraftreborn.systems.aura.BiomeAuraTypes;
-import io.github.rdarkknight.thaumcraftreborn.systems.aura.MinimalAuraSimulation;
+import io.github.rdarkknight.thaumcraftreborn.systems.aura.Tc6AuraSimulation;
 import io.github.rdarkknight.thaumcraftreborn.systems.aspect.AspectMappingFile;
 import io.github.rdarkknight.thaumcraftreborn.systems.aspect.AspectMappings;
 import io.github.rdarkknight.thaumcraftreborn.systems.research.ResearchIndex;
@@ -406,10 +406,10 @@ public final class StageBGameTests implements CustomTestMethodInvoker {
 				.getOrThrow(WorldClocks.OVERWORLD);
 		level.clockManager().setTotalTicks(overworldClock, 0L);
 		chunk.setAttached(ModAttachments.AURA, new AuraChunkData((short) 100, 99.0F, 0.0F));
-		new MinimalAuraSimulation().tick(level, chunk);
+		new Tc6AuraSimulation().tick(level, chunk);
 		context.assertTrue(Math.abs(aura.getVis(level, pos) - 99.25F) < 0.0001F, "full-moon regeneration adds at most phase vis");
 		chunk.setAttached(ModAttachments.AURA, new AuraChunkData((short) 100, 99.0F, 16.0F));
-		new MinimalAuraSimulation().tick(level, chunk);
+		new Tc6AuraSimulation().tick(level, chunk);
 		context.assertTrue(aura.getVis(level, pos) == 99.0F, "flux prevents regeneration above base times phase max");
 		context.assertTrue(MoonPhase.FULL_MOON.index() == 0, "the 26.3 moon phase index starts at full moon");
 

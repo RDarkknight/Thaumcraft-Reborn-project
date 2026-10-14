@@ -1,7 +1,9 @@
 package io.github.rdarkknight.thaumcraftreborn.client.datagen;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import io.github.rdarkknight.thaumcraftreborn.ThaumcraftReborn;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,13 @@ final class StageCRecipeDataProvider implements DataProvider {
 				new String[]{"L"}, Map.of('L', "thaumcraft_reborn:log_greatwood"));
 		addShaped(writes, "silverwood_planks", "thaumcraft_reborn:plank_silverwood", 4,
 				new String[]{"L"}, Map.of('L', "thaumcraft_reborn:log_silverwood"));
+		addTaggedShaped(writes, "table_wood", "thaumcraft_reborn:table_wood", 1,
+				new String[]{"SSS", "W W"},
+				Map.of('S', "#minecraft:wooden_slabs", 'W', "#minecraft:planks"));
+		addTaggedShapeless(writes, "scribing_tools", "thaumcraft_reborn:scribing_tools",
+				List.of("minecraft:glass_bottle", "minecraft:feather", "#thaumcraft_reborn:dyes/black"));
+		addTaggedShapeless(writes, "scribing_tools_refill", "thaumcraft_reborn:scribing_tools",
+				List.of("thaumcraft_reborn:scribing_tools", "#thaumcraft_reborn:dyes/black"));
 		addSmelting(writes, "smelt_amber", "thaumcraft_reborn:ore_amber", "thaumcraft_reborn:amber", 1.0F);
 		addSmelting(writes, "smelt_cinnabar", "thaumcraft_reborn:ore_cinnabar", "thaumcraft_reborn:quicksilver", 1.0F);
 		addSmelting(writes, "smelt_quartz", "thaumcraft_reborn:ore_quartz", "minecraft:quartz", 1.0F);
@@ -87,6 +96,36 @@ final class StageCRecipeDataProvider implements DataProvider {
 		recipe.add("key", keyJson);
 		recipe.add("result", result(result, count));
 		writes.add(DataProvider.saveStable(cachedOutput, recipe, recipes.json(ThaumcraftReborn.id(id))));
+	}
+
+	private void addTaggedShaped(List<CompletableFuture<?>> writes, String id, String result, int count, String[] pattern,
+			Map<Character, String> key) {
+		JsonObject recipe = new JsonObject();
+		recipe.addProperty("type", "minecraft:crafting_shaped");
+		recipe.addProperty("category", "misc");
+		JsonArray rows = new JsonArray();
+		for (String row : pattern) rows.add(row);
+		recipe.add("pattern", rows);
+		JsonObject keyJson = new JsonObject();
+		key.forEach((symbol, item) -> keyJson.add(symbol.toString(), ingredient(item)));
+		recipe.add("key", keyJson);
+		recipe.add("result", result(result, count));
+		writes.add(DataProvider.saveStable(cachedOutput, recipe, recipes.json(ThaumcraftReborn.id(id))));
+	}
+
+	private void addTaggedShapeless(List<CompletableFuture<?>> writes, String id, String result, List<String> ingredients) {
+		JsonObject recipe = new JsonObject();
+		recipe.addProperty("type", "minecraft:crafting_shapeless");
+		recipe.addProperty("category", "misc");
+		JsonArray ingredientList = new JsonArray();
+		ingredients.forEach(value -> ingredientList.add(ingredient(value)));
+		recipe.add("ingredients", ingredientList);
+		recipe.add("result", result(result, 1));
+		writes.add(DataProvider.saveStable(cachedOutput, recipe, recipes.json(ThaumcraftReborn.id(id))));
+	}
+
+	private static JsonElement ingredient(String value) {
+		return new JsonPrimitive(value);
 	}
 
 	private void addSmelting(

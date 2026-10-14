@@ -1,0 +1,29 @@
+{
+  "type": "thaumcraft_reborn:arcane_shaped",
+  "result": {
+    "id": "thaumcraft_reborn:thaumometer"
+  },
+  "ingredients": [
+    [],
+    "#c:ingots/gold",
+    [],
+    "#c:ingots/gold",
+    "minecraft:glass",
+    "#c:ingots/gold",
+    [],
+    "#c:ingots/gold",
+    []
+  ],
+  "width": 3,
+  "height": 3,
+  "crystal_components": [
+    "thaumcraft_reborn:crystal_essence",
+    "thaumcraft_reborn:crystal_essence",
+    "thaumcraft_reborn:crystal_essence",
+    "thaumcraft_reborn:crystal_essence",
+    "thaumcraft_reborn:crystal_essence",
+    "thaumcraft_reborn:crystal_essence"
+  ],
+  "research": "firststeps@2",
+  "vis_cost": 20
+}

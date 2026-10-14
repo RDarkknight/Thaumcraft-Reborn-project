@@ -27,14 +27,7 @@
         "thaumcraft_reborn:arcane_stone"
       ],
       "required_item": [],
-      "required_craft": [
-        {
-          "item": {
-            "item": "thaumcraft_reborn:arcane_stone",
-            "count": 1
-          }
-        }
-      ],
+      "required_craft": [],
       "required_knowledge": [
         {
           "type": "observation",

@@ -101,17 +101,32 @@ Siguen vigentes las de `fabric-26.3-architecture.md` § *Confirmed architectural
 - La Etapa H añadirá un dataset de compatibilidad moderna separado, en archivos claramente nombrados (por ejemplo, `modern_*`), sin mezclarlo con `tc6_*`. Así se distingue siempre un aspecto original TC6 de uno de compatibilidad moderna. Es trabajo diferido, no descartado.
 - Los `{}` de override existentes para 74 ids exclusivos de 26.3 en la capa generada significan «sin valor TC6». La capa moderna podrá reemplazarlos explícitamente con `replace`, según AD-04.
 
+## AD-15 — Triggers de Salis Mundus y eventos de crafteo
+
+- `DustTrigger` y su registro ordenado viven en `api`; cada trigger expresa gate, coincidencia y transformaciones (una posición por defecto, extensible a multibloques). Las implementaciones y el scheduling de ticks viven en `systems.dust`.
+- `CraftEventRecorder` centraliza el registro persistente de resultados de crafting: el slot vanilla adapta su evento con un mixin delegador, mientras Workbench y triggers llaman al servicio y Crucible podrá reutilizarlo. Las fuentes no mantienen contadores paralelos.
+- La simulación de aura en tick de servidor ya está decidida en AD-05; D1 no crea un hilo de simulación adicional.
+
+## AD-16 — Acciones de Research Table y progresión de etapas
+
+- Las acciones de sesión del Research Table usan `clickMenuButton`; el cliente sólo envía la intención y el servidor valida menú, posición, propietario de sesión, slots, papel, categoría, coste e ítems requeridos antes de mutar el estado.
+- El avance de una etapa del Thaumonomicon usa un payload C2S pequeño con el id de research. El servidor vuelve a resolver los datos y valida requisitos/crafts desde `ResearchProgression`; el cliente no envía estado de conocimiento ni materiales ya validados.
+- El inicio del theorycrafting valida scribing tools y papel en servidor, aunque TC6 confiaba en la habilitación de su GUI. Esta diferencia deliberada evita que un paquete directo inicie sesiones sin los materiales que exige la interfaz.
+
 ## Simplificaciones registradas
 
 | Simplificación | Motivo | Aislada detrás de | Se elimina en |
 |---|---|---|---|
-| Aura mínima: regeneración de vis por fase lunar cada 20 ticks; sin difusión, decaimiento, comportamiento de vis bajo, propagación de flux ni rifts | Desbloquea consumidores de la Etapa B/C | `AuraAccess` | Etapa D |
-| El attachment de aura no se sincroniza al cliente | HUD/thaumometer aún no existen | `AuraAccess` | Etapa C |
+| Simulación de aura mínima: regeneración simple sin difusión ni conversión de vis en flux | Desbloqueaba consumidores de B/C | `AuraAccess`; sustituida por la simulación TC6 en D1 | Resuelta en D1; rifts y Flux Goo en Etapa E |
+| El attachment de aura no se sincroniza al cliente | HUD/thaumometer aún no existen | `AuraAccess`; ahora sincronizado a clientes que rastrean el chunk | Resuelta en D6 |
 | `addFlux(..., showEffect)` no emite efectos | La política de FX pertenece a la simulación completa | `AuraAccess` | Etapa D |
 | Sin packets de ganancia de conocimiento ni popups de interfaz | No hay UI de investigación | `KnowledgeAccess` | Etapa C |
 | Sin aspectos de bonificación por armadura, herramientas, encantamientos, pociones o contenedores | Se conserva la resolución base durante C | `AspectBonusProvider` / `AspectLimiter` (AD-13) | Etapa E |
 | Las Goggles no se renderizan al llevarlas en un slot de Trinkets | El renderizado equivalente a TC6 `IRenderBauble` queda separado del slot funcional | `AccessoryAccess` (AD-12) | Etapa H |
 | Research Table simplificada (subconjunto de cartas) | Primer milestone | Abstracciones de theorycrafting (AD-07) | Etapa H |
+| Crucible sincronizado sólo al cambiar agua/aspectos o cruzar el umbral caliente | El calor interno cambia cada tick y no necesita tráfico continuo | `ThaumcraftBlockEntity` | Etapa D |
+| Acciones de sesión y avance de etapa viajan por `clickMenuButton`/payload C2S | El servidor valida menú, propietario, estado y requisitos | menús + `ResearchProgression` | D5/D6 |
+| Inicio de Research Table valida herramientas y papel en servidor | Cierra la ruta de paquetes que TC6 dejaba a la GUI | `TheorycraftSystem.start` | D5 |
 
 ## Conflictos detectados y corregidos
 

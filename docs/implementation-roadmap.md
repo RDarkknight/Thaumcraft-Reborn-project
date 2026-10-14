@@ -250,12 +250,12 @@ Resumen (las letras no son la Fase 2; la numeración de fases la decidirá el pr
 - **Objetivo:** primera progresión jugable de Thaumcraft (§6).
 - **Sistemas incluidos:**
   - **Salis Mundus** y transformaciones de multibloque básicas (estantería → Thaumonomicon, mesa → Arcane Workbench, caldero → Crucible).
-  - **Arcane Workbench** con recetas arcanas (vis del chunk + cristales) y flux generado al craftear.
+  - **Arcane Workbench** con recetas arcanas (vis del chunk + cristales), sin flux generado por el crafteo.
   - **Crucible** con calor/agua, disolución de ítems a aspectos y recetas de crisol.
   - **Simulación de aura completa:** difusión, fase lunar, conversión de exceso en flux, presupuesto por tick, política de chunks no cargados, perfilado (R4).
-  - Progresión **BASICS → ALCHEMY** con el Thaumonomicon mínimo y una Research Table/theorycrafting simplificada sobre las abstracciones definitivas (AD-07).
+  - Progresión **BASICS → ALCHEMY** con el Thaumonomicon mínimo, avance de etapas validado en servidor y Research Table/theorycrafting simplificada sobre las abstracciones definitivas (AD-07).
 - **Dependencias satisfechas:** recetas, materiales, scan, libro mínimo (C); aura modelo (B).
-- **Qué debe poder probarse:** en supervivencia, sin comandos: encontrar materiales, escanear, crear el Thaumonomicon, la Arcane Workbench y el Crucible, craftear las primeras recetas consumiendo vis y generando flux; el aura evoluciona en un servidor de prueba con métricas de coste por tick.
+- **Qué debe poder probarse:** en supervivencia, sin comandos, recorrer BASICS → ALCHEMY mediante flags de pickup, scans, crafts, teoría y requisitos de etapas; producir thaumium en Crucible y observar sync de aura/Research Table en cliente. El GameTest E2E «Aprendiz de taumaturgo» recorre la progresión completa con acciones de gameplay y materias primas vanilla/cristales; Client GameTests verifican las pantallas y el sync de aura.
 - **Riesgos:** equilibrio de la simulación de aura sin el hilo original; el algoritmo exacto de difusión debe extraerse del JAR; el modelo de theorycrafting (AD-07) debe quedar fijado en B para que la versión simplificada no se reescriba en H.
 
 ### Etapa E — Sistemas intermedios

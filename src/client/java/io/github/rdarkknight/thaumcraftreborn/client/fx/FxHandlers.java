@@ -3,6 +3,7 @@ package io.github.rdarkknight.thaumcraftreborn.client.fx;
 import io.github.rdarkknight.thaumcraftreborn.api.fx.FxType;
 import io.github.rdarkknight.thaumcraftreborn.client.config.ClientConfigManager;
 import io.github.rdarkknight.thaumcraftreborn.content.debug.DebugFx;
+import io.github.rdarkknight.thaumcraftreborn.content.SalisMundusFx;
 import io.github.rdarkknight.thaumcraftreborn.core.fx.FxPayload;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,6 +28,7 @@ public final class FxHandlers {
 
 	public static void init() {
 		register(DebugFx.DEBUG_BURST, DebugBurstHandler::play);
+		register(SalisMundusFx.SPARK_BURST, SalisMundusBurstHandler::play);
 		ClientPlayNetworking.registerGlobalReceiver(FxPayload.TYPE, (payload, context) ->
 				context.client().execute(() -> {
 					ClientLevel level = context.client().level;

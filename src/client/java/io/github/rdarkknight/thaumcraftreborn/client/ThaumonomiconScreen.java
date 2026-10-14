@@ -7,10 +7,18 @@ import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchAccess;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchCategory;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchEntry;
 import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchStatus;
+import io.github.rdarkknight.thaumcraftreborn.core.attachment.ModAttachments;
+import io.github.rdarkknight.thaumcraftreborn.core.knowledge.PlayerKnowledgeData;
+import io.github.rdarkknight.thaumcraftreborn.core.network.ProgressResearchPayload;
+import io.github.rdarkknight.thaumcraftreborn.systems.research.ResearchProgression;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
@@ -23,6 +31,8 @@ public final class ThaumonomiconScreen extends Screen {
 	private List<Identifier> visibleEntries = List.of();
 	private Identifier selectedCategory;
 	private Identifier selectedEntry;
+	private Button progressButton;
+	private PlayerKnowledgeData observedKnowledge;
 
 	public ThaumonomiconScreen() {
 		super(Component.translatable("item.thaumcraft_reborn.thaumonomicon_normal"));
@@ -31,10 +41,25 @@ public final class ThaumonomiconScreen extends Screen {
 	@Override
 	protected void init() {
 		refreshCategories();
+		observedKnowledge = currentKnowledge();
+		progressButton = addRenderableWidget(Button.builder(
+				Component.translatable("gui.thaumcraft_reborn.research.start"),
+				button -> {
+					if (selectedEntry != null) {
+						ClientPlayNetworking.send(new ProgressResearchPayload(selectedEntry));
+					}
+				}
+		).bounds(width * 2 / 3 + 8, height - 40, 88, 20).build());
+		progressButton.active = selectedEntry != null;
 	}
 
 	@Override
 	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+		PlayerKnowledgeData currentKnowledge = currentKnowledge();
+		if (currentKnowledge != observedKnowledge) {
+			observedKnowledge = currentKnowledge;
+			refreshCategories();
+		}
 		graphics.fill(18, 18, width - 18, height - 18, 0xE510141B);
 		graphics.outline(18, 18, width - 18, height - 18, 0xFFB79B63);
 		graphics.centeredText(font, title, width / 2, 23, 0xFFFFE6A4);
@@ -66,6 +91,7 @@ public final class ThaumonomiconScreen extends Screen {
 		}
 
 		ResearchEntry selected = selectedEntry == null ? null : ResearchAccess.get().entry(selectedEntry, true).orElse(null);
+		updateProgressButton(selected);
 		if (selected != null && Minecraft.getInstance().player != null) {
 			PlayerKnowledge knowledge = KnowledgeAccess.get().knowledge(Minecraft.getInstance().player);
 			int reached = Math.min(selected.stages().size(), Math.max(0, knowledge.getResearchStage(selectedEntry) + 1));
@@ -82,6 +108,7 @@ public final class ThaumonomiconScreen extends Screen {
 				) + 8;
 			}
 		}
+		super.extractRenderState(graphics, mouseX, mouseY, partialTick);
 	}
 
 	@Override
@@ -96,7 +123,7 @@ public final class ThaumonomiconScreen extends Screen {
 		} else if (event.x() < width * 2 / 3 && event.y() >= TOP) {
 			int index = (int) ((event.y() - TOP) / ROW_HEIGHT);
 			if (index >= 0 && index < visibleEntries.size()) {
-				selectedEntry = visibleEntries.get(index);
+				selectEntry(visibleEntries.get(index));
 				return true;
 			}
 		}
@@ -127,13 +154,57 @@ public final class ThaumonomiconScreen extends Screen {
 			selectedEntry = null;
 			return;
 		}
-		PlayerKnowledge knowledge = KnowledgeAccess.get().knowledge(Minecraft.getInstance().player);
-			visibleEntries = ResearchAccess.get().entriesInCategory(selectedCategory, true).stream()
-				.filter(id -> knowledge.getResearchStatus(id) != ResearchStatus.UNKNOWN)
+		var player = Minecraft.getInstance().player;
+		Set<Identifier> invisibleCache = new HashSet<>();
+		visibleEntries = ResearchAccess.get().entriesInCategory(selectedCategory, true).stream()
+				.filter(id -> ResearchProgression.isVisible(player, id, invisibleCache))
 				.toList();
 		if (selectedEntry == null || !visibleEntries.contains(selectedEntry)) {
 			selectedEntry = visibleEntries.stream().findFirst().orElse(null);
 		}
+	}
+
+	public boolean hasVisibleEntry(Identifier key) {
+		return visibleEntries.contains(key);
+	}
+
+	public boolean selectEntry(Identifier key) {
+		if (!visibleEntries.contains(key)) {
+			return false;
+		}
+		selectedEntry = key;
+		updateProgressButton(ResearchAccess.get().entry(key, true).orElse(null));
+		return true;
+	}
+
+	public boolean isProgressButtonActive() {
+		return progressButton != null && progressButton.active;
+	}
+
+	private static PlayerKnowledgeData currentKnowledge() {
+		var player = Minecraft.getInstance().player;
+		return player == null ? null : player.getAttachedOrCreate(ModAttachments.KNOWLEDGE);
+	}
+
+	private void updateProgressButton(ResearchEntry selected) {
+		if (progressButton == null) {
+			return;
+		}
+		var player = Minecraft.getInstance().player;
+		if (selected == null || player == null) {
+			progressButton.setMessage(Component.translatable("gui.thaumcraft_reborn.research.start"));
+			progressButton.active = false;
+			return;
+		}
+		PlayerKnowledge knowledge = KnowledgeAccess.get().knowledge(player);
+		boolean known = knowledge.isResearchKnown(selectedEntry);
+		progressButton.setMessage(Component.translatable(known
+				? "gui.thaumcraft_reborn.research.advance"
+				: "gui.thaumcraft_reborn.research.start"));
+		progressButton.active = known
+				? knowledge.getResearchStatus(selectedEntry) != ResearchStatus.COMPLETE
+						&& ResearchProgression.doesPlayerHaveRequisites(player, selectedEntry)
+				: ResearchProgression.doesPlayerHaveRequisites(player, selectedEntry);
 	}
 
 	private void drawRow(GuiGraphicsExtractor graphics, int left, int right, int y, boolean selected) {

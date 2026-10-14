@@ -1,8 +1,10 @@
 package io.github.rdarkknight.thaumcraftreborn.systems.recipe;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.mojang.datafixers.util.Either;
 import io.github.rdarkknight.thaumcraftreborn.api.aspect.AspectList;
 import io.github.rdarkknight.thaumcraftreborn.api.recipe.ResearchGate;
 import java.util.List;
@@ -22,7 +24,7 @@ import net.minecraft.world.level.Level;
 public record ThaumcraftRecipe(
 		Kind kind,
 		ItemStackTemplate result,
-		List<Ingredient> ingredients,
+		List<Optional<Ingredient>> ingredients,
 		int width,
 		int height,
 		List<Ingredient> crystalComponents,
@@ -35,6 +37,23 @@ public record ThaumcraftRecipe(
 		String group,
 		boolean showNotification
 ) implements Recipe<RecipeInput> {
+	private static final Codec<Optional<Ingredient>> GRID_INGREDIENT_CODEC = Codec.either(
+			Codec.STRING.listOf().flatXmap(
+					values -> values.isEmpty()
+							? DataResult.success(Optional.<Ingredient>empty())
+							: DataResult.error(() -> "Expected an empty ingredient list"),
+					ingredient -> ingredient.isEmpty()
+							? DataResult.success(List.of())
+							: DataResult.error(() -> "Expected an empty ingredient")
+			),
+			Ingredient.CODEC.xmap(ingredient -> Optional.of(ingredient), Optional::orElseThrow)
+	).xmap(
+			either -> either.map(value -> value, value -> value),
+			ingredient -> ingredient.isEmpty()
+					? Either.left(Optional.<Ingredient>empty())
+					: Either.right(ingredient)
+	);
+
 	public ThaumcraftRecipe {
 		ingredients = List.copyOf(ingredients);
 		crystalComponents = List.copyOf(crystalComponents);
@@ -52,7 +71,7 @@ public record ThaumcraftRecipe(
 		);
 		return RecordCodecBuilder.mapCodec(instance -> instance.group(
 				ItemStackTemplate.CODEC.fieldOf("result").forGetter(ThaumcraftRecipe::result),
-				Ingredient.CODEC.listOf().optionalFieldOf("ingredients", List.of()).forGetter(ThaumcraftRecipe::ingredients),
+				GRID_INGREDIENT_CODEC.listOf().optionalFieldOf("ingredients", List.of()).forGetter(ThaumcraftRecipe::ingredients),
 				Codec.INT.optionalFieldOf("width", 0).forGetter(ThaumcraftRecipe::width),
 				Codec.INT.optionalFieldOf("height", 0).forGetter(ThaumcraftRecipe::height),
 				componentsField.forGetter(ThaumcraftRecipe::crystalComponents),
@@ -91,9 +110,9 @@ public record ThaumcraftRecipe(
 		if (index == ingredients.size()) {
 			return true;
 		}
-		Ingredient ingredient = ingredients.get(index);
+		Optional<Ingredient> ingredient = ingredients.get(index);
 		for (int slot = 0; slot < input.size(); slot++) {
-			if (!used[slot] && ingredient.test(input.getItem(slot))) {
+			if (!used[slot] && ingredient.isPresent() && ingredient.get().test(input.getItem(slot))) {
 				used[slot] = true;
 				if (matchIngredient(index + 1, input, used)) {
 					return true;
@@ -128,7 +147,9 @@ public record ThaumcraftRecipe(
 					if (mirrored) {
 						recipeX = width - recipeX - 1;
 					}
-					if (!ingredients.get(recipeX + recipeY * width).test(input.getItem(x + y * input.width()))) {
+					Optional<Ingredient> ingredient = ingredients.get(recipeX + recipeY * width);
+					ItemStack stack = input.getItem(x + y * input.width());
+					if (ingredient.isPresent() ? !ingredient.get().test(stack) : !stack.isEmpty()) {
 						return false;
 					}
 				} else if (!input.getItem(x + y * input.width()).isEmpty()) {
@@ -162,6 +183,29 @@ public record ThaumcraftRecipe(
 	@Override
 	public RecipeBookCategory recipeBookCategory() {
 		return new RecipeBookCategory();
+	}
+
+	public boolean isArcaneShaped() {
+		return kind == Kind.ARCANE_SHAPED;
+	}
+
+	public static RecipeType<ThaumcraftRecipe> arcaneShapedType() {
+		return ThaumcraftRecipeSerializers.type(Kind.ARCANE_SHAPED);
+	}
+
+	public static RecipeType<ThaumcraftRecipe> arcaneShapelessType() {
+		return ThaumcraftRecipeSerializers.type(Kind.ARCANE_SHAPELESS);
+	}
+
+	public static RecipeType<ThaumcraftRecipe> crucibleType() {
+		return ThaumcraftRecipeSerializers.type(Kind.CRUCIBLE);
+	}
+
+	public boolean matchesCrucible(ItemStack input, AspectList present) {
+		if (kind != Kind.CRUCIBLE || catalyst.isEmpty() || !catalyst.get().test(input)) {
+			return false;
+		}
+		return aspects.aspects().stream().allMatch(aspect -> present.amount(aspect) >= aspects.amount(aspect));
 	}
 
 	enum Kind {
