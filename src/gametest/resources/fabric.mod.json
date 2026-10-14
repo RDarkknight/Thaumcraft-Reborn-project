@@ -11,9 +11,12 @@
       "io.github.rdarkknight.thaumcraftreborn.gametest.StageBGameTests",
       "io.github.rdarkknight.thaumcraftreborn.gametest.StageCGameTests",
       "io.github.rdarkknight.thaumcraftreborn.gametest.StageDGameTests",
+      "io.github.rdarkknight.thaumcraftreborn.gametest.StageDResearchGameTests",
       "io.github.rdarkknight.thaumcraftreborn.gametest.StageDDustGameTests",
       "io.github.rdarkknight.thaumcraftreborn.gametest.StageDCrucibleGameTests",
       "io.github.rdarkknight.thaumcraftreborn.gametest.StageDWorkbenchGameTests",
+      "io.github.rdarkknight.thaumcraftreborn.gametest.ApprenticeEndToEndGameTest",
+      "io.github.rdarkknight.thaumcraftreborn.gametest.ThaumonomiconResearchGameTests",
       "io.github.rdarkknight.thaumcraftreborn.gametest.ThaumometerGameTests"
     ],
     "fabric-client-gametest": [

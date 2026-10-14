@@ -6,7 +6,6 @@ import io.github.rdarkknight.thaumcraftreborn.client.ThaumonomiconScreen;
 import io.github.rdarkknight.thaumcraftreborn.client.ThaumometerClient;
 import io.github.rdarkknight.thaumcraftreborn.api.ThaumcraftRebornApi;
 import io.github.rdarkknight.thaumcraftreborn.api.knowledge.KnowledgeAccess;
-import io.github.rdarkknight.thaumcraftreborn.api.research.ResearchScreenAccess;
 import io.github.rdarkknight.thaumcraftreborn.content.ThaumcraftContent;
 import io.github.rdarkknight.thaumcraftreborn.content.workbench.ArcaneWorkbenchBlockEntity;
 import io.github.rdarkknight.thaumcraftreborn.content.crucible.CrucibleBlockEntity;
@@ -23,6 +22,7 @@ import net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContex
 import net.minecraft.core.BlockPos;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.InteractionHand;
 
 public final class StageDClientGameTest implements FabricClientGameTest {
 	@Override
@@ -89,9 +89,48 @@ public final class StageDClientGameTest implements FabricClientGameTest {
 			});
 			context.waitForScreen(ResearchTableScreen.class);
 			context.takeScreenshot("thaumcraft_reborn-stage-d-research-table");
-			context.runOnClient(minecraft -> ResearchScreenAccess.open());
+			singleplayer.getServer().runOnServer(server -> {
+				var player = server.getPlayerList().getPlayers().getFirst();
+				player.closeContainer();
+				KnowledgeAccess.get().clearKnowledge(player);
+				var book = new net.minecraft.world.entity.item.ItemEntity(player.level(),
+						player.getX(), player.getY(), player.getZ(), new ItemStack(ThaumcraftContent.THAUMONOMICON));
+				player.level().addFreshEntity(book);
+				book.setNoPickUpDelay();
+				book.playerTouch(player);
+				if (!KnowledgeAccess.get().knowledge(player)
+						.isResearchKnown(ThaumcraftRebornApi.id("flag/got_thaumonomicon"))) {
+					throw new IllegalStateException("Thaumonomicon pickup did not grant its research flag");
+				}
+				player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.MAINHAND,
+						new ItemStack(ThaumcraftContent.THAUMONOMICON));
+			});
+			context.runOnClient(minecraft -> minecraft.gui.setScreen(null));
+			context.runOnClient(minecraft ->
+					ThaumcraftContent.THAUMONOMICON.use(minecraft.level, minecraft.player, InteractionHand.MAIN_HAND));
 			context.waitForScreen(ThaumonomiconScreen.class);
+			context.waitFor(minecraft -> minecraft.gui.screen() instanceof ThaumonomiconScreen screen
+					&& screen.hasVisibleEntry(ThaumcraftRebornApi.id("firststeps"))
+					&& screen.selectEntry(ThaumcraftRebornApi.id("firststeps"))
+					&& screen.isProgressButtonActive(), 1200);
 			context.takeScreenshot("thaumcraft_reborn-stage-d-thaumonomicon");
+			singleplayer.getServer().runOnServer(server -> {
+				var player = server.getPlayerList().getPlayers().getFirst();
+				if (!io.github.rdarkknight.thaumcraftreborn.systems.research.ResearchProgression
+						.handleProgressRequest(player, ThaumcraftRebornApi.id("firststeps"))) {
+					throw new IllegalStateException("First Steps request failed");
+				}
+				KnowledgeAccess.get().addKnowledge(player,
+						io.github.rdarkknight.thaumcraftreborn.api.research.KnowledgeType.THEORY,
+						java.util.Optional.of(ThaumcraftRebornApi.id("alchemy")), 3);
+			});
+			context.waitFor(minecraft -> minecraft.player != null
+							&& KnowledgeAccess.get().knowledge(minecraft.player)
+									.isResearchKnown(ThaumcraftRebornApi.id("firststeps"))
+								&& KnowledgeAccess.get().knowledge(minecraft.player).getKnowledgeRaw(
+										io.github.rdarkknight.thaumcraftreborn.api.research.KnowledgeType.THEORY,
+										java.util.Optional.of(ThaumcraftRebornApi.id("alchemy"))) == 3,
+					1200);
 		}
 	}
 }

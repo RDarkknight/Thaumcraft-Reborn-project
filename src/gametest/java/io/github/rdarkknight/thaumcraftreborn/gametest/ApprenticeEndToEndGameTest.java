@@ -87,7 +87,7 @@ public final class ApprenticeEndToEndGameTest {
 			context.assertTrue(KnowledgeAccess.get().knowledge(player)
 							.isResearchKnown(ThaumcraftRebornApi.id("flag/got_thaumonomicon")),
 					"picking up the Thaumonomicon grants its flag");
-			context.assertTrue(ResearchProgression.progressResearch(player, FIRST_STEPS, true),
+			context.assertTrue(ResearchProgression.handleProgressRequest(player, FIRST_STEPS),
 					"the Thaumonomicon research action opens First Steps");
 
 			BlockPos tablePos = base;
@@ -96,7 +96,7 @@ public final class ApprenticeEndToEndGameTest {
 			context.runAfterDelay(51, () -> {
 				context.assertTrue(context.getLevel().getBlockEntity(tablePos) instanceof ArcaneWorkbenchBlockEntity,
 						"Salis Mundus transforms the crafting table into the Arcane Workbench");
-				context.assertTrue(ResearchProgression.progressStage(player, FIRST_STEPS),
+				context.assertTrue(ResearchProgression.handleProgressRequest(player, FIRST_STEPS),
 						"crafting the Workbench advances First Steps through its real requirement");
 
 				ArcaneWorkbenchBlockEntity workbench = (ArcaneWorkbenchBlockEntity) context.getLevel().getBlockEntity(tablePos);
@@ -128,15 +128,14 @@ public final class ApprenticeEndToEndGameTest {
 						Items.EGG, Items.RAW_COPPER, Items.RAW_IRON, Items.RAW_GOLD)) {
 					ScanningAccess.get().scanItem(player, new ItemStack(raw));
 				}
-				context.assertTrue(ResearchProgression.progressStage(player, FIRST_STEPS)
-								&& ResearchProgression.progressStage(player, FIRST_STEPS),
+				context.assertTrue(ResearchProgression.handleProgressRequest(player, FIRST_STEPS),
 						"the Thaumometer scans supply First Steps observation and its crafted-item flag");
 				context.assertTrue(KnowledgeAccess.get().knowledge(player)
 								.getKnowledgeRaw(KnowledgeType.OBSERVATION, Optional.of(ALCHEMY))
 								>= KnowledgeType.OBSERVATION.progression() * 2,
 						"raw scans provide both Alchemy observations required later");
-				context.assertTrue(ResearchProgression.progressResearch(player, UNLOCK_ALCHEMY, true)
-								&& ResearchProgression.progressStage(player, UNLOCK_ALCHEMY),
+				context.assertTrue(ResearchProgression.handleProgressRequest(player, UNLOCK_ALCHEMY)
+								&& ResearchProgression.handleProgressRequest(player, UNLOCK_ALCHEMY),
 						"scanned observations unlock Alchemy and pay its first stage");
 
 				BlockPos cauldron = base.offset(0, 0, 2);
@@ -145,8 +144,8 @@ public final class ApprenticeEndToEndGameTest {
 				context.runAfterDelay(51, () -> {
 					context.assertTrue(context.getLevel().getBlockEntity(cauldron) instanceof CrucibleBlockEntity,
 							"Salis Mundus creates the Crucible BlockEntity");
-					context.assertTrue(ResearchProgression.progressStage(player, UNLOCK_ALCHEMY),
-							"the recorded Crucible craft advances Alchemy");
+						context.assertTrue(ResearchProgression.handleProgressRequest(player, UNLOCK_ALCHEMY),
+								"the recorded Crucible craft advances Alchemy");
 					CrucibleBlockEntity crucible = (CrucibleBlockEntity) context.getLevel().getBlockEntity(cauldron);
 					crucible.setWaterMb(1000);
 					context.getLevel().setBlock(cauldron.below(), Blocks.LAVA.defaultBlockState(), 3);
@@ -161,18 +160,18 @@ public final class ApprenticeEndToEndGameTest {
 						crucible.entityInside(glowstone);
 						context.assertTrue(CraftEventRecorder.count(player, ThaumcraftRebornApi.id("nitor_yellow")) > 0,
 								"processing the thrown catalyst with dissolved vanilla aspects crafts Nitor");
-						context.assertTrue(ResearchProgression.progressStage(player, UNLOCK_ALCHEMY),
-								"the Nitor craft completes Unlock Alchemy");
-						context.assertTrue(ResearchProgression.progressResearch(player, BASE_ALCHEMY, true)
-										&& ResearchProgression.progressResearch(player, METALLURGY, true),
-								"completed Alchemy opens Base Alchemy and Metallurgy");
+							context.assertTrue(KnowledgeAccess.get().knowledge(player).isResearchComplete(UNLOCK_ALCHEMY),
+									"the empty TC6 final stage completes Unlock Alchemy after its Crucible requirement");
+							context.assertTrue(ResearchProgression.handleProgressRequest(player, BASE_ALCHEMY)
+											&& ResearchProgression.handleProgressRequest(player, METALLURGY),
+									"completed Alchemy opens Base Alchemy and Metallurgy");
 
 						crucible.processItem(new ItemStack(Items.FLINT), player);
 						crucible.processItem(new ItemStack(Items.IRON_INGOT), player);
 						context.assertTrue(CraftEventRecorder.count(player, ThaumcraftRebornApi.id("ingot_brass")) > 0,
 								"raw flint and iron make Brass through the Crucible");
-						context.assertTrue(ResearchProgression.progressStage(player, METALLURGY),
-								"the actual Brass craft and remaining observation advance Metallurgy");
+							context.assertTrue(ResearchProgression.handleProgressRequest(player, METALLURGY),
+									"the actual Brass craft and remaining observation advance Metallurgy");
 						BlockPos table = base.offset(5, 0, 5);
 						CraftingInput tableInput = CraftingInput.of(3, 2, List.of(
 								new ItemStack(Items.OAK_SLAB), new ItemStack(Items.OAK_SLAB),
@@ -243,8 +242,8 @@ public final class ApprenticeEndToEndGameTest {
 										.getKnowledge(KnowledgeType.THEORY, Optional.of(ALCHEMY)) >= 1,
 								"seeded Research Table sessions grant actual Alchemy THEORY");
 
-						context.assertTrue(ResearchProgression.progressStage(player, METALLURGY),
-								"Alchemy THEORY advances Metallurgy after the Brass stage");
+							context.assertFalse(ResearchProgression.handleProgressRequest(player, METALLURGY),
+									"Alchemy THEORY alone does not satisfy Metallurgy's required Thaumium craft");
 						CraftingInput eyeInput = CraftingInput.of(2, 1,
 								List.of(new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.BLAZE_POWDER)));
 						var eyeRecipe = context.getLevel().getServer().getRecipeManager()
@@ -257,7 +256,7 @@ public final class ApprenticeEndToEndGameTest {
 						crucible.processItem(new ItemStack(Items.IRON_INGOT), player);
 						context.assertTrue(CraftEventRecorder.count(player,
 										ThaumcraftRebornApi.id("ingot_thaumium")) > 0
-										&& ResearchProgression.progressStage(player, METALLURGY),
+											&& ResearchProgression.handleProgressRequest(player, METALLURGY),
 								"the Crucible crafts Thaumium and the real research action completes Metallurgy");
 						context.succeed();
 					});

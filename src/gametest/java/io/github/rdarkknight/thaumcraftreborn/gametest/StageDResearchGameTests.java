@@ -80,7 +80,7 @@ public final class StageDResearchGameTests {
 				"stage one validates its brass craft and spends Alchemy observation");
 		context.assertTrue(ResearchProgression.progressStage(player, metallurgy)
 						&& KnowledgeAccess.get().knowledge(player).getKnowledgeRaw(KnowledgeType.THEORY, alchemy) == 0
-						&& KnowledgeAccess.get().knowledge(player).getResearchStage(metallurgy) == 3,
+						&& KnowledgeAccess.get().knowledge(player).isResearchComplete(metallurgy),
 				"stage two validates thaumium craft and spends Alchemy theory");
 		context.succeed();
 	}
